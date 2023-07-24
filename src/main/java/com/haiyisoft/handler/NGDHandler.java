@@ -70,7 +70,7 @@ public class NGDHandler {
             log.error("百度知识调用异常 code: {} , msg: {} , answer: {}", code, msg, answer);
         }
         //context全局交互实体
-        JSONObject context = result.getJSONObject("data").getJSONObject("context");//context
+        JSONObject context = result.getJSONObject("data").getJSONObject("context");
         //测试发现闲聊时,无context
         if (context != null) {
             //处理用户校验
@@ -78,7 +78,7 @@ public class NGDHandler {
             //处理客户意图
             NGDUtil.handlerIntent(context, ngdEvent);
         }
-        
+
         //处理记录会话
         NGDUtil.convertNgdNodeMateData(xccRecognitionResult, answer, result, ngdEvent);
 
