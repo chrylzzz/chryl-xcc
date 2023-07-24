@@ -242,11 +242,6 @@ public class XCCConstants {
     //"source": "none"
     public static final String NGD_UNDERSTAND_MSG = "抱歉,我不太理解您的意思";
 
-    //ngd 用户请求过于频繁，请稍后再试
-    public static final int NGD_REQUEST_TO_MUCH = 4000019;
-    //bot token错误
-    public static final int NGD_BOT_TOKEN_ERREO = 4002409;
-
     //WebHook 地址
     public static final String WEBHOOK_URL = "nats://hy:h8klu6bRwW@nats.xswitch.cn:4222";
 
