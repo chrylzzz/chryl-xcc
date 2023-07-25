@@ -113,17 +113,12 @@ public class IVRServiceV0 implements IVRService {
                 log.info("CHANNEL_DESTROY this call channelId: {}", channelId);
             }
 
-            //保存会话记录
-            log.info("ivrEvent completed: {}", ivrEvent);
-            WebHookHandler.saveCDR(ivrEvent);
-            //保存意图
-            PMSHandler.saveIntent(ivrEvent, ngdEvent);
-            //保存通话数据
-            PMSHandler.saveCallData(ivrEvent, ngdEvent);
             //挂断双方
             XCCHandler.hangup(nc, channelEvent);
             log.info("hangup this call channelId: {} ", channelId);
 
+            log.info("this call completed: {},{}", ivrEvent, ngdEvent);
+            IVRHandler.afterHangup(ivrEvent, ngdEvent);
         }
     }
 

@@ -171,4 +171,18 @@ public class IVRHandler {
         return ivrEvent;
     }
 
+    /**
+     * 挂机后执行
+     *
+     * @param ivrEvent
+     * @param ngdEvent
+     */
+    public static void afterHangup(IVREvent ivrEvent, NGDEvent ngdEvent) {
+        //保存会话记录
+        WebHookHandler.saveCDR(ivrEvent);
+        //保存意图
+        PMSHandler.saveIntent(ivrEvent, ngdEvent);
+        //保存通话数据
+        PMSHandler.saveCallData(ivrEvent, ngdEvent);
+    }
 }
