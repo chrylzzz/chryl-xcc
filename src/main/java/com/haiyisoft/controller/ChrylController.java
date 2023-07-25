@@ -1,6 +1,8 @@
 package com.haiyisoft.controller;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.config.ThreadPoolConfig;
@@ -32,12 +34,15 @@ public class ChrylController {
      */
     @GetMapping("chryl")
     public void chryl(HttpServletResponse response) throws InterruptedException, IOException {
-//        String loadYml = JSON.toJSONString(IVRInit.CHRYL_CONFIG_PROPERTY, JSONWriter.Feature.PrettyFormat);
-        ObjectMapper mapper = new ObjectMapper();
-        String jackLoadYml = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(IVRInit.CHRYL_CONFIG_PROPERTY);
+        //fastjson2
+        String loadYml = JSON.toJSONString(IVRInit.CHRYL_CONFIG_PROPERTY, JSONWriter.Feature.PrettyFormat);
 
-        log.info("loadYml : {}", jackLoadYml);
-        response.getWriter().write(jackLoadYml);
+        //jackson
+//        ObjectMapper mapper = new ObjectMapper();
+//        String loadYml = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(IVRInit.CHRYL_CONFIG_PROPERTY);
+
+        log.info("loadYml : {}", loadYml);
+        response.getWriter().write(loadYml);
         response.flushBuffer();
         response.getWriter().flush();
         response.getWriter().close();

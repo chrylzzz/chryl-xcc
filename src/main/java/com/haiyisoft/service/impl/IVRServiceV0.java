@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * V0版本:
- * 使用connection调用xcc api
+ * 基于V5使用connection调用xcc api
  *
  * @author Chr.yl
  */
