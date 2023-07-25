@@ -27,7 +27,7 @@ public class IVRModel {
     /**
      * fs caller id == channel id
      */
-    @JSONField(name = "fscallerid")
+    @JSONField(name = "fscallid")
     private String fsCallerId;
     /**
      * icd caller id
