@@ -75,7 +75,7 @@ public class IVRServiceV1 implements IVRService {
                             //xcc识别数据
                             String xccRecognitionResult = xccEvent.getXccRecognitionResult();
                             //获取指令和话术
-                            ngdEvent = NGDHandler.handlerNlu(xccRecognitionResult, channelId, callerIdNumber, icdCallerId, phoneAdsCode);
+                            ngdEvent = NGDHandler.handler(xccRecognitionResult, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
 
                             //handle ngd agent
                             boolean handleSolved = NGDHandler.handleSolved(ngdEvent);

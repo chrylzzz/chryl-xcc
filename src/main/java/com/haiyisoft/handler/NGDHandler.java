@@ -46,13 +46,13 @@ public class NGDHandler {
      * @param phoneAdsCode         来电后缀码
      * @return
      */
-    public static NGDEvent handler(String xccRecognitionResult, String channelId, String callNumber, String icdCallerId, String phoneAdsCode) {
+    public static NGDEvent handler(String xccRecognitionResult, String channelId, String callNumber, String icdCallerId, String phoneAdsCode,NGDEvent reqNgdEvent) {
         //调用百度知识库
         JSONObject result = NGDUtil.coreQueryJson(xccRecognitionResult, channelId, callNumber, icdCallerId, phoneAdsCode);
 
         Integer code = result.getIntValue("code");//统一返回
         String msg = result.getString("msg");//统一返回
-        NGDEvent ngdEvent;
+        NGDEvent resNgdEvent;
         String answer;
         if (XCCConstants.OK == code) {
             JSONObject jsonData = result.getJSONObject("data");
@@ -62,11 +62,11 @@ public class NGDHandler {
             boolean solved = jsonData.getBooleanValue("solved");
             //处理回复
             answer = NGDUtil.convertAnswer(jsonData, IVRInit.CHRYL_CONFIG_PROPERTY.isConvertSolved());
-            ngdEvent = ngdEventSetVar(channelId, code, msg, answer, source, solved);
+            resNgdEvent = ngdEventSetVar(channelId, code, msg, answer, source, solved);
             log.info("百度知识库返回正常 code: {} , msg: {} , answer: {}", code, msg, answer);
         } else {
             answer = XCCConstants.XCC_MISSING_TEXT;
-            ngdEvent = ngdEventSetErrorVar(channelId, code, msg, answer);
+            resNgdEvent = ngdEventSetErrorVar(channelId, code, msg, answer);
             log.error("百度知识调用异常 code: {} , msg: {} , answer: {}", code, msg, answer);
         }
         //context全局交互实体
@@ -74,18 +74,42 @@ public class NGDHandler {
         //测试发现闲聊时,无context
         if (context != null) {
             //处理用户校验
-            NGDUtil.checkUser(context, ngdEvent);
+            NGDUtil.checkUser(context, resNgdEvent);
             //处理客户意图
-            NGDUtil.handlerIntent(context, ngdEvent);
+            NGDUtil.handlerIntent(context, resNgdEvent);
+        }else {
+            //处理全局参数
+            resNgdEvent = convertNgdEvent(reqNgdEvent, resNgdEvent);
         }
 
         //处理记录会话
-        NGDUtil.convertNgdNodeMateData(xccRecognitionResult, answer, result, ngdEvent);
+        NGDUtil.convertNgdNodeMateData(xccRecognitionResult, answer, result, resNgdEvent);
 
         //处理指令和话术,处理成retKey/retValue
-        NGDUtil.convertText(ngdEvent);
-        log.info("handler ngdEvent :{}", ngdEvent);
-        return ngdEvent;
+        NGDUtil.convertText(resNgdEvent);
+        log.info("handler ngdEvent :{}", resNgdEvent);
+        return resNgdEvent;
+    }
+
+    /**
+     * 处理N G D 流程业务交互变量(全局)
+     * uid
+     * userOK
+     * intent
+     *
+     * @param reqNgdEvent
+     * @param resNgdEvent
+     * @return
+     */
+    public static NGDEvent convertNgdEvent(NGDEvent reqNgdEvent, NGDEvent resNgdEvent) {
+        String uid = reqNgdEvent.getUid();
+        String intent = reqNgdEvent.getIntent();
+        boolean userOk = reqNgdEvent.isUserOk();
+
+        resNgdEvent.setUid(uid);
+        resNgdEvent.setIntent(intent);
+        resNgdEvent.setUserOk(userOk);
+        return resNgdEvent;
     }
 
 

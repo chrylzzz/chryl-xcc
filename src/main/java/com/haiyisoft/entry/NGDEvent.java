@@ -46,14 +46,14 @@ public class NGDEvent {
     private NGDNodeMetaData ngdNodeMetaData;
     //----------------N G D 对话记录
 
-    //----------------N G D 流程业务交互
+    //----------------N G D 流程业务交互变量(全局)
     //uid为用户编号
     private String uid;
     //是否通过身份验证流程,true通过 : userOk is true: NGD 已校验完成身份验证,可对SIP HEADER处理
     private boolean userOk;
     //意图:#DFYT#TDYT#
     private String intent;
-    //----------------N G D 流程业务交互
+    //----------------N G D 流程业务交互变量(全局)
 
     //----------------N G D 交互标识
     //播报指令
