@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -364,6 +365,20 @@ public class XCCUtil {
         //嗓音Voice-Name，由TTS引擎决定，默认为default。
         media.put("voice", IVRInit.CHRYL_CONFIG_PROPERTY.getTtsVoice());
         return media;
+    }
+
+    /**
+     * 是否开启tts多voice规则
+     *
+     * @param rule
+     */
+    public static String ttsVoiceRule(boolean rule) {
+        if (rule) {
+            List<String> ttsVoiceList = IVRInit.CHRYL_CONFIG_PROPERTY.getTtsVoiceList();
+            return ttsVoiceList.get(NGDUtil.threadLocalRandom.nextInt(ttsVoiceList.size()));
+        } else {
+            return IVRInit.CHRYL_CONFIG_PROPERTY.getTtsVoice();
+        }
     }
 
     /**

@@ -215,7 +215,7 @@ public class NGDUtil {
         return answer;
     }
 
-    private static ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+    public static ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
 
     /**
      * 获取随机话术

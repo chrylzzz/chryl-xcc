@@ -98,6 +98,12 @@ public class ChrylConfigProperty {
     // tts engine
     private String ttsVoice;
 
+    // 是否开启tts voice规则
+    private boolean ttsVoiceRule;
+
+    // tts voice list
+    private List<String> ttsVoiceList;
+
     // tts语速
     private String xttsS;
 
