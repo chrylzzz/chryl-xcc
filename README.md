@@ -1,12 +1,11 @@
-# Getting Started
+# XSwitch / NGD 文档
 
-### Reference Documentation
+### Documentation ###
 
-For further reference, please consider the following sections:
-
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/2.7.8/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/2.7.8/maven-plugin/reference/html/#build-image)
+* [智能知识库-官网](https://login.bce.baidu.com)
+* [XSwitch-官网](https://docs.xswitch.cn)
+* [xcc-example](https://git.xswitch.cn/xswitch/xcc-examples)
+* [xcc-api](https://xswitch.cn/docs/xswitch-xcc.html)
 
 ### 部署 ###
 
