@@ -20,6 +20,7 @@ public class XCCConfiguration {
     public static void xccConfig(ChrylConfigProperty chrylConfigProperty) {
         log.warn("Local HostAddress: [{}] ", IpUtil.INTERNET_IP);
         try {
+            //node
             if (chrylConfigProperty.isCluster()) {
                 List<JSONObject> natsList = chrylConfigProperty.getNatsList();
                 for (JSONObject nodeBean : natsList) {
@@ -31,6 +32,18 @@ public class XCCConfiguration {
                         break;
                     }
                 }
+            }
+            //tts voice
+            if (chrylConfigProperty.isTtsVoiceRule()) {
+                List<String> ttsVoiceList = chrylConfigProperty.getTtsVoiceList();
+                String voiceName;
+                if (IpUtil.INTERNET_IP.equals(XCCConstants.IP_201)) {
+                    voiceName = ttsVoiceList.get(0);
+                } else {
+                    voiceName = ttsVoiceList.get(1);
+                }
+                chrylConfigProperty.setTtsVoice(voiceName);
+                log.warn("TTS装配完成 node: [{}] , voice-name: [{}]", IpUtil.INTERNET_IP, voiceName);
             }
             log.info("初始化 CHRYL_CONFIG_PROPERTY 成功");
         } catch (Exception e) {
