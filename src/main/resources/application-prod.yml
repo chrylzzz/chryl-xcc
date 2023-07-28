@@ -53,7 +53,7 @@ chryl:
   #  Voice-Name
   tts-voice: yifei
   # 是否开启多tts voice规则,true开启
-  tts-voice-rule: false
+  tts-voice-rule: true
   # voice list
   tts-voice-list:
     - 'yifei'

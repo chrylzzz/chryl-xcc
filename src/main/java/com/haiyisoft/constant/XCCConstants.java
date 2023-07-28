@@ -228,7 +228,7 @@ public class XCCConstants {
     //第二次错误
     public static final String NGD_SECOND_UNDERSTAND_TEXT = "您的意思我没有明白，麻烦您简要描述。";
     //欢迎语
-    public static final String WELCOME_TEXT = "感谢您的支持，为提升服务质量，请您保持安静的通话环境，如有其他需求您可以在语音交流中说 返回主菜单";
+    public static final String WELCOME_TEXT = "感谢您的支持，您可简要说出查询诉求比如“电费或报装进度查询”，如需返回主菜单请说“主菜单”。";
     //转人工话术
     public static final String ARTIFICIAL_TEXT = "您的问题难倒我了，为了更好的服务，现在为您转接人工，请稍等";
     //XCC返回失败话术

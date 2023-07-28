@@ -44,9 +44,10 @@ public class NGDHandler {
      * @param callNumber           来电号码
      * @param icdCallerId          华为cid
      * @param phoneAdsCode         来电后缀码
+     * @param reqNgdEvent          上一环节的ngdEvent
      * @return
      */
-    public static NGDEvent handler(String xccRecognitionResult, String channelId, String callNumber, String icdCallerId, String phoneAdsCode,NGDEvent reqNgdEvent) {
+    public static NGDEvent handler(String xccRecognitionResult, String channelId, String callNumber, String icdCallerId, String phoneAdsCode, NGDEvent reqNgdEvent) {
         //调用百度知识库
         JSONObject result = NGDUtil.coreQueryJson(xccRecognitionResult, channelId, callNumber, icdCallerId, phoneAdsCode);
 
@@ -77,9 +78,9 @@ public class NGDHandler {
             NGDUtil.checkUser(context, resNgdEvent);
             //处理客户意图
             NGDUtil.handlerIntent(context, resNgdEvent);
-        }else {
+        } else {
             //处理全局参数
-            resNgdEvent = convertNgdEvent(reqNgdEvent, resNgdEvent);
+            convertNgdEvent(reqNgdEvent, resNgdEvent);
         }
 
         //处理记录会话

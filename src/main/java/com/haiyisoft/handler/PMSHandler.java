@@ -33,9 +33,9 @@ public class PMSHandler {
 
         IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, intent, "", "", "");
         String jsonParam = JSON.toJSONString(ivrModel);
-        log.info("SaveZnIVRLhytForGx,pms接口入参:{}", jsonParam);
+        log.info("SAVE_INTENT, pms接口入参:{}", jsonParam);
         String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.SAVE_INTENT_URL, jsonParam);
-        log.info("SaveZnIVRLhytForGx,pms接口出参:{}", postJson);
+        log.info("SAVE_INTENT, pms接口出参:{}", postJson);
     }
 
     /**
@@ -58,8 +58,11 @@ public class PMSHandler {
         }
         ivrValidCallType = "1";
         ivrCallEndNormalType = "1";
-        new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType);
-
+        IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType);
+        String jsonParam = JSON.toJSONString(ivrModel);
+        log.info("SAVE_CALL_DATA, pms接口入参:{}", jsonParam);
+        String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.SAVE_CALL_DATA_URL, jsonParam);
+        log.info("SAVE_CALL_DATA, pms接口出参:{}", postJson);
     }
 
 }
