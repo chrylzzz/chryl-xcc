@@ -61,14 +61,15 @@ public class WebHookHandler {
             JSONObject welcomeJsonData = metadataArray.getJSONObject(0);
             String welcomeStr = welcomeJsonData.getString("answer");
             String welcomeTime = welcomeJsonData.getString("answerTime");
-            cdr = XCCConstants.H + welcomeTime + welcomeStr;
+            cdr = XCCConstants.B + welcomeTime + welcomeStr;
             for (int i = 1; i < metadataArray.size(); i++) {
                 JSONObject jsonObject = metadataArray.getJSONObject(i);
                 String query = jsonObject.getString("query");
                 String queryTime = jsonObject.getString("queryTime");
                 String answer = jsonObject.getString("answer");
                 String answerTime = jsonObject.getString("answerTime");
-                cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
+//                cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
+                cdr = cdr + (XCCConstants.H + queryTime + query + XCCConstants.B + answerTime + answer);
             }
         }
 
