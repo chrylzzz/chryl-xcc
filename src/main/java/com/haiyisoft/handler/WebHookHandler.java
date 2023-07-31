@@ -7,6 +7,7 @@ import com.alibaba.fastjson2.JSONWriter;
 import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.IVREvent;
+import com.haiyisoft.util.DateUtil;
 import com.haiyisoft.util.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,19 +59,15 @@ public class WebHookHandler {
 //                    String answerTime = jsonObject.getString("answerTime");
 //                    cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
 //                });
-            JSONObject welcomeJsonData = metadataArray.getJSONObject(0);
-            String welcomeStr = welcomeJsonData.getString("answer");
-            String welcomeTime = welcomeJsonData.getString("answerTime");
-            cdr = XCCConstants.B + welcomeTime + welcomeStr;
-            for (int i = 1; i < metadataArray.size(); i++) {
-                JSONObject jsonObject = metadataArray.getJSONObject(i);
-                String query = jsonObject.getString("query");
-                String queryTime = jsonObject.getString("queryTime");
-                String answer = jsonObject.getString("answer");
-                String answerTime = jsonObject.getString("answerTime");
-//                cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
-                cdr = cdr + (XCCConstants.H + queryTime + query + XCCConstants.B + answerTime + answer);
-            }
+            /**
+             * 前导流程在ngd
+             */
+//            cdr = convertCDRFromNGD(metadataArray);
+
+            /**
+             * 前导流程在fs
+             */
+            cdr = convertCDRFromIVR(metadataArray);
         }
 
         //标准格式:[#B:2018-11-20 20:00:00欢迎致电95598.#H:2018-11-20 20:00:00你好我要查电费。#B:2018-11-20 20:00:00请A请按键输入您的用户编号。]
@@ -107,5 +104,47 @@ public class WebHookHandler {
         params.put("action", action);
         params.put("context", context);
         return params;
+    }
+
+    /**
+     * 处理会话记录
+     * 前导流程在ngd
+     */
+    public static String convertCDRFromNGD(JSONArray metadataArray) {
+        JSONObject welcomeJsonData = metadataArray.getJSONObject(0);
+        String welcomeStr = welcomeJsonData.getString("answer");
+        String welcomeTime = welcomeJsonData.getString("answerTime");
+        String cdr = XCCConstants.B + welcomeTime + welcomeStr;
+        for (int i = 1; i < metadataArray.size(); i++) {
+            JSONObject jsonObject = metadataArray.getJSONObject(i);
+            String query = jsonObject.getString("query");
+            String queryTime = jsonObject.getString("queryTime");
+            String answer = jsonObject.getString("answer");
+            String answerTime = jsonObject.getString("answerTime");
+//                cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
+            cdr = cdr + (XCCConstants.H + queryTime + query + XCCConstants.B + answerTime + answer);
+        }
+        return cdr;
+    }
+
+    /**
+     * 处理会话记录
+     * 前导流程在fs
+     */
+    public static String convertCDRFromIVR(JSONArray metadataArray) {
+        String cdr = XCCConstants.B + DateUtil.getLocalDateTime() + XCCConstants.WELCOME_TEXT;
+        for (Object o : metadataArray) {
+
+        }
+        for (int i = 0; i < metadataArray.size(); i++) {
+            JSONObject jsonObject = metadataArray.getJSONObject(i);
+            String query = jsonObject.getString("query");
+            String queryTime = jsonObject.getString("queryTime");
+            String answer = jsonObject.getString("answer");
+            String answerTime = jsonObject.getString("answerTime");
+//                cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
+            cdr = cdr + (XCCConstants.H + queryTime + query + XCCConstants.B + answerTime + answer);
+        }
+        return cdr;
     }
 }

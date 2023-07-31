@@ -183,6 +183,6 @@ public class IVRHandler {
         //保存意图
         PMSHandler.saveIntent(ivrEvent, ngdEvent);
         //保存通话数据
-        PMSHandler.saveCallData(ivrEvent, ngdEvent);
+//        PMSHandler.saveCallData(ivrEvent, ngdEvent);
     }
 }
