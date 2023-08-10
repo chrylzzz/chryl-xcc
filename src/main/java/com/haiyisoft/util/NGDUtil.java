@@ -187,7 +187,7 @@ public class NGDUtil {
      * 过滤回复
      *
      * @param answer
-     * @return
+     * @return 处理后的内容
      */
     public static String replyFilter(String answer) {
         if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.REPLY_FILTER_ARRAY)) {//过滤标识
