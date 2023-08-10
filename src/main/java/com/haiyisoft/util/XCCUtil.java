@@ -417,7 +417,8 @@ public class XCCUtil {
 //        speech.put("no_input_timeout", 5 * 1000);
         speech.put("no_input_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getSpeechNoInputTimeout());
         //语音超时，即如果对方讲话一直不停超时，最大只能设置成6000ms，默认为6000ms。
-//        speech.put("speech_timeout", 8 * 1000);
+//        speech.put("speech_timeout", 6 * 1000);
+        speech.put("speech_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getSpeechTimeout());
         //正整数，语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
 //        speech.put("max_speech_timeout", 8 * 1000);
         speech.put("max_speech_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getMaxSpeechTimeout());

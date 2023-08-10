@@ -20,9 +20,11 @@ chryl:
 # DTMF 位间超时(秒)
   digit-timeout: 5
 # speech 未检测到语音超时(秒)
-  speech-no-input-timeout: 8
-# speech 语音超时，即如果对方讲话一直不停超时(秒)
-  max-speech-timeout: 6
+  speech-no-input-timeout: 10
+  # 语音超时，即如果对方讲话一直不停超时，最大只能设置成6000ms，默认为6000ms。
+  speech-timeout: 6
+  # 语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
+  max-speech-timeout: 8
 #
 # 若有多台XSwitch,再开启,true开启
   cluster: false

@@ -58,7 +58,10 @@ public class ChrylConfigProperty {
     // speech 未检测到语音超时
     private int speechNoInputTimeout;
 
-    // speech 语音超时，即如果对方讲话一直不停超时
+    // speech 语音超时，即如果对方讲话一直不停超时，最大只能设置成6000ms，默认为6000ms。
+    private int speechTimeout;
+
+    // speech 语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
     private int maxSpeechTimeout;
 
     public void setDtmfNoInputTimeout(int dtmfNoInputTimeout) {
@@ -71,6 +74,10 @@ public class ChrylConfigProperty {
 
     public void setSpeechNoInputTimeout(int speechNoInputTimeout) {
         this.speechNoInputTimeout = speechNoInputTimeout * 1000;
+    }
+
+    public void setSpeechTimeout(int speechTimeout) {
+        this.speechTimeout = speechTimeout * 1000;
     }
 
     public void setMaxSpeechTimeout(int maxSpeechTimeout) {

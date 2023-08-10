@@ -34,7 +34,7 @@
 
 ### FreeSwitch ###
 
-* 此部分需要进入运行中断:
+* 此部分需要进入运行终端:
   cd /usr/local/xswtich
   make cli
 * 开启/关闭日志:
