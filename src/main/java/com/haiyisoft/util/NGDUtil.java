@@ -179,6 +179,21 @@ public class NGDUtil {
             }
         }
         log.info("百度知识库命中 answer: {}", answer);
+//        return answer;
+        return replyFilter(answer);
+    }
+
+    /**
+     * 过滤回复
+     *
+     * @param answer
+     * @return
+     */
+    public static String replyFilter(String answer) {
+        if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.REPLY_FILTER_ARRAY)) {//过滤标识
+            log.info("触发过滤回复");
+            return "您的问题我正在学习";
+        }
         return answer;
     }
 

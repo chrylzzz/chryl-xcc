@@ -181,6 +181,8 @@ public class XCCConstants {
     public static final String FJYT = "FJYT";
     //指令集合数组
     public static final String[] RET_KEY_STR_ARRAY = {YYSR, AJSR, YWAJ, YYGB, RGYT, JZLC, DXFS};
+    //过滤回复数组
+    public static final String[] REPLY_FILTER_ARRAY = {"image"};
     //智能ivr渠道
     public static final String CHANNEL_IVR = "智能IVR";
     //智能IVR NGD 来电号码
