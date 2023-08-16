@@ -382,16 +382,38 @@ public class XCCUtil {
     }
 
     /**
-     * 获取按键对象
+     * 收集按键(多位按键)
      *
      * @param maxDigits 最大位长
      * @return
      */
     public static JSONObject getDTMF(int maxDigits) {
+        return getDTMFBody(maxDigits, IVRInit.CHRYL_CONFIG_PROPERTY.getDtmfNoInputTimeout());
+    }
+
+    /**
+     * 收集按键(少位按键)
+     *
+     * @param maxDigits 最大位长
+     * @return
+     */
+    public static JSONObject getDTMFChryl(int maxDigits) {
+        return getDTMFBody(maxDigits, IVRInit.CHRYL_CONFIG_PROPERTY.getDtmfChrylNoInputTimeout());
+    }
+
+    /**
+     * 获取按键对象
+     *
+     * @param maxDigits
+     * @param timeout
+     * @return
+     */
+    public static JSONObject getDTMFBody(int maxDigits, int timeout) {
         JSONObject dtmf = new JSONObject();
         dtmf.put("min_digits", 1);//min_digits：最小位长。
         dtmf.put("max_digits", maxDigits);//max_digits：最大位长。
-        dtmf.put("timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getDtmfNoInputTimeout());//timeout：超时，默认5000ms。
+//        dtmf.put("timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getDtmfNoInputTimeout());//timeout：超时，默认5000ms。
+        dtmf.put("timeout", timeout);//timeout：超时，默认5000ms。
         dtmf.put("digit_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getDigitTimeout());//digit_timeout：位间超时，默认2000ms。
         dtmf.put("terminators", XCCConstants.DTMF_TERMINATORS);//terminators：结束符，如#。
         return dtmf;

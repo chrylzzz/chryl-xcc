@@ -192,6 +192,26 @@ public class ChrylXCCConnection implements XCCConnection {
         return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
     }
 
+    /**
+     * 播报并收集按键(少位)
+     *
+     * @param nc
+     * @param channelEvent
+     * @param ttsContent   播报内容
+     * @param maxDigits    最大位长
+     * @return
+     */
+    public XCCEvent playAndReadDTMFChryl(Connection nc, ChannelEvent channelEvent, String ttsContent, int maxDigits) {
+        JSONObject params = XCCUtil.getDTMFChryl(maxDigits);
+        params.put("ctrl_uuid", "chryl-ivvr");
+        //当前channel 的uuid
+        String channelId = channelEvent.getUuid();
+        params.put("uuid", channelId);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        params.put("media", media);
+        String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
+        return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
+    }
 
     /**
      * 转人工测试
@@ -257,7 +277,7 @@ public class ChrylXCCConnection implements XCCConnection {
         //正在转接人工坐席,请稍后
         playTTS(nc, channelEvent, ttsContent);
 
-        JSONObject params = convertBridgeParams(channelEvent, "user/1001", "555555555555555", "13287983898");
+        JSONObject params = XCCUtil.convertBridgeParams(channelEvent, "user/1001", "555555555555555", "13287983898");
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.BRIDGE, params, Duration.ofHours(1L));
     }
@@ -275,7 +295,7 @@ public class ChrylXCCConnection implements XCCConnection {
     public XCCEvent bridge(Connection nc, ChannelEvent channelEvent, String ttsContent, String dialStr, String sipHeader, String callNumber) {
         //正在转接,请稍后
         playTTS(nc, channelEvent, ttsContent);
-        JSONObject params = convertBridgeParams(channelEvent, dialStr, sipHeader, callNumber);
+        JSONObject params = XCCUtil.convertBridgeParams(channelEvent, dialStr, sipHeader, callNumber);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.BRIDGE, params, Duration.ofHours(1L));
     }
@@ -296,7 +316,7 @@ public class ChrylXCCConnection implements XCCConnection {
     public XCCEvent bridge(Connection nc, ChannelEvent channelEvent, String ttsContent, String dialStr) {
         //正在转接,请稍后
         playTTS(nc, channelEvent, ttsContent);
-        JSONObject params = convertBridgeParams(channelEvent, dialStr);
+        JSONObject params = XCCUtil.convertBridgeParams(channelEvent, dialStr);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.BRIDGE, params, Duration.ofHours(1L));
     }
@@ -354,7 +374,7 @@ public class ChrylXCCConnection implements XCCConnection {
 
     @Override
     public XCCEvent bridgeArtificial(Connection nc, ChannelEvent channelEvent, String retValue, NGDEvent ngdEvent, String callNumber) {
-        String dialStr = convertDialStr(XCCConstants.HUAWEI_ARTIFICIAL_NUMBER);
+        String dialStr = XCCUtil.convertDialStr(XCCConstants.HUAWEI_ARTIFICIAL_NUMBER);
         String handleSipHeader = ChannelHandler.handleSipHeader(ngdEvent, channelEvent);
         return bridge(nc, channelEvent, retValue, dialStr, handleSipHeader, callNumber);
     }
@@ -363,7 +383,7 @@ public class ChrylXCCConnection implements XCCConnection {
     public XCCEvent bridgeIVR(Connection nc, ChannelEvent channelEvent, String retValue, IVREvent ivrEvent, NGDEvent ngdEvent, String callNumber) {
         //呼叫字符串,不使用4001,使用后缀码
         String phoneAdsCode = ivrEvent.getPhoneAdsCode();
-        String dialStr = convertDialStr(phoneAdsCode);
+        String dialStr = XCCUtil.convertDialStr(phoneAdsCode);
 //        String dialStr = XCCUtil.convertDialStr(XCCConstants.HUAWEI_IVR_NUMBER);
         String handleSipHeader = ChannelHandler.handleSipHeader(ngdEvent, channelEvent);
         return bridge(nc, channelEvent, retValue, dialStr, handleSipHeader, callNumber);
@@ -493,117 +513,5 @@ public class ChrylXCCConnection implements XCCConnection {
     }
 
     /********************************************请求体***********************************************/
-
-    /********************************************数据处理********************************************/
-
-    /**
-     * 转人工和转精准ivr
-     * sofia/default/1001@10.194.38.38:5060
-     *
-     * @param number 转接号
-     * @return
-     */
-    public String convertDialStr(String number) {
-        StringBuilder append = new StringBuilder("sofia/default/").append(number).append("@");
-        String sipIp = "";
-        if (IpUtil.INTERNET_IP.equals(XCCConstants.IP_201)) {
-            sipIp = XCCConstants.IP_92;
-        } else if (IpUtil.INTERNET_IP.equals(XCCConstants.IP_203)) {
-            sipIp = XCCConstants.IP_102;
-        } else {
-            sipIp = XCCConstants.IP_92;
-        }
-        String toString = append.append(sipIp).toString();
-        log.info("转接 dial_string : {}", toString);
-        return toString;
-    }
-
-    /**
-     * 组装 bridge:
-     * sip header
-     * caller id number
-     *
-     * @param channelEvent
-     * @param dialStr
-     * @param sipHeader
-     * @param cidPhoneNumber
-     * @return
-     */
-    public JSONObject convertBridgeParams(ChannelEvent channelEvent, String dialStr, String sipHeader, String cidPhoneNumber) {
-        //全局参数
-//        JSONObject globalParam = new JSONObject();
-
-        //组装call params arr
-        JSONObject callParamArr = new JSONObject();
-        callParamArr.put("leg_timeout", "20");
-        //sip header
-        callParamArr.put(XCCConstants.SIP_HEADER_USER2USER, sipHeader);
-        callParamArr.put("find_sip_device_only", "false");
-
-        //呼叫参数
-        JSONObject callParam = new JSONObject();
-        callParam.put("uuid", IdGenerator.fastSimpleUUID());
-        callParam.put("dial_string", dialStr);
-        //Caller ID Number
-        callParam.put("cid_number", cidPhoneNumber);
-        callParam.put("params", callParamArr);
-        //[{},{}]
-        JSONArray callParamArray = new JSONArray();
-        callParamArray.add(callParam);
-        //组装destination
-        JSONObject destination = new JSONObject();
-//        destination.put("global_params", globalParam);
-        destination.put("call_params", callParamArray);
-
-        JSONObject params = new JSONObject();
-        //当前channel 的uuid
-        String channelId = channelEvent.getUuid();
-        params.put("uuid", channelId);
-        params.put("ctrl_uuid", "chryl-ivvr");
-        params.put("flow_control", XCCConstants.ANY);
-        params.put("ringall", "false");
-        params.put("destination", destination);
-        log.info("转接 params : {}", params);
-        return params;
-    }
-
-    /**
-     * @param channelEvent
-     * @param dialStr
-     * @return
-     */
-    public JSONObject convertBridgeParams(ChannelEvent channelEvent, String dialStr) {
-        //全局参数
-//        JSONObject globalParam = new JSONObject();
-
-        //组装call params arr
-        JSONObject callParamArr = new JSONObject();
-        callParamArr.put("leg_timeout", "20");
-        callParamArr.put("find_sip_device_only", "false");
-
-        //呼叫参数
-        JSONObject callParam = new JSONObject();
-        callParam.put("uuid", IdGenerator.fastSimpleUUID());
-        callParam.put("dial_string", dialStr);
-        callParam.put("params", callParamArr);
-        //[{},{}]
-        JSONArray callParamArray = new JSONArray();
-        callParamArray.add(callParam);
-        //组装destination
-        JSONObject destination = new JSONObject();
-//        destination.put("global_params", globalParam);
-        destination.put("call_params", callParamArray);
-
-        JSONObject params = new JSONObject();
-        //当前channel 的uuid
-        String channelId = channelEvent.getUuid();
-        params.put("uuid", channelId);
-        params.put("ctrl_uuid", "chryl-ivvr");
-        params.put("flow_control", XCCConstants.ANY);
-        params.put("ringall", "false");
-        params.put("destination", destination);
-
-        return params;
-    }
 
 }
