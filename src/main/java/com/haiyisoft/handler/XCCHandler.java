@@ -233,7 +233,7 @@ public class XCCHandler {
     }
 
     /**
-     * 播报 收按键
+     * 播报 收按键(收集多位按键)
      *
      * @param nc
      * @param channelEvent
@@ -243,6 +243,19 @@ public class XCCHandler {
      */
     public static XCCEvent playAndReadDTMF(Connection nc, ChannelEvent channelEvent, String retValue, int maxDigits) {
         return XCCUtil.playAndReadDTMF(nc, channelEvent, retValue, maxDigits);
+    }
+
+    /**
+     * 播报 收按键(收集少位按键)
+     *
+     * @param nc
+     * @param channelEvent
+     * @param retValue
+     * @param maxDigits
+     * @return
+     */
+    public static XCCEvent playAndReadDTMFChryl(Connection nc, ChannelEvent channelEvent, String retValue, int maxDigits) {
+        return XCCUtil.playAndReadDTMFChryl(nc, channelEvent, retValue, maxDigits);
     }
 
     /**

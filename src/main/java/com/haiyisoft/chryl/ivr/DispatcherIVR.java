@@ -44,7 +44,7 @@ public class DispatcherIVR {
         } else if (XCCConstants.AJSR.equals(retKey)) {//收集按键，多位按键
             xccEvent = xccConnection.playAndReadDTMF(nc, channelEvent, retValue, 18);
         } else if (XCCConstants.YWAJ.equals(retKey)) {//收集按键，一位按键
-            xccEvent = xccConnection.playAndReadDTMF(nc, channelEvent, retValue, 1);
+            xccEvent = xccConnection.playAndReadDTMFChryl(nc, channelEvent, retValue, 1);
         } else if (XCCConstants.YYGB.equals(retKey)) {//语音广播
             xccEvent = xccConnection.detectSpeechPlayTTSNoDTMFNoBreak(nc, channelEvent, retValue);
         } else if (XCCConstants.RGYT.equals(retKey)) {//转人工

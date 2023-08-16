@@ -183,6 +183,27 @@ public class XCCUtil {
         return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
     }
 
+    /**
+     * 播报并收集按键(少位)
+     *
+     * @param nc
+     * @param channelEvent
+     * @param ttsContent   播报内容
+     * @param maxDigits    最大位长
+     * @return
+     */
+    public static XCCEvent playAndReadDTMFChryl(Connection nc, ChannelEvent channelEvent, String ttsContent, int maxDigits) {
+        JSONObject params = getDTMFChryl(maxDigits);
+        params.put("ctrl_uuid", "chryl-ivvr");
+        //当前channel 的uuid
+        String channelId = channelEvent.getUuid();
+        params.put("uuid", channelId);
+        JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        params.put("media", media);
+        String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
+        return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
+    }
+
 
     /**
      * 转人工测试

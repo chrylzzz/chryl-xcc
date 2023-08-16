@@ -1,6 +1,5 @@
 package com.haiyisoft.xcc.client.impl;
 
-import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.constant.XCCConstants;
@@ -9,8 +8,6 @@ import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
 import com.haiyisoft.handler.ChannelHandler;
-import com.haiyisoft.util.IdGenerator;
-import com.haiyisoft.util.IpUtil;
 import com.haiyisoft.util.RequestUtil;
 import com.haiyisoft.util.XCCUtil;
 import com.haiyisoft.xcc.client.XCCConnection;
@@ -113,7 +110,7 @@ public class ChrylXCCConnection implements XCCConnection {
         String channelId = channelEvent.getUuid();
         params.put("uuid", channelId);
         log.info("TTS播报内容为 : {}", ttsContent);
-        JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByPlayTTS(nc, service, XCCConstants.PLAY, params);
@@ -133,7 +130,7 @@ public class ChrylXCCConnection implements XCCConnection {
         //当前channel 的uuid
         String channelUuid = channelEvent.getUuid();
         params.put("uuid", channelUuid);
-        JSONObject media = getPlayMedia(XCCConstants.PLAY_FILE, file);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_FILE, file);
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         RequestUtil.natsRequest(nc, service, XCCConstants.PLAY, params);
@@ -148,7 +145,7 @@ public class ChrylXCCConnection implements XCCConnection {
      */
     @Override
     public XCCEvent detectSpeechPlayTTSNoDTMF(Connection nc, ChannelEvent channelEvent, String ttsContent) {
-        return detectSpeechPlayBody(nc, channelEvent, ttsContent, getSpeech());
+        return XCCUtil.detectSpeechPlayBody(nc, channelEvent, ttsContent, XCCUtil.getSpeech());
     }
 
     /**
@@ -161,7 +158,7 @@ public class ChrylXCCConnection implements XCCConnection {
      */
     @Override
     public XCCEvent detectSpeechPlayTTSNoDTMFNoBreak(Connection nc, ChannelEvent channelEvent, String ttsContent) {
-        return detectSpeechPlayBody(nc, channelEvent, ttsContent, getSpeechNoBreak());
+        return XCCUtil.detectSpeechPlayBody(nc, channelEvent, ttsContent, XCCUtil.getSpeechNoBreak());
     }
 
     /**
@@ -181,12 +178,12 @@ public class ChrylXCCConnection implements XCCConnection {
 //        dtmf：收到的按键。
 //        terminator：结束符，如果有的话。
 //        本接口将在收到第一个DTMF按键后打断当前的播放。
-        JSONObject params = getDTMF(maxDigits);
+        JSONObject params = XCCUtil.getDTMF(maxDigits);
         params.put("ctrl_uuid", "chryl-ivvr");
         //当前channel 的uuid
         String channelId = channelEvent.getUuid();
         params.put("uuid", channelId);
-        JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
@@ -390,128 +387,5 @@ public class ChrylXCCConnection implements XCCConnection {
     }
 
     /********************************************xswitch相关********************************************/
-
-    /********************************************请求体*************************************************/
-
-    /**
-     * 获取媒体对象
-     *
-     * @param playType play类型
-     * @param content  播报内容,可为string,file
-     * @return JSONObject
-     */
-    public JSONObject getPlayMedia(String playType, String content) {
-        JSONObject media = new JSONObject();
-        /**
-         *  type：枚举字符串，文件类型，
-         *        FILE：文件
-         *        TEXT：TTS，即语音合成
-         *        SSML：TTS，SSML格式支持（并非所有引擎都支持SSML）
-         */
-        media.put("type", playType);
-        media.put("data", "[" + IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + "]" + content);
-//        media.put("data", content);
-        //引擎TTS engine,若使用xswitch配置unimrcp,则为unimrcp:profile
-        media.put("engine", IVRInit.CHRYL_CONFIG_PROPERTY.getTtsEngine());
-        //嗓音Voice-Name，由TTS引擎决定，默认为default。
-        media.put("voice", IVRInit.CHRYL_CONFIG_PROPERTY.getTtsVoice());
-        return media;
-    }
-
-    /**
-     * 获取按键对象
-     *
-     * @param maxDigits 最大位长
-     * @return
-     */
-    public JSONObject getDTMF(int maxDigits) {
-        JSONObject dtmf = new JSONObject();
-        dtmf.put("min_digits", 1);//min_digits：最小位长。
-        dtmf.put("max_digits", maxDigits);//max_digits：最大位长。
-        dtmf.put("timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getDtmfNoInputTimeout());//timeout：超时，默认5000ms。
-        dtmf.put("digit_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getDigitTimeout());//digit_timeout：位间超时，默认2000ms。
-        dtmf.put("terminators", XCCConstants.DTMF_TERMINATORS);//terminators：结束符，如#。
-        return dtmf;
-    }
-
-    /**
-     * 获取语音识别对象
-     *
-     * @param nobreak
-     * @return
-     */
-    public JSONObject getSpeechBody(String nobreak) {
-        JSONObject speech = new JSONObject();
-        //默认传，default为docker grammar file: /usr/local/freeswitch/grammar/default.gram
-//        speech.put("grammar", "default");
-        speech.put("grammar", "builtin:grammar/boolean?language=zh-CN;y=1;n=2 builtin");
-        //引擎ASR engine,若使用xswitch配置unimrcp,则为unimrcp:profile.
-        speech.put("engine", IVRInit.CHRYL_CONFIG_PROPERTY.getAsrEngine());
-        //禁止打断。用户讲话不会打断放音。
-//        speech.put("nobreak", XCCConstants.NO_BREAK);
-        speech.put("nobreak", nobreak);
-        //正整数，未检测到语音超时，默认为5000ms
-//        speech.put("no_input_timeout", 5 * 1000);
-        speech.put("no_input_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getSpeechNoInputTimeout());
-        //语音超时，即如果对方讲话一直不停超时，最大只能设置成6000ms，默认为6000ms。
-//        speech.put("speech_timeout", 6 * 1000);
-        speech.put("speech_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getSpeechTimeout());
-        //正整数，语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
-//        speech.put("max_speech_timeout", 8 * 1000);
-        speech.put("max_speech_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getMaxSpeechTimeout());
-        //是否返回中间结果
-        speech.put("partial_event", true);
-        //默认会发送Event.DetectedData事件，如果为true则不发送。
-        speech.put("disable_detected_data_event", true);
-        return speech;
-    }
-
-    /**
-     * 获取语音对象
-     *
-     * @return JSONObject
-     */
-    public JSONObject getSpeech() {
-        return getSpeechBody(IVRInit.CHRYL_CONFIG_PROPERTY.getNoBreak());
-    }
-
-    /**
-     * 获取语音对象
-     * 不可打断
-     *
-     * @return
-     */
-    public JSONObject getSpeechNoBreak() {
-        return getSpeechBody("true");
-    }
-
-    /**
-     * detectSpeechPlay请求体
-     *
-     * @param nc
-     * @param channelEvent
-     * @param ttsContent
-     * @param speech
-     * @return
-     */
-    public XCCEvent detectSpeechPlayBody(Connection nc, ChannelEvent channelEvent, String ttsContent, JSONObject speech) {
-        JSONObject params = new JSONObject();
-        //ctrl_uuid:ctrl_uuid
-        params.put("ctrl_uuid", "chryl-ivvr");
-        //当前channel 的uuid
-        String channelId = channelEvent.getUuid();
-        params.put("uuid", channelId);
-        log.info("TTS播报内容为 : {}", ttsContent);
-        JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
-        params.put("media", media);
-        //如果不需要同时检测DTMF，可以不传该参数。
-//        params.put("dtmf", null);
-//        JSONObject speech = getSpeech();
-        params.put("speech", speech);
-        String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByDetectSpeech(nc, service, XCCConstants.DETECT_SPEECH, params, null);
-    }
-
-    /********************************************请求体***********************************************/
 
 }
