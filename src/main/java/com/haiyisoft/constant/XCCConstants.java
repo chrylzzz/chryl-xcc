@@ -195,8 +195,14 @@ public class XCCConstants {
     public static final String IVR_FS_CALLER_ID = "ivr_fsCallerId";
     //身份校验通过后赋值用户编号
     public static final String IVR_YHBH = "ivr_yhbh";
+    //身份校验通过后赋值地区编码
+    public static final String IVR_DQBM = "ivr_dqbm";
+    //身份校验通过后赋值供电单位编码
+    public static final String IVR_GDDWBM = "ivr_gddwbm";
     //意图对象: #yt#yt#yt#
     public static final String IVR_YTDX = "ivr_ytdx";
+    //满意度
+    public static final String IVR_MYD = "ivr_myd";
     //ngd话术分隔符
     public static final String NGD_SEPARATOR = "#";
     //unMatch : 百度知识库接口未匹配: 返回抱歉,我不太理解您的意思
@@ -304,6 +310,8 @@ public class XCCConstants {
     public final static String SAVE_INTENT_URL = "/interface/saveLhyt/SaveZnIVRLhytForGx";
     //保存通话数据信息
     public final static String SAVE_CALL_DATA_URL = "/interface/saveThsj/SaveZnIVRThsjForGX";
+    //保存满意度信息
+    public final static String SAVE_RATE_DATA_URL = "/interface/savePjjg/SaveZnIVRPjjgForGx";
     /******************************************** PMS相关 ********************************************/
 
 }

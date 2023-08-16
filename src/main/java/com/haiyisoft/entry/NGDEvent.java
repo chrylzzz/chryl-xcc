@@ -53,6 +53,8 @@ public class NGDEvent {
     private boolean userOk;
     //意图:#DFYT#TDYT#
     private String intent;
+    //满意度:
+    private String rate;
     //----------------N G D 流程业务交互变量(全局)
 
     //----------------N G D 交互标识

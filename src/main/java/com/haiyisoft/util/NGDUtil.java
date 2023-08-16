@@ -110,8 +110,21 @@ public class NGDUtil {
      * @return
      */
     public static NGDEvent handlerIntent(JSONObject context, NGDEvent ngdEvent) {
-        String ytStr = context.getString(XCCConstants.IVR_YTDX);
+        String ytStr = context.getOrDefault(XCCConstants.IVR_YTDX, "").toString();
         ngdEvent.setIntent(ytStr);
+        return ngdEvent;
+    }
+
+    /**
+     * 保存满意度
+     *
+     * @param context  context全局交互实体
+     * @param ngdEvent
+     * @return
+     */
+    public static NGDEvent handlerRate(JSONObject context, NGDEvent ngdEvent) {
+        String rate = context.getOrDefault(XCCConstants.IVR_MYD, "").toString();
+        ngdEvent.setRate(rate);
         return ngdEvent;
     }
 

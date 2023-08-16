@@ -78,6 +78,8 @@ public class NGDHandler {
             NGDUtil.checkUser(context, resNgdEvent);
             //处理客户意图
             NGDUtil.handlerIntent(context, resNgdEvent);
+            //处理满意度
+            NGDUtil.handlerRate(context, resNgdEvent);
         } else {
             //处理全局参数
             convertNgdEvent(reqNgdEvent, resNgdEvent);

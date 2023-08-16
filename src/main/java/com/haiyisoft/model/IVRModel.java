@@ -24,59 +24,90 @@ public class IVRModel {
      */
     @JSONField(name = "ldhm")
     private String cidPhoneNumber;
+
     /**
      * fs caller id == channel id
      */
     @JSONField(name = "fscallid")
     private String fsCallerId;
+
     /**
      * icd caller id
      */
     @JSONField(name = "icdcallid")
     private String icdCallerId;
+
     /**
      * 来话开始时间
      */
     @JSONField(name = "ivrkssj")
     private String ivrStartTime;
+
     /**
      * 来话结束时间
      */
     @JSONField(name = "ivrjssj")
     private String ivrEndTime;
-    //是否转人工:0否1是
+
+    /**
+     * 是否转人工:0否1是
+     */
     @JSONField(name = "sfzrg")
     private String artificialType;
+
     /**
      * 是否有效通话: 0否1是
      */
     @JSONField(name = "sfyx")
     private String ivrValidCallType;
+
     /**
      * 是否正常结束: 0否1是
      */
     @JSONField(name = "sfzcjs")
     private String ivrCallEndNormalType;
+
     /**
      * 意图对象
      */
     @JSONField(name = "ytdx")
     private String intent;
+
     /**
      * 指令
      */
     @JSONField(name = "zl")
     private String zl;
+
     /**
      * 地区编码
      */
     @JSONField(name = "dqbm")
     private String areaCode;
+
     /**
      * 供电单位编码
      */
     @JSONField(name = "gddwbm")
     private String orgCode;
+
+    /**
+     * 业务类型
+     */
+    @JSONField(name = "ywlx")
+    private String businessType;
+
+    /**
+     * 评价时间
+     */
+    @JSONField(name = "pjsj")
+    private String localDatetime;
+
+    /**
+     * 满意度:0满意；1不满意; 2未评价
+     */
+    @JSONField(name = "myd")
+    private String rate;
 
     //------------------------------------------------通话相关数据
 
@@ -130,10 +161,30 @@ public class IVRModel {
         this.ivrCallEndNormalType = ivrCallEndNormalType;
     }
 
+    /**
+     * 满意度实体
+     *
+     * @param cidPhoneNumber
+     * @param fsCallerId
+     * @param icdCallerId
+     * @param orgCode
+     * @param businessType
+     * @param rate
+     */
+    public IVRModel(String cidPhoneNumber, String fsCallerId, String icdCallerId, String orgCode, String businessType, String rate) {
+        this.cidPhoneNumber = cidPhoneNumber;
+        this.fsCallerId = fsCallerId;
+        this.icdCallerId = icdCallerId;
+        this.orgCode = orgCode;
+        this.businessType = businessType;
+        this.localDatetime = DateUtil.getLocalDateTime();
+        this.rate = rate;
+    }
+
     public static void main(String[] args) {
         IVRModel ivrModel = IVRModel.builder().cidPhoneNumber("12").fsCallerId("aaa-bbb-ccc").icdCallerId("1234-2244").ivrStartTime(DateUtil.getLocalDateTime()).ivrEndTime(DateUtil.getLocalDateTime()).artificialType("1").ivrValidCallType("1").ivrCallEndNormalType("1").intent("#sjdf").zl(null).areaCode(null).orgCode(null).build();
 
-        IVRModel ivrModel2 = new IVRModel("13344563332", "anbc", "akc", DateUtil.getLocalDateTime(), DateUtil.getLocalDateTime(), "1", "1", "1", "a", "zl", "0401", "040100");
+//        IVRModel ivrModel2 = new IVRModel("13344563332", "anbc", "akc", DateUtil.getLocalDateTime(), DateUtil.getLocalDateTime(), "1", "1", "1", "a", "zl", "0401", "040100");
         IVRModel ivrModel3
                 = new IVRModel("15567895678", "454666-2883d", "355-22883sh211", DateUtil.getLocalDateTime(),
                 "#tdyt#djkf3#sjsjf", "", "", "");

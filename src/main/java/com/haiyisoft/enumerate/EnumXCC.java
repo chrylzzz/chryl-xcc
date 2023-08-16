@@ -22,7 +22,7 @@ public enum EnumXCC implements CommonXCC {
     NGD_BOT_TOKEN_ERROR("4002409", "bot token错误"),
     /**
      * 报表
-     * 是否有效通话,否
+     * 是否有效通话
      * 0 否
      * 1 是
      */
@@ -44,6 +44,15 @@ public enum EnumXCC implements CommonXCC {
      */
     IVR_FINISH_FALSE("sfzcjs", "0"),
     IVR_FINISH_TRUE("sfzcjs", "1"),
+    /**
+     * 报表
+     * 0 满意
+     * 1 不满意
+     * 2 未评价
+     */
+    IVR_RATE_TRUE("myd", "0"),
+    IVR_RATE_FALSE("myd", "1"),
+    IVR_RATE_NEUTRAL("myd", "2"),
 
 
     //

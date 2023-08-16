@@ -5,52 +5,54 @@ server:
 ############################################# ChrylConfigProperty 相关变量配置 ######################
 ####################################################################################################
 chryl:
-######################################################################## XCC
-#  XSwitch config
+  ######################################################################## XCC
+  #  XSwitch config
   nats-url: nats://hy:h8klu6bRwW@nats.xswitch.cn:4222
   xctrl-subject: cn.xswitch.ctrl
-#  xctrl-subject: cn.xswitch.ctrl.>
+  #  xctrl-subject: cn.xswitch.ctrl.>
   xnode-subject-prefix: cn.xswitch.node
-# no break 是否打断放音, true 不可打断
+  # no break 是否打断放音, true 不可打断
   no-break: true
-# XML数据需要自己处理, JSON数据XSwitch已深度解析, true开启
+  # XML数据需要自己处理, JSON数据XSwitch已深度解析, true开启
   handle-engine-data: false
-# DTMF 输入超时(秒)
-  dtmf-no-input-timeout: 10
-# DTMF 位间超时(秒)
+  # DTMF 输入超时(多位按键输入)
+  dtmf-no-input-timeout: 30
+  # DTMF 输入超时(少位按键输入)
+  dtmf-chryl-no-input-timeout: 5
+  # DTMF 位间超时(秒)
   digit-timeout: 5
-# speech 未检测到语音超时(秒)
+  # speech 未检测到语音超时(秒)
   speech-no-input-timeout: 10
   # 语音超时，即如果对方讲话一直不停超时，最大只能设置成6000ms，默认为6000ms。
   speech-timeout: 6
   # 语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
   max-speech-timeout: 8
-#
-# 若有多台XSwitch,再开启,true开启
+  #
+  # 若有多台XSwitch,再开启,true开启
   cluster: false
   #配置多节点
   nats-list:
-  - node: 127.0.0.1
-    nats: nats://hy:h8klu6bRwW@nats.xswitch.cn:4222
-  - node: 10.194.31.203
-    nats: nats://10.194.31.203:4222
-######################################################################## XCC
-######################################################################## NGD
-#  ngd query url
+    - node: 127.0.0.1
+      nats: nats://hy:h8klu6bRwW@nats.xswitch.cn:4222
+    - node: 10.194.31.203
+      nats: nats://10.194.31.203:4222
+  ######################################################################## XCC
+  ######################################################################## NGD
+  #  ngd query url
   ngd-core-query-url: https://api-ngd.baidu.com/api/v2/core/query
-#  ngd bot token
+  #  ngd bot token
   ngd-bot-token: NGD 88f20617-d6b5-4c4e-bf72-fde0c0db1d82
-# convert solved ,ngd存在solved=false，是否选择处理，true开启
+  # convert solved ,ngd存在solved=false，是否选择处理，true开启
   convert-solved: true
-######################################################################## NGD
-######################################################################## ASR
-#  asr engine
+  ######################################################################## NGD
+  ######################################################################## ASR
+  #  asr engine
   asr-engine: ali
-######################################################################## ASR
-######################################################################## TTS
-#  tts engine
+  ######################################################################## ASR
+  ######################################################################## TTS
+  #  tts engine
   tts-engine: ali
-#  Voice-Name
+  #  Voice-Name
   tts-voice: default
   # 是否开启多tts voice规则,true开启
   tts-voice-rule: false
@@ -59,14 +61,14 @@ chryl:
     - 'default'
     - 'yifei'
     - 'chongchong'
-# TTS 语速 格式：	[s*]	(*=0~10) ,默认语速值为5
+  # TTS 语速 格式：	[s*]	(*=0~10) ,默认语速值为5
   xtts-s: s4
-######################################################################## TTS
-######################################################################## WebHook
+  ######################################################################## TTS
+  ######################################################################## WebHook
   # webhook url
   webhook-url: http://10.100.104.30:8090/gddw/electric
-######################################################################## WebHook
-######################################################################## PMS
+  ######################################################################## WebHook
+  ######################################################################## PMS
   # pms 营销地址
   pms-url: http://172.20.33.113:9010/PMS_WS/services
 ######################################################################## PMS
