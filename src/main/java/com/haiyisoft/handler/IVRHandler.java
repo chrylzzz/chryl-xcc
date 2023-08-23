@@ -116,9 +116,11 @@ public class IVRHandler {
             JSONObject resParams = params.getJSONObject("params");
 //            String u2u = resParams.getString(XCCConstants.SIP_HEADER_USER2USER)
 //                    == null ? "" : resParams.getString(XCCConstants.SIP_HEADER_USER2USER) + XCCConstants.SIP_HEADER_SEPARATOR;
-            String u2u = resParams.getString(XCCConstants.SIP_HEADER_USER2USER);
+            if (resParams != null) {
+                String u2u = resParams.getString(XCCConstants.SIP_HEADER_USER2USER);
+                event.setSipReqHeaderU2U(u2u);
+            }
 
-            event.setSipReqHeaderU2U(u2u);
             event.setUuid(uuid);
             event.setNodeUuid(node_uuid);
             event.setState(state);
