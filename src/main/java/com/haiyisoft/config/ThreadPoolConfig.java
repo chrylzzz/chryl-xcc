@@ -25,11 +25,11 @@ public class ThreadPoolConfig implements AsyncConfigurer {
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
 
-        taskExecutor.setCorePoolSize(CPU_NUM * 5);//核心线程大小
+//        taskExecutor.setCorePoolSize(CPU_NUM * 5);//核心线程大小
 //        taskExecutor.setMaxPoolSize(CPU_NUM * 10);//最大线程大小
 
-//        taskExecutor.setCorePoolSize(CPU_NUM * 6);//核心线程大小
-        taskExecutor.setMaxPoolSize(CPU_NUM * 12);//最大线程大小
+        taskExecutor.setCorePoolSize(CPU_NUM * 10);//核心线程大小
+        taskExecutor.setMaxPoolSize(CPU_NUM * 16);//最大线程大小
 
         taskExecutor.setQueueCapacity(500);//队列最大容量
         // 线程池对拒绝任务的处理策略

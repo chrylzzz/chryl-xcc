@@ -24,11 +24,13 @@ chryl:
   # DTMF 位间超时
   digit-timeout: 13
   # speech 未检测到语音超时
-  speech-no-input-timeout: 10
+#  speech-no-input-timeout: 10
+  speech-no-input-timeout: 20
   # 语音超时，即如果对方讲话一直不停超时，最大只能设置成6000ms，默认为6000ms。
   speech-timeout: 6
   # 语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
-  max-speech-timeout: 8
+#  max-speech-timeout: 8
+  max-speech-timeout: 60
   #
   # 若有多台XSwitch,再开启,true开启
   cluster: true
@@ -71,7 +73,8 @@ chryl:
   ######################################################################## WebHook
   ######################################################################## PMS
   # pms 营销地址
-  pms-url: http://10.194.32.136:8080/PMS_WS/services
+#  pms-url: http://10.194.32.136:8080/PMS_WS/services
+  pms-url: http://10.100.175.10:8080/PMS_WS/services
 ######################################################################## PMS
 ######################################################################## LOG
 # log path
