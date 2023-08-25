@@ -20,6 +20,7 @@ public enum EnumXCC implements CommonXCC {
     NGD_REQUEST_TO_MUCH("4000019", "用户请求过于频繁，请稍后再试"),
     NGD_REQUEST_FAIL("4002012", "服务器处理该请求失败，请检查请求是否合法"),
     NGD_BOT_TOKEN_ERROR("4002409", "bot token错误"),
+    NGD_BOT_RES_ERROR("4100", "知识库返回异常"),
     /**
      * 报表
      * 是否有效通话
@@ -75,6 +76,11 @@ public enum EnumXCC implements CommonXCC {
     @Override
     public String getValue() {
         return this.value;
+    }
+
+    @Override
+    public int keyParseIntValue() {
+        return Integer.parseInt(this.property);
     }
 
 }

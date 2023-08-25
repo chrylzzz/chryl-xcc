@@ -102,6 +102,17 @@ public class NGDUtil {
         return parse;
     }
 
+    public static void main(String[] args) {
+        JSONObject result = JSON.parseObject("");
+        if (result == null) {
+            System.out.println("111");
+        }
+        JSONObject context = result.getJSONObject("data").getJSONObject("context");
+//        Integer code = result.getIntValue("code");//统一返回
+//        String msg = result.getString("msg");//统一返回
+        System.out.println(result);
+    }
+
     /**
      * 保存用户意图
      *

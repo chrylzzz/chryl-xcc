@@ -214,7 +214,7 @@ public class HttpClientUtil {
             RequestConfig defaultRequestConfig = RequestConfig.custom()
                     .setConnectTimeout(1000) //连接超时时间
                     .setConnectionRequestTimeout(1000) //从线程池中获取线程超时时间
-                    .setSocketTimeout(3000) //设置数据超时时间
+                    .setSocketTimeout(8000) //设置数据超时时间
 
                     .setStaleConnectionCheckEnabled(true)//提交请求前检查连接是否可用
                     .build();

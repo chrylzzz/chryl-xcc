@@ -11,4 +11,6 @@ public interface CommonXCC {
 
     String getValue();
 
+    int keyParseIntValue();
+
 }
