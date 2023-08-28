@@ -86,7 +86,7 @@ public class NGDHandler {
         //context全局交互实体
         JSONObject context = getContext(result);
         //测试发现闲聊时,无context
-        if (context.size() > 0) {
+        if (context != null && context.size() > 0) {
             //处理用户校验
             NGDUtil.checkUser(context, resNgdEvent);
             //处理客户意图
