@@ -102,17 +102,6 @@ public class NGDUtil {
         return parse;
     }
 
-    public static void main(String[] args) {
-        JSONObject result = JSON.parseObject("");
-        if (result == null) {
-            System.out.println("111");
-        }
-        JSONObject context = result.getJSONObject("data").getJSONObject("context");
-//        Integer code = result.getIntValue("code");//统一返回
-//        String msg = result.getString("msg");//统一返回
-        System.out.println(result);
-    }
-
     /**
      * 保存用户意图
      *
@@ -145,11 +134,17 @@ public class NGDUtil {
      *
      * @param query
      * @param answer
+     * @param code
      * @param result
      * @param ngdEvent
      * @return
      */
-    public static NGDEvent convertNgdNodeMateData(String query, String answer, JSONObject result, NGDEvent ngdEvent) {
+    public static NGDEvent convertNgdNodeMateData(String query, String answer, int code, JSONObject result, NGDEvent ngdEvent) {
+
+        if (XCCConstants.OK != code) {
+            log.error("本次节点信息无法统计,知识库返回异常 code: {},result: {}", code, result);
+            return ngdEvent;
+        }
         JSONObject jsonData = result.getJSONObject("data");
         //保存流程信息
         NGDNodeMetaData ngdNodeMetaData = saveNgdNodeMateData(query, answer, jsonData);

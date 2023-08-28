@@ -99,7 +99,7 @@ public class NGDHandler {
         }
 
         //处理记录会话
-        NGDUtil.convertNgdNodeMateData(xccRecognitionResult, answer, result, resNgdEvent);
+        NGDUtil.convertNgdNodeMateData(xccRecognitionResult, answer, code, result, resNgdEvent);
 
         //处理指令和话术,处理成retKey/retValue
         NGDUtil.convertText(resNgdEvent);
