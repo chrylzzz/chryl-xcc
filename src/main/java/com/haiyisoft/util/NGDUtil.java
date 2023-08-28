@@ -142,9 +142,12 @@ public class NGDUtil {
     public static NGDEvent convertNgdNodeMateData(String query, String answer, int code, JSONObject result, NGDEvent ngdEvent) {
 
         if (XCCConstants.OK != code) {
-            log.error("本次节点信息无法统计,知识库返回异常 code: {},result: {}", code, result);
+            NGDNodeMetaData ngdNodeMetaData = new NGDNodeMetaData(query, answer);
+            ngdEvent.setNgdNodeMetaData(ngdNodeMetaData);
+            log.error("本次节点信息异常,只统计问答,时间默认取当前时间,为: {},知识库返回异常 code: {},result: {}", ngdNodeMetaData, code, result);
             return ngdEvent;
         }
+
         JSONObject jsonData = result.getJSONObject("data");
         //保存流程信息
         NGDNodeMetaData ngdNodeMetaData = saveNgdNodeMateData(query, answer, jsonData);
