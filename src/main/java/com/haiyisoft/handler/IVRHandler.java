@@ -6,6 +6,7 @@ import com.haiyisoft.entry.ChannelEvent;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
+import com.haiyisoft.util.XCCUtil;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -121,9 +122,13 @@ public class IVRHandler {
                 event.setSipReqHeaderU2U(u2u);
             }
 
+            //voice
+            String cidVoiceName = XCCUtil.returnVoiceElement();
+
             event.setUuid(uuid);
             event.setNodeUuid(node_uuid);
             event.setState(state);
+            event.setCidVoiceName(cidVoiceName);
             log.info("convertParams :{}", event);
         } catch (Exception e) {
             e.printStackTrace();

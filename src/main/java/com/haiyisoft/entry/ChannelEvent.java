@@ -33,6 +33,10 @@ public class ChannelEvent {
      */
     private String sipResHeaderU2U;
 
+    //----------------channel param
+    //one channel id one voice name
+    private String cidVoiceName;
+    //----------------channel param
 }
 
 

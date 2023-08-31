@@ -34,17 +34,18 @@ public class XCCConfiguration {
                 }
             }
             //tts voice
-            if (chrylConfigProperty.isTtsVoiceRule()) {
-                List<String> ttsVoiceList = chrylConfigProperty.getTtsVoiceList();
-                String voiceName;
-                if (IpUtil.INTERNET_IP.equals(XCCConstants.IP_201)) {
-                    voiceName = ttsVoiceList.get(0);
-                } else {
-                    voiceName = ttsVoiceList.get(1);
-                }
-                chrylConfigProperty.setTtsVoice(voiceName);
-                log.warn("TTS装配完成 node: [{}] , voice-name: [{}]", IpUtil.INTERNET_IP, voiceName);
-            }
+//            if (chrylConfigProperty.isTtsVoiceRule()) {
+//                List<String> ttsVoiceList = chrylConfigProperty.getTtsVoiceList();
+//                String voiceName;
+//                if (IpUtil.INTERNET_IP.equals(XCCConstants.IP_201)) {
+//                    voiceName = ttsVoiceList.get(0);
+//                } else {
+//                    voiceName = ttsVoiceList.get(1);
+//                }
+//                chrylConfigProperty.setTtsVoice(voiceName);
+//                log.warn("TTS装配完成 node: [{}] , voice-name: [{}]", IpUtil.INTERNET_IP, voiceName);
+//            }
+
             log.info("初始化 CHRYL_CONFIG_PROPERTY 成功");
         } catch (Exception e) {
             log.error("初始化 CHRYL_CONFIG_PROPERTY 失败");

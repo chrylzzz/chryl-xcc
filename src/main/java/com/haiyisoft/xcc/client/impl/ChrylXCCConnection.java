@@ -110,7 +110,7 @@ public class ChrylXCCConnection implements XCCConnection {
         String channelId = channelEvent.getUuid();
         params.put("uuid", channelId);
         log.info("TTS播报内容为 : {}", ttsContent);
-        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByPlayTTS(nc, service, XCCConstants.PLAY, params);
@@ -130,7 +130,7 @@ public class ChrylXCCConnection implements XCCConnection {
         //当前channel 的uuid
         String channelUuid = channelEvent.getUuid();
         params.put("uuid", channelUuid);
-        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_FILE, file);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_FILE, file, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         RequestUtil.natsRequest(nc, service, XCCConstants.PLAY, params);
@@ -183,7 +183,7 @@ public class ChrylXCCConnection implements XCCConnection {
         //当前channel 的uuid
         String channelId = channelEvent.getUuid();
         params.put("uuid", channelId);
-        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
@@ -204,7 +204,7 @@ public class ChrylXCCConnection implements XCCConnection {
         //当前channel 的uuid
         String channelId = channelEvent.getUuid();
         params.put("uuid", channelId);
-        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent);
+        JSONObject media = XCCUtil.getPlayMedia(XCCConstants.PLAY_TTS, ttsContent, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
         return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, null);
