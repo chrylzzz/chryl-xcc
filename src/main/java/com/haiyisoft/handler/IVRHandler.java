@@ -1,12 +1,12 @@
 package com.haiyisoft.handler;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.haiyisoft.chryl.ivr.DynamicSpeech;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.ChannelEvent;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
-import com.haiyisoft.util.XCCUtil;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -123,7 +123,7 @@ public class IVRHandler {
             }
 
             //voice
-            String cidVoiceName = XCCUtil.returnVoiceElement();
+            String cidVoiceName = DynamicSpeech.returnVoiceElement();
 
             event.setUuid(uuid);
             event.setNodeUuid(node_uuid);

@@ -67,6 +67,9 @@ public class ChrylConfigProperty {
     // speech 语音最大超时，和参数speech_timeout作用相同，如果max_speech_timeout的值大于speech_timeout，则以max_speech_timeout为主，用于一些特殊场景的语音时长设置。
     private int maxSpeechTimeout;
 
+    // 动态语音配置(因fs存在识别问题:ASR识别成功,但是fs返回超时)
+    private boolean dynamicSpeech;
+
     public void setDtmfNoInputTimeout(int dtmfNoInputTimeout) {
         this.dtmfNoInputTimeout = dtmfNoInputTimeout * 1000;
     }

@@ -15,6 +15,8 @@ chryl:
   no-break: true
   # XML数据需要自己处理, JSON数据XSwitch已深度解析, true开启
   handle-engine-data: false
+  # 动态语音配置(因fs存在识别问题:ASR识别成功,但是fs返回超时)
+  dynamic-speech: false
   # DTMF 输入超时(多位按键输入)
   dtmf-no-input-timeout: 30
   # DTMF 输入超时(少位按键输入)

@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created By Chr.yl on 2023-02-08.
@@ -25,6 +26,7 @@ import java.util.concurrent.Future;
 @Slf4j
 public class RequestUtil {
 
+    private static boolean DYNAMIC_SPEECH = IVRInit.CHRYL_CONFIG_PROPERTY.isDynamicSpeech();
 
     /**
      * 构造JSON-RPC对象
@@ -198,7 +200,7 @@ public class RequestUtil {
      * @param milliSeconds 毫秒
      * @return
      */
-    public static XCCEvent natsRequestFutureByDetectSpeech(Connection con, String service, String method, JSONObject params, Long milliSeconds) {
+    public static XCCEvent natsRequestFutureByDetectSpeech(Connection con, String service, String method, JSONObject params, long milliSeconds) {
         log.info("{} 执行开始", method);
         JSONObject jsonRpc = getJsonRpc(method, params);
         byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
@@ -206,8 +208,12 @@ public class RequestUtil {
         XCCEvent xccEvent;
         try {
             Future<Message> incoming = con.request(service, bytes);
-            Message msg = incoming.get();
-//            Message msg = incoming.get(milliSeconds, TimeUnit.MILLISECONDS);
+            Message msg;
+            if (DYNAMIC_SPEECH) {
+                msg = incoming.get(milliSeconds, TimeUnit.MILLISECONDS);
+            } else {
+                msg = incoming.get();
+            }
             String response = new String(msg.getData(), StandardCharsets.UTF_8);
             log.info("{} 返回信息:{}", method, response);
             JSONObject result = JSONObject.parseObject(response).getJSONObject("result");
@@ -263,8 +269,7 @@ public class RequestUtil {
      * @param milliSeconds 毫秒
      * @return
      */
-
-    public static XCCEvent natsRequestFutureByReadDTMF(Connection con, String service, String method, JSONObject params, Long milliSeconds) {
+    public static XCCEvent natsRequestFutureByReadDTMF(Connection con, String service, String method, JSONObject params, long milliSeconds) {
         log.info("{} 执行开始时间为", method);
         JSONObject jsonRpc = getJsonRpc(method, params);
         byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
@@ -272,8 +277,12 @@ public class RequestUtil {
         XCCEvent xccEvent;
         try {
             Future<Message> incoming = con.request(service, bytes);
-            Message msg = incoming.get();
-//            Message msg = incoming.get(milliSeconds, TimeUnit.MILLISECONDS);
+            Message msg;
+            if (DYNAMIC_SPEECH) {
+                msg = incoming.get(milliSeconds, TimeUnit.MILLISECONDS);
+            } else {
+                msg = incoming.get();
+            }
             String response = new String(msg.getData(), StandardCharsets.UTF_8);
             log.info("{} 返回信息:{}", method, response);
             JSONObject result = JSONObject.parseObject(response).getJSONObject("result");
