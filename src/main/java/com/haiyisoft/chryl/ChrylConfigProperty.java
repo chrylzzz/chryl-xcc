@@ -124,6 +124,10 @@ public class ChrylConfigProperty {
     // tts语速
     private String xttsS;
 
+    public void setXttsS(String xttsS) {
+        this.xttsS = "[" + xttsS + "]";
+    }
+
     /******************************************** TTS ********************************************/
     /******************************************** ASR ********************************************/
 

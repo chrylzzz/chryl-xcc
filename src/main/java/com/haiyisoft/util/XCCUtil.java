@@ -365,7 +365,7 @@ public class XCCUtil {
     /********************************************请求体*************************************************/
 
     /**
-     * 获取媒体对象
+     * 获取媒体对象:自定义
      *
      * @param playType  play类型
      * @param content   播报内容,可为string,file
@@ -381,7 +381,8 @@ public class XCCUtil {
          *        SSML：TTS，SSML格式支持（并非所有引擎都支持SSML）
          */
         media.put("type", playType);
-        media.put("data", "[" + IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + "]" + content);
+        media.put("data", IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + content);
+//        media.put("data", "[" + IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + "]" + content);
 //        media.put("data", content);
         //引擎TTS engine,若使用xswitch配置unimrcp,则为unimrcp:profile
         media.put("engine", IVRInit.CHRYL_CONFIG_PROPERTY.getTtsEngine());
@@ -391,7 +392,7 @@ public class XCCUtil {
     }
 
     /**
-     * 获取媒体对象
+     * 获取媒体对象:使用配置
      *
      * @param playType play类型
      * @param content  播报内容,可为string,file
@@ -406,7 +407,8 @@ public class XCCUtil {
          *        SSML：TTS，SSML格式支持（并非所有引擎都支持SSML）
          */
         media.put("type", playType);
-        media.put("data", "[" + IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + "]" + content);
+        media.put("data", IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + content);
+//        media.put("data", "[" + IVRInit.CHRYL_CONFIG_PROPERTY.getXttsS() + "]" + content);
 //        media.put("data", content);
         //引擎TTS engine,若使用xswitch配置unimrcp,则为unimrcp:profile
         media.put("engine", IVRInit.CHRYL_CONFIG_PROPERTY.getTtsEngine());
