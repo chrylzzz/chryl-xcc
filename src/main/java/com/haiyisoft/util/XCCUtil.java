@@ -483,7 +483,10 @@ public class XCCUtil {
         //是否返回中间结果
         speech.put("partial_event", true);
         //默认会发送Event.DetectedData事件，如果为true则不发送。
-        speech.put("disable_detected_data_event", true);
+//        speech.put("disable_detected_data_event", true);
+        JSONObject params = new JSONObject();
+        params.put("asr-result-fire-switch-event", true);
+        speech.put("params", params);
         return speech;
     }
 

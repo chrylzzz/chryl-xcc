@@ -63,6 +63,7 @@ public class IVRServiceV6 implements IVRService {
                 while (true) {
 
                     xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
+                    //ngd第一次按键输入->xcc键输入超时->ngd第二次按键输入(挂机)->检测是否挂机(不转人工)
 
                     //xcc识别数据
                     String xccRecognitionResult = xccEvent.getXccRecognitionResult();

@@ -62,9 +62,9 @@ public class Dom4jUtil {
                         }
                     }
                 }
-                log.info("parseAsrResXml 解析 XML 完成:{}", parseText);
+                log.info("parseAsrResXml 解析 XML 完成: {}", parseText);
             } catch (Exception e) {
-                log.error("解析 XML 失败:{}" + e);
+                log.error("解析 XML 失败: {}" , e);
                 e.printStackTrace();
             }
         }
