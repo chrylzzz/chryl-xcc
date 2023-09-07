@@ -63,7 +63,14 @@ public class IVRServiceV6 implements IVRService {
                 while (true) {
 
                     xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
-                    //ngd第一次按键输入->xcc键输入超时->ngd第二次按键输入(挂机)->检测是否挂机(不转人工)
+
+                    //处理是否已挂机
+                    boolean handleHangup = XCCHandler.handleSomeHangup(xccEvent, channelId, nc, channelEvent);
+                    if (handleHangup) {//挂机
+                        //先存的IVR对话日志,这里挂机不需要单独处理
+                        log.info("挂断部分");
+                        break;
+                    }
 
                     //xcc识别数据
                     String xccRecognitionResult = xccEvent.getXccRecognitionResult();
@@ -74,14 +81,6 @@ public class IVRServiceV6 implements IVRService {
                     //记录IVR日志
                     NGDNodeMetaData ngdNodeMetaData = ngdEvent.getNgdNodeMetaData();
                     ivrEvent.getNgdNodeMetadataArray().add(ngdNodeMetaData);
-
-                    //处理是否已挂机
-                    boolean handleHangup = XCCHandler.handleSomeHangup(xccEvent, channelId);
-                    if (handleHangup) {//挂机
-                        //先存的IVR对话日志,这里挂机不需要单独处理
-                        log.info("挂断部分");
-                        break;
-                    }
 
                     //handle ngd agent
                     boolean handleSolved = NGDHandler.handleSolved(ngdEvent);

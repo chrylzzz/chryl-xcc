@@ -14,6 +14,14 @@ import io.nats.client.Connection;
  */
 public interface XCCConnection {
 
+    /**
+     * 仅用作连通性测试
+     *
+     * @param nc
+     * @param channelEvent
+     */
+    void connectionCheckEnabled(Connection nc, ChannelEvent channelEvent);
+
     void setVar(Connection nc, ChannelEvent channelEvent);
 
     void getState(Connection nc, ChannelEvent channelEvent);

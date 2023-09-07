@@ -22,6 +22,35 @@ public class XCCHandler {
 
 
     /**
+     * 处理一挂机的用户,根据API返回CODE处理挂机
+     *
+     * @param xccEvent
+     * @param channelId
+     * @return true 执行挂机,false 继续执行
+     */
+    public static boolean handleSomeHangup(XCCEvent xccEvent, String channelId) {
+        return checkBusinessCode(xccEvent, channelId);
+    }
+
+    /**
+     * 校验流程业务码/校验连通性
+     *
+     * @param xccEvent
+     * @param channelId
+     * @param nc
+     * @param channelEvent
+     * @return true 执行挂机,false 继续执行
+     */
+    public static boolean handleSomeHangup(XCCEvent xccEvent, String channelId, Connection nc, ChannelEvent channelEvent) {
+        //校验流程返回码
+        if (checkBusinessCode(xccEvent, channelId)) {
+            return true;
+        }
+        //校验连通性测试
+        return checkBusinessCode(checkConnectionCheckEnabled(nc, channelEvent), channelId);
+    }
+
+    /**
      * 处理一挂机的用户
      * xcc code :
      * 100: 未碰到
@@ -35,9 +64,11 @@ public class XCCHandler {
      * 555: 自定义错误码
      *
      * @param xccEvent
+     * @param channelId
      * @return true 执行挂机,false 继续执行
      */
-    public static boolean handleSomeHangup(XCCEvent xccEvent, String channelId) {
+    public static boolean checkBusinessCode(XCCEvent xccEvent, String channelId) {
+        log.info("this call checkBusinessCode: {}", channelId);
         Integer code = xccEvent.getCode();
         if (XCCConstants.JSONRPC_CANNOT_LOCATE_SESSION_BY_UUID == code//404
                 || XCCConstants.JSONRPC_USER_HANGUP == code//410
@@ -53,6 +84,18 @@ public class XCCHandler {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 检验连通性:
+     * 此处因为ReadDTMF API返回码混淆(收集成功/超时/收集时挂机)
+     *
+     * @param nc
+     * @param channelEvent
+     * @return
+     */
+    public static XCCEvent checkConnectionCheckEnabled(Connection nc, ChannelEvent channelEvent) {
+        return XCCUtil.connectionCheckEnabled(nc, channelEvent);
     }
 
     /**
