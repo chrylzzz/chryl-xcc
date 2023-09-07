@@ -481,11 +481,11 @@ public class XCCUtil {
 //        speech.put("max_speech_timeout", 8 * 1000);
         speech.put("max_speech_timeout", IVRInit.CHRYL_CONFIG_PROPERTY.getMaxSpeechTimeout());
         //是否返回中间结果
-        speech.put("partial_event", true);
+        speech.put("partial_event", "true");
         //默认会发送Event.DetectedData事件，如果为true则不发送。
-//        speech.put("disable_detected_data_event", true);
+        speech.put("disable_detected_data_event", "false");
         JSONObject params = new JSONObject();
-        params.put("asr-result-fire-switch-event", true);
+        params.put("asr-result-fire-switch-event", "true");
         speech.put("params", params);
         return speech;
     }
