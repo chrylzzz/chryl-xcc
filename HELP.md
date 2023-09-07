@@ -54,6 +54,8 @@ For further reference, please consider the following sections:
 
 * freeswitch使用docker部署
   docker exec -it xswitch /bin/bash
+* 进入docker xswitch容器,打开/关闭xcc debug
+  fs_cli -x 'xcc debug on/off'
 * freeswitch-log位置
   /usr/local/freeswitch/log/freeswitch.log
 * 拷贝freeswitch日志到宿主机,这里使用/tmp/chryl为例
