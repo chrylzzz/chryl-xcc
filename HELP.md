@@ -38,6 +38,8 @@ For further reference, please consider the following sections:
 * 此部分需要进入运行中终端:
   cd /usr/local/xswtich
   make cli
+* 开启/关闭xswitch(需要先进入xswitch目录)
+  make up/down
 * 开启/关闭日志:
   sofia global siptrace on/off
 * 重置freeswitch.log:
