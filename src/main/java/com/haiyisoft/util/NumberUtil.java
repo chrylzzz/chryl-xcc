@@ -27,4 +27,15 @@ public class NumberUtil {
             return false;
         }
     }
+
+    /**
+     * 华为地区码转为地区编码
+     * 95598040700->040700
+     *
+     * @param phoneAdsCode 95598040700
+     * @return
+     */
+    public static String convertPhoneAdsCode2OrgCode(String phoneAdsCode) {
+        return phoneAdsCode.substring(5);
+    }
 }

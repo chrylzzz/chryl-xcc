@@ -29,7 +29,7 @@ public class PMSHandler {
     public static void saveIntent(IVREvent ivrEvent, NGDEvent ngdEvent) {
         String ivrStartTime = ivrEvent.getIvrStartTime();
         String cidPhoneNumber = ivrEvent.getCidPhoneNumber();
-        String fsCallerId = ivrEvent.getFsCallerId();
+        String fsCallerId = ivrEvent.getChannelId();
         String icdCallerId = ivrEvent.getIcdCallerId();
         String intent = ngdEvent.getIntent();
 
@@ -49,7 +49,7 @@ public class PMSHandler {
     public static void saveCallData(IVREvent ivrEvent, NGDEvent ngdEvent) {
         String ivrStartTime = ivrEvent.getIvrStartTime();
         String cidPhoneNumber = ivrEvent.getCidPhoneNumber();
-        String fsCallerId = ivrEvent.getFsCallerId();
+        String fsCallerId = ivrEvent.getChannelId();
         String icdCallerId = ivrEvent.getIcdCallerId();
         boolean transferFlag = ivrEvent.isTransferFlag();
         String artificialType, ivrValidCallType, ivrCallEndNormalType;//是否转人工,是否有效通话,是否正常结束: 0否1是
@@ -76,7 +76,7 @@ public class PMSHandler {
      */
     public static void saveRate(IVREvent ivrEvent, NGDEvent ngdEvent) {
         String cidPhoneNumber = ivrEvent.getCidPhoneNumber();
-        String fsCallerId = ivrEvent.getFsCallerId();
+        String fsCallerId = ivrEvent.getChannelId();
         String icdCallerId = ivrEvent.getIcdCallerId();
         String rate = ngdEvent.getRate();
         if (StringUtils.isBlank(rate)) {

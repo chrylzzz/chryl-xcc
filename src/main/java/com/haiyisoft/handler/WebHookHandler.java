@@ -9,6 +9,7 @@ import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.util.DateUtil;
 import com.haiyisoft.util.HttpClientUtil;
+import com.haiyisoft.util.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -84,8 +85,9 @@ public class WebHookHandler {
         context.put("ldhm", cidPhoneNumber);
         context.put("hhjl", cdr);
         //这里送后缀码
-        context.put("dqbm", phoneAdsCode);
-        context.put("gddwbm", phoneAdsCode);
+        String orgCode = NumberUtil.convertPhoneAdsCode2OrgCode(phoneAdsCode);
+        context.put("dqbm", orgCode);
+        context.put("gddwbm", orgCode);
         JSONObject params = convertWebHookReqBody(XCCConstants.I_HJZX_BCDHNR, context);
         log.info("I_HJZX_BCDHNR,WebHook接口入参:{}", JSON.toJSONString(params, JSONWriter.Feature.PrettyFormat));
         String resData = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getWebHookUrl(), params.toJSONString());
