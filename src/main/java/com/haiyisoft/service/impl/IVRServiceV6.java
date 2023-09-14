@@ -104,6 +104,7 @@ public class IVRServiceV6 implements IVRService {
                     log.info("revert ivrEvent data: {}", ivrEvent);
 
                 }
+
             } else if (XCCConstants.CHANNEL_CALLING.equals(state)) {
                 log.info("CHANNEL_CALLING this call channelId: {}", channelId);
             } else if (XCCConstants.CHANNEL_RINGING.equals(state)) {
@@ -124,6 +125,9 @@ public class IVRServiceV6 implements IVRService {
 
             log.info("this call completed: {},{}", ivrEvent, ngdEvent);
             IVRHandler.afterHangup(ivrEvent, ngdEvent);
+
+            //2023-09-22前生产环境,ngd可查看号码
+            NGDHandler.handler("用户已挂机,会话结束,后续对话记录无需关注,本次手机号码为: " + callerIdNumber, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
         }
     }
 

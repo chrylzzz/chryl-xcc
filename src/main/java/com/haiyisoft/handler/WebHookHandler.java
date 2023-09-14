@@ -85,9 +85,9 @@ public class WebHookHandler {
         context.put("ldhm", cidPhoneNumber);
         context.put("hhjl", cdr);
         //这里送后缀码
-        String orgCode = NumberUtil.convertPhoneAdsCode2OrgCode(phoneAdsCode);
-        context.put("dqbm", orgCode);
-        context.put("gddwbm", orgCode);
+        String areaCode = NumberUtil.convertPhoneAdsCode2AreaCode(phoneAdsCode);
+        context.put("dqbm", areaCode);
+        context.put("gddwbm", areaCode);
         JSONObject params = convertWebHookReqBody(XCCConstants.I_HJZX_BCDHNR, context);
         log.info("I_HJZX_BCDHNR,WebHook接口入参:{}", JSON.toJSONString(params, JSONWriter.Feature.PrettyFormat));
         String resData = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getWebHookUrl(), params.toJSONString());

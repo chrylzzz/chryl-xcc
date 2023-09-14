@@ -35,7 +35,7 @@ public class NumberUtil {
      * @param phoneAdsCode 95598040700
      * @return
      */
-    public static String convertPhoneAdsCode2OrgCode(String phoneAdsCode) {
+    public static String convertPhoneAdsCode2AreaCode(String phoneAdsCode) {
         return phoneAdsCode.substring(5);
     }
 }
