@@ -47,7 +47,7 @@ public class XCCHandler {
             return true;
         }
         //校验连通性测试
-        return checkBusinessCode(checkConnectionCheckEnabled(nc, channelEvent), channelId);
+        return checkBusinessCode(checkConnectionEnabled(nc, channelEvent), channelId);
     }
 
     /**
@@ -94,7 +94,7 @@ public class XCCHandler {
      * @param channelEvent
      * @return
      */
-    public static XCCEvent checkConnectionCheckEnabled(Connection nc, ChannelEvent channelEvent) {
+    public static XCCEvent checkConnectionEnabled(Connection nc, ChannelEvent channelEvent) {
         return XCCUtil.connectionCheckEnabled(nc, channelEvent);
     }
 

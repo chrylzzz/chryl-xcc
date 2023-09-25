@@ -54,6 +54,11 @@ public enum EnumXCC implements CommonXCC {
     IVR_RATE_TRUE("myd", "0"),
     IVR_RATE_FALSE("myd", "1"),
     IVR_RATE_NEUTRAL("myd", "2"),
+    /**
+     * 意图：其他
+     * 意图为空时，全部设置为其他
+     */
+    IVR_INTENT_QT("QT", "QT"),
 
 
     //

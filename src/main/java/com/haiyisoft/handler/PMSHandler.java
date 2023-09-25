@@ -32,6 +32,9 @@ public class PMSHandler {
         String fsCallerId = ivrEvent.getChannelId();
         String icdCallerId = ivrEvent.getIcdCallerId();
         String intent = ngdEvent.getIntent();
+        if (StringUtils.isBlank(intent)) {
+            intent = EnumXCC.IVR_INTENT_QT.getValue();
+        }
 
         IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, intent, "", "", "");
         String jsonParam = JSON.toJSONString(ivrModel);
@@ -55,9 +58,9 @@ public class PMSHandler {
         String artificialType, ivrValidCallType, ivrCallEndNormalType;//是否转人工,是否有效通话,是否正常结束: 0否1是
 
         if (transferFlag) {
-            artificialType = "1";
+            artificialType = EnumXCC.IVR_ARTIFICIAL_TRUE.getValue();
         } else {
-            artificialType = "0";
+            artificialType = EnumXCC.IVR_ARTIFICIAL_FALSE.getValue();
         }
         ivrValidCallType = "1";
         ivrCallEndNormalType = "1";

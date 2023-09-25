@@ -42,12 +42,16 @@ public class IVRModel {
      */
     @JSONField(name = "ivrkssj")
     private String ivrStartTime;
+    @JSONField(name = "kssj")
+    private String startTime;
 
     /**
      * 来话结束时间
      */
     @JSONField(name = "ivrjssj")
     private String ivrEndTime;
+    @JSONField(name = "jssj")
+    private String endTime;
 
     /**
      * 是否转人工:0否1是
@@ -145,17 +149,17 @@ public class IVRModel {
      * @param cidPhoneNumber
      * @param fsCallerId
      * @param icdCallerId
-     * @param ivrStartTime
+     * @param startTime
      * @param artificialType
      * @param ivrValidCallType
      * @param ivrCallEndNormalType
      */
-    public IVRModel(String cidPhoneNumber, String fsCallerId, String icdCallerId, String ivrStartTime, String artificialType, String ivrValidCallType, String ivrCallEndNormalType) {
+    public IVRModel(String cidPhoneNumber, String fsCallerId, String icdCallerId, String startTime, String artificialType, String ivrValidCallType, String ivrCallEndNormalType) {
         this.cidPhoneNumber = cidPhoneNumber;
         this.fsCallerId = fsCallerId;
         this.icdCallerId = icdCallerId;
-        this.ivrStartTime = ivrStartTime;
-        this.ivrEndTime = DateUtil.getLocalDateTime();
+        this.startTime = startTime;//=ivr start time
+        this.endTime = DateUtil.getLocalDateTime();
         this.artificialType = artificialType;
         this.ivrValidCallType = ivrValidCallType;
         this.ivrCallEndNormalType = ivrCallEndNormalType;
