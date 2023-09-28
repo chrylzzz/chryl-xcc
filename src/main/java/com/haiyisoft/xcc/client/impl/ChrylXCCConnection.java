@@ -45,7 +45,6 @@ public class ChrylXCCConnection implements XCCConnection {
 
     @Override
     public void setVar(Connection nc, ChannelEvent channelEvent) {
-        RequestUtil request = new RequestUtil();
         JSONObject params = new JSONObject();
         Map<String, String> data = new HashMap<>();
         data.put("disable_img_fit", "true");
@@ -60,7 +59,6 @@ public class ChrylXCCConnection implements XCCConnection {
     //获取当前通道状态
     @Override
     public void getState(Connection nc, ChannelEvent channelEvent) {
-        RequestUtil request = new RequestUtil();
         JSONObject params = new JSONObject();
         params.put("ctrl_uuid", "chryl-ivvr");
         params.put("uuid", channelEvent.getUuid());
