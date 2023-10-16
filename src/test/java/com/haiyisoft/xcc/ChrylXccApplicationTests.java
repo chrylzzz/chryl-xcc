@@ -3,6 +3,7 @@ package com.haiyisoft.xcc;
 import com.alibaba.fastjson2.JSON;
 import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.constant.XCCConstants;
+import com.haiyisoft.handler.PMSHandler;
 import com.haiyisoft.model.IVRModel;
 import com.haiyisoft.util.DateUtil;
 import com.haiyisoft.util.HttpClientUtil;
@@ -39,5 +40,13 @@ class ChrylXccApplicationTests {
         log.info("SaveZnIVRLhytForGx,pms接口出参:{}", postJson);
     }
 
+    /**
+     * 欢迎语
+     */
+    @Test
+    public void welcomeText() {
+        final String welcomeText = PMSHandler.welcomeText();
+        log.info("Test welcomeText: {}", welcomeText);
+    }
 
 }

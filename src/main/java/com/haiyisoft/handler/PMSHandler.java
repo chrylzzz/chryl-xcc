@@ -109,7 +109,7 @@ public class PMSHandler {
         JSONObject dataJSONObject = data.getJSONObject(0);
 //        String hsbh = dataJSONObject.getString("hsbh");
         String hsnr = dataJSONObject.getString("hsnr");
-        log.info("QUERY_BBHS__URL, welcomeText:{}", hsnr);
+        log.info("QUERY_BBHS__URL, welcomeText: {}", hsnr);
         return hsnr;
     }
 
