@@ -113,6 +113,9 @@ public class IVRModel {
     @JSONField(name = "myd")
     private String rate;
 
+    @JSONField(name = "ywlx")
+    private String ywlx;
+
     //------------------------------------------------通话相关数据
 
     public IVRModel() {
@@ -163,6 +166,15 @@ public class IVRModel {
         this.artificialType = artificialType;
         this.ivrValidCallType = ivrValidCallType;
         this.ivrCallEndNormalType = ivrCallEndNormalType;
+    }
+
+    /**
+     * 欢迎语实体
+     *
+     * @param ywlx
+     */
+    public IVRModel(String ywlx) {
+        this.ywlx = ywlx;
     }
 
     /**

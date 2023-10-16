@@ -237,7 +237,7 @@ public class XCCConstants {
     public static final String NGD_SECOND_UNDERSTAND_TEXT = "您的意思我没有明白，麻烦您简要描述。";
     //欢迎语
 //    public static final String WELCOME_TEXT = "感谢您的支持，您可简要说出查询诉求比如“查电费、查工单、办复电等”，如需返回主菜单请说“主菜单”。";
-    public static final String WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工”。";
+    public static final String WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";
     //转人工话术
     public static final String ARTIFICIAL_TEXT = "您的问题难倒我了，为了更好的服务，现在为您转接人工，请稍等";
     //XCC返回失败话术
@@ -313,6 +313,8 @@ public class XCCConstants {
     public final static String SAVE_CALL_DATA_URL = "/interface/saveThsj/SaveZnIVRThsjForGX";
     //保存满意度信息
     public final static String SAVE_RATE_DATA_URL = "/interface/savePjjg/SaveZnIVRPjjgForGx";
+    //查询播报话术
+    public final static String QUERY_BBHS__URL = "/interface/queryBbhsxx/QueryZnIVRBbhsxxForGx";
     /******************************************** PMS相关 ********************************************/
 
 }

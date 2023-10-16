@@ -1,6 +1,8 @@
 package com.haiyisoft.handler;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.IVREvent;
@@ -91,6 +93,24 @@ public class PMSHandler {
         String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.SAVE_RATE_DATA_URL, jsonParam);
         log.info("SAVE_RATE_DATA_URL, pms接口出参:{}", postJson);
 
+    }
+
+    /**
+     * 查询欢迎语
+     */
+    public static String welcomeText() {
+        IVRModel ivrModel = new IVRModel("19");
+        String jsonParam = JSON.toJSONString(ivrModel);
+        log.info("QUERY_BBHS__URL, pms接口入参:{}", jsonParam);
+        String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.QUERY_BBHS__URL, jsonParam);
+        log.info("QUERY_BBHS__URL, pms接口出参:{}", postJson);
+        JSONObject jsonObject = JSON.parseObject(postJson);
+        JSONArray data = jsonObject.getJSONArray("data");
+        JSONObject dataJSONObject = data.getJSONObject(0);
+//        String hsbh = dataJSONObject.getString("hsbh");
+        String hsnr = dataJSONObject.getString("hsnr");
+        log.info("QUERY_BBHS__URL, welcomeText:{}", hsnr);
+        return hsnr;
     }
 
 }
