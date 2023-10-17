@@ -203,6 +203,8 @@ public class XCCConstants {
     public static final String IVR_YTDX = "ivr_ytdx";
     //满意度
     public static final String IVR_MYD = "ivr_myd";
+    //转人工技能队列编码
+    public static final String IVR_TRANSFER_CODE = "ivr_transfer_code";
     //ngd话术分隔符
     public static final String NGD_SEPARATOR = "#";
     //unMatch : 百度知识库接口未匹配: 返回抱歉,我不太理解您的意思
@@ -290,6 +292,8 @@ public class XCCConstants {
     public static final String USER2USER = "User-to-User";
     //返回后缀
     public static final String RES_SIP_SUFFIX = "|%s|1";
+    //无户号后缀
+    public static final String RES_SIP_NULL_UID_SUFFIX = "||1";
     //XTTS
     public static final String XTTS = "%s";
     //机器

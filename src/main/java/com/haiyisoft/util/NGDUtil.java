@@ -112,9 +112,9 @@ public class NGDUtil {
     public static NGDEvent handlerIntent(JSONObject context, NGDEvent ngdEvent) {
         String ytStr;
         if (context == null) {
-            ytStr = "";
+            ytStr = EnumXCC.IVR_INTENT_QT.getValue();
         } else {
-            ytStr = context.getOrDefault(XCCConstants.IVR_YTDX, "").toString();
+            ytStr = context.getOrDefault(XCCConstants.IVR_YTDX, EnumXCC.IVR_INTENT_QT.getValue()).toString();
         }
         ngdEvent.setIntent(ytStr);
         return ngdEvent;
@@ -130,11 +130,31 @@ public class NGDUtil {
     public static NGDEvent handlerRate(JSONObject context, NGDEvent ngdEvent) {
         String rate;
         if (context == null) {
-            rate = "";
+            //未评价 2
+            rate = EnumXCC.IVR_RATE_NEUTRAL.getValue();
         } else {
-            rate = context.getOrDefault(XCCConstants.IVR_MYD, "").toString();
+            rate = context.getOrDefault(XCCConstants.IVR_MYD, EnumXCC.IVR_RATE_NEUTRAL.getValue()).toString();
         }
         ngdEvent.setRate(rate);
+        return ngdEvent;
+    }
+
+    /**
+     * 转人工队列编码
+     *
+     * @param context  context全局交互实体
+     * @param ngdEvent
+     * @return
+     */
+    public static NGDEvent handlerTransferQueue(JSONObject context, NGDEvent ngdEvent) {
+        String transferCode;
+        if (context == null) {
+            //默认使用队列 1
+            transferCode = EnumXCC.IVR_TRANSFER_CODE_NO_COMPLAINT.getValue();
+        } else {
+            transferCode = context.getOrDefault(XCCConstants.IVR_TRANSFER_CODE, EnumXCC.IVR_TRANSFER_CODE_NO_COMPLAINT.getValue()).toString();
+        }
+        ngdEvent.setTransferCode(transferCode);
         return ngdEvent;
     }
 

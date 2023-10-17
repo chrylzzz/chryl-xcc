@@ -28,6 +28,7 @@ public class ChannelHandler {
         //校验通过处理sip header
         //req
         String sipReqHeaderU2U = channelEvent.getSipReqHeaderU2U();
+//        String transferCode = ngdEvent.getTransferCode();
 
         String formatSipHeader = "";
         if (ngdEvent.isUserOk()) {
@@ -36,9 +37,11 @@ public class ChannelHandler {
             if (StringUtils.isBlank(uid)) {
                 //不处理使用,只加 |
                 formatSipHeader = sipReqHeaderU2U + XCCConstants.SIP_HEADER_SEPARATOR;
+//                formatSipHeader = sipReqHeaderU2U + XCCConstants.RES_SIP_NULL_UID_SUFFIX;
             } else {
                 //处理,替换用户编号
                 //当前使用1业务类型
+                //投诉	0 非投诉	1 故障报修	2
                 //res
                 String sipResHeaderU2U = sipReqHeaderU2U + XCCConstants.RES_SIP_SUFFIX;
                 formatSipHeader = String.format(sipResHeaderU2U, uid);
@@ -46,6 +49,7 @@ public class ChannelHandler {
         } else {
             //不处理使用,只加 |
             formatSipHeader = sipReqHeaderU2U + XCCConstants.SIP_HEADER_SEPARATOR;
+//            formatSipHeader = sipReqHeaderU2U + XCCConstants.RES_SIP_NULL_UID_SUFFIX;
         }
         log.info("转接 sip header : {}", formatSipHeader);
         return formatSipHeader;

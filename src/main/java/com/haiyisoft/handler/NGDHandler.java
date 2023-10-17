@@ -93,6 +93,8 @@ public class NGDHandler {
             NGDUtil.handlerIntent(context, resNgdEvent);
             //处理满意度
             NGDUtil.handlerRate(context, resNgdEvent);
+            //处理转人工队列编码
+            NGDUtil.handlerTransferQueue(context, resNgdEvent);
         } else {
             //处理全局参数
             convertNgdEvent(reqNgdEvent, resNgdEvent);
@@ -121,10 +123,12 @@ public class NGDHandler {
         String uid = reqNgdEvent.getUid();
         String intent = reqNgdEvent.getIntent();
         boolean userOk = reqNgdEvent.isUserOk();
+        String transferCode = reqNgdEvent.getTransferCode();
 
         resNgdEvent.setUid(uid);
         resNgdEvent.setIntent(intent);
         resNgdEvent.setUserOk(userOk);
+        resNgdEvent.setTransferCode(transferCode);
         return resNgdEvent;
     }
 

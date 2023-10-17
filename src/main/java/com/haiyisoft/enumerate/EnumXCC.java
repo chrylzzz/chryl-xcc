@@ -59,7 +59,15 @@ public enum EnumXCC implements CommonXCC {
      * 意图为空时，全部设置为其他
      */
     IVR_INTENT_QT("QT", "QT"),
-
+    /**
+     * 转人工队列编码
+     * 0 投诉
+     * 1 非投诉
+     * 2 故障报修
+     */
+    IVR_TRANSFER_CODE_COMPLAINT("transferCode", "0"),
+    IVR_TRANSFER_CODE_NO_COMPLAINT("transferCode", "1"),
+    IVR_TRANSFER_CODE_REPAIR("transferCode", "2"),
 
     //
     ;
