@@ -59,13 +59,14 @@ chryl:
   #  tts engine
   tts-engine: unimrcp:tts
   #  Voice-Name
-  tts-voice: xiaojuan
+  tts-voice: xiaoye
   # 是否开启多tts voice规则,true开启
   tts-voice-rule: false
   # voice list
   tts-voice-list:
     - 'yifei'
     - 'xiaojuan'
+    - 'xiaoye'
     - 'chongchong'
   # TTS 语速 格式：	[s*]	(*=0~10) ,默认语速值为5
   xtts-s: s4
