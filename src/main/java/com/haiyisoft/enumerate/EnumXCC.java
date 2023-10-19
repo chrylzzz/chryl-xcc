@@ -39,7 +39,7 @@ public enum EnumXCC implements CommonXCC {
     IVR_ARTIFICIAL_TRUE("sfzrg", "1"),
     /**
      * 报表
-     * 是否正常结束
+     * 通话是否正常结束
      * 0 否
      * 1 是
      */
@@ -94,6 +94,11 @@ public enum EnumXCC implements CommonXCC {
     @Override
     public int keyParseIntValue() {
         return Integer.parseInt(this.property);
+    }
+
+    @Override
+    public int valueParseIntValue() {
+        return Integer.parseInt(this.value);
     }
 
 }

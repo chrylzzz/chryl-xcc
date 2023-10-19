@@ -267,8 +267,8 @@ public class XCCConstants {
     //input
     public static final String INPUT = "input";
     //IVR失败转人工次数
-    public static final int DEFAULT_TRANSFER_TIME = 1;
-    public static final int TRANSFER_ARTIFICIAL_TIME = 4;
+    public static final int DEFAULT_TRANSFER_TIME = 0;
+    public static final int TRANSFER_ARTIFICIAL_TIME = 3;
 
     //软交换服务器
     public static final String IP_200 = "10.194.31.200";

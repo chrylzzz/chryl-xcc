@@ -20,26 +20,6 @@ import javax.naming.Context;
 public class NGDHandler {
 
     /**
-     * xcc识别的数据送到ngd处理
-     *
-     * @param xccRecognitionResult xcc识别数据
-     * @param channelId            call id
-     * @param callNumber           来电号码
-     * @param icdCallerId          华为cid
-     * @param phoneAdsCode         来电后缀码
-     * @return
-     */
-    public static NGDEvent handlerNlu(String xccRecognitionResult, String channelId,
-                                      String callNumber, String icdCallerId, String phoneAdsCode) {
-        //调用百度知识库,获取answer
-        NGDEvent ngdEvent = NGDUtil.coreQuery(xccRecognitionResult, channelId, callNumber, icdCallerId, phoneAdsCode);
-        //处理指令和话术,处理成retKey/retValue
-        ngdEvent = NGDUtil.convertText(ngdEvent);
-        log.info("handlerNlu ngdEvent :{}", ngdEvent);
-        return ngdEvent;
-    }
-
-    /**
      * NGD handler
      *
      * @param xccRecognitionResult xcc识别数据

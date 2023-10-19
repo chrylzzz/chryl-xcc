@@ -34,60 +34,6 @@ public class NGDUtil {
      * @param phone        caller number
      * @param icdCallerId  icd caller id
      * @param phoneAdsCode phone address code
-     * @return NGDEvent
-     */
-    public static NGDEvent coreQuery(String queryText, String sessionId, String phone, String icdCallerId, String phoneAdsCode) {
-        //package
-        JSONObject param = coreQueryStruct(queryText, sessionId, phone, icdCallerId, phoneAdsCode);
-        log.info("开始调用,百度知识库接口入参:{}", JSON.toJSONString(param, JSONWriter.Feature.PrettyFormat));
-        //invoke
-        String jsonStrResult = HttpClientUtil.doPostJsonForGxNgd(IVRInit.CHRYL_CONFIG_PROPERTY.getNgdCoreQueryUrl(), param.toJSONString());
-        //res
-        JSONObject parse = JSON.parseObject(jsonStrResult);
-        log.info("结束调用,百度知识库接口返回: {}", parse);
-
-        Integer code = parse.getIntValue("code");//统一返回
-        String msg = parse.getString("msg");//统一返回
-
-        NGDEvent ngdEvent;
-        String answer = "";
-        if (XCCConstants.OK == code) {
-            JSONObject jsonData = parse.getJSONObject("data");
-            //答复来源
-            String source = jsonData.getString("source");
-            //是否解决
-            boolean solved = jsonData.getBooleanValue("solved");
-            //处理answer
-            answer = convertAnswer(jsonData, IVRInit.CHRYL_CONFIG_PROPERTY.isConvertSolved());
-            ngdEvent = NGDHandler.ngdEventSetVar(sessionId, code, msg, answer, source, solved);
-            log.info("百度知识库返回正常 code: {} , msg: {} , answer: {}", code, msg, answer);
-            //保存流程信息
-            NGDNodeMetaData ngdNodeMetaData = saveNgdNodeMateData(queryText, answer, jsonData);
-            ngdEvent.setNgdNodeMetaData(ngdNodeMetaData);
-            log.info("本次节点信息为:{}", ngdNodeMetaData);
-        } else {
-            log.error("百度知识调用异常 code: {} , msg: {}", code, msg);
-            answer = XCCConstants.XCC_MISSING_TEXT;
-            ngdEvent = NGDHandler.ngdEventSetErrorVar(sessionId, code, msg, answer);
-        }
-
-        JSONObject resContext = parse.getJSONObject("data").getJSONObject("context");//context
-        //处理用户校验是否完成
-        NGDEvent resNgdEvent = checkUser(resContext, ngdEvent);
-
-        log.info("coreQueryNGD ngdEvent: {}", resNgdEvent);
-        return resNgdEvent;
-    }
-
-    /**
-     * 广西知识库接口
-     * queryText 若为空时暂时不做判断,依赖百度NGD BOT配置/处理;若有需求再修改方法逻辑;
-     *
-     * @param queryText
-     * @param sessionId    caller id
-     * @param phone        caller number
-     * @param icdCallerId  icd caller id
-     * @param phoneAdsCode phone address code
      * @return JSONObject
      */
     public static JSONObject coreQueryJson(String queryText, String sessionId, String phone, String icdCallerId, String phoneAdsCode) {

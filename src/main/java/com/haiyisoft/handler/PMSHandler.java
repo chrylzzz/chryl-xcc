@@ -52,21 +52,22 @@ public class PMSHandler {
      * @param ngdEvent
      */
     public static void saveCallData(IVREvent ivrEvent, NGDEvent ngdEvent) {
+        String phoneAdsCode = ivrEvent.getPhoneAdsCode();
         String ivrStartTime = ivrEvent.getIvrStartTime();
         String cidPhoneNumber = ivrEvent.getCidPhoneNumber();
         String fsCallerId = ivrEvent.getChannelId();
         String icdCallerId = ivrEvent.getIcdCallerId();
         boolean transferFlag = ivrEvent.isTransferFlag();
-        String artificialType, ivrValidCallType, ivrCallEndNormalType;//是否转人工,是否有效通话,是否正常结束: 0否1是
+        int artificialType, ivrValidCallType, ivrCallEndNormalType;//是否转人工,是否有效通话,是否正常结束: 0否1是
 
         if (transferFlag) {
-            artificialType = EnumXCC.IVR_ARTIFICIAL_TRUE.getValue();
+            artificialType = EnumXCC.IVR_ARTIFICIAL_TRUE.valueParseIntValue();
         } else {
-            artificialType = EnumXCC.IVR_ARTIFICIAL_FALSE.getValue();
+            artificialType = EnumXCC.IVR_ARTIFICIAL_FALSE.valueParseIntValue();
         }
-        ivrValidCallType = "1";
-        ivrCallEndNormalType = "1";
-        IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType);
+        ivrValidCallType = EnumXCC.IVR_VALID_CALL_TRUE.valueParseIntValue();
+        ivrCallEndNormalType = EnumXCC.IVR_FINISH_TRUE.valueParseIntValue();
+        IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType, phoneAdsCode);
         String jsonParam = JSON.toJSONString(ivrModel);
         log.info("SAVE_CALL_DATA, pms接口入参:{}", jsonParam);
         String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.SAVE_CALL_DATA_URL, jsonParam);
