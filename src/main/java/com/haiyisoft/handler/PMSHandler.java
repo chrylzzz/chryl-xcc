@@ -1,6 +1,8 @@
 package com.haiyisoft.handler;
 
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.IVREvent;
@@ -50,21 +52,22 @@ public class PMSHandler {
      * @param ngdEvent
      */
     public static void saveCallData(IVREvent ivrEvent, NGDEvent ngdEvent) {
+        String phoneAdsCode = ivrEvent.getPhoneAdsCode();
         String ivrStartTime = ivrEvent.getIvrStartTime();
         String cidPhoneNumber = ivrEvent.getCidPhoneNumber();
         String fsCallerId = ivrEvent.getChannelId();
         String icdCallerId = ivrEvent.getIcdCallerId();
         boolean transferFlag = ivrEvent.isTransferFlag();
-        String artificialType, ivrValidCallType, ivrCallEndNormalType;//是否转人工,是否有效通话,是否正常结束: 0否1是
+        int artificialType, ivrValidCallType, ivrCallEndNormalType;//是否转人工,是否有效通话,是否正常结束: 0否1是
 
         if (transferFlag) {
-            artificialType = EnumXCC.IVR_ARTIFICIAL_TRUE.getValue();
+            artificialType = EnumXCC.IVR_ARTIFICIAL_TRUE.valueParseIntValue();
         } else {
-            artificialType = EnumXCC.IVR_ARTIFICIAL_FALSE.getValue();
+            artificialType = EnumXCC.IVR_ARTIFICIAL_FALSE.valueParseIntValue();
         }
-        ivrValidCallType = "1";
-        ivrCallEndNormalType = "1";
-        IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType);
+        ivrValidCallType = EnumXCC.IVR_VALID_CALL_TRUE.valueParseIntValue();
+        ivrCallEndNormalType = EnumXCC.IVR_FINISH_TRUE.valueParseIntValue();
+        IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType, phoneAdsCode);
         String jsonParam = JSON.toJSONString(ivrModel);
         log.info("SAVE_CALL_DATA, pms接口入参:{}", jsonParam);
         String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.SAVE_CALL_DATA_URL, jsonParam);
@@ -91,6 +94,24 @@ public class PMSHandler {
         String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.SAVE_RATE_DATA_URL, jsonParam);
         log.info("SAVE_RATE_DATA_URL, pms接口出参:{}", postJson);
 
+    }
+
+    /**
+     * 查询欢迎语
+     */
+    public static String welcomeText() {
+        IVRModel ivrModel = new IVRModel("19");
+        String jsonParam = JSON.toJSONString(ivrModel);
+        log.info("QUERY_BBHS__URL, pms接口入参:{}", jsonParam);
+        String postJson = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + XCCConstants.QUERY_BBHS__URL, jsonParam);
+        log.info("QUERY_BBHS__URL, pms接口出参:{}", postJson);
+        JSONObject jsonObject = JSON.parseObject(postJson);
+        JSONArray data = jsonObject.getJSONArray("data");
+        JSONObject dataJSONObject = data.getJSONObject(0);
+//        String hsbh = dataJSONObject.getString("hsbh");
+        String hsnr = dataJSONObject.getString("hsnr");
+        log.info("QUERY_BBHS__URL, welcomeText: {}", hsnr);
+        return hsnr;
     }
 
 }

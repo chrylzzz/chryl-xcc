@@ -1,6 +1,5 @@
 package com.haiyisoft.model;
 
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.haiyisoft.util.DateUtil;
 import lombok.AllArgsConstructor;
@@ -57,19 +56,19 @@ public class IVRModel {
      * 是否转人工:0否1是
      */
     @JSONField(name = "sfzrg")
-    private String artificialType;
+    private int artificialType;
 
     /**
      * 是否有效通话: 0否1是
      */
     @JSONField(name = "sfyx")
-    private String ivrValidCallType;
+    private int ivrValidCallType;
 
     /**
      * 是否正常结束: 0否1是
      */
     @JSONField(name = "sfzcjs")
-    private String ivrCallEndNormalType;
+    private int ivrCallEndNormalType;
 
     /**
      * 意图对象
@@ -113,6 +112,12 @@ public class IVRModel {
     @JSONField(name = "myd")
     private String rate;
 
+    /**
+     * 后缀码
+     */
+    @JSONField(name = "hzm")
+    private String phoneAdsCode;
+
     //------------------------------------------------通话相关数据
 
     public IVRModel() {
@@ -154,7 +159,7 @@ public class IVRModel {
      * @param ivrValidCallType
      * @param ivrCallEndNormalType
      */
-    public IVRModel(String cidPhoneNumber, String fsCallerId, String icdCallerId, String startTime, String artificialType, String ivrValidCallType, String ivrCallEndNormalType) {
+    public IVRModel(String cidPhoneNumber, String fsCallerId, String icdCallerId, String startTime, int artificialType, int ivrValidCallType, int ivrCallEndNormalType, String phoneAdsCode) {
         this.cidPhoneNumber = cidPhoneNumber;
         this.fsCallerId = fsCallerId;
         this.icdCallerId = icdCallerId;
@@ -163,7 +168,9 @@ public class IVRModel {
         this.artificialType = artificialType;
         this.ivrValidCallType = ivrValidCallType;
         this.ivrCallEndNormalType = ivrCallEndNormalType;
+        this.phoneAdsCode = phoneAdsCode;
     }
+
 
     /**
      * 满意度实体
@@ -185,15 +192,24 @@ public class IVRModel {
         this.rate = rate;
     }
 
-    public static void main(String[] args) {
-        IVRModel ivrModel = IVRModel.builder().cidPhoneNumber("12").fsCallerId("aaa-bbb-ccc").icdCallerId("1234-2244").ivrStartTime(DateUtil.getLocalDateTime()).ivrEndTime(DateUtil.getLocalDateTime()).artificialType("1").ivrValidCallType("1").ivrCallEndNormalType("1").intent("#sjdf").zl(null).areaCode(null).orgCode(null).build();
+    /**
+     * 欢迎语实体
+     *
+     * @param businessType
+     */
+    public IVRModel(String businessType) {
+        this.businessType = businessType;
+    }
 
+    public static void main(String[] args) {
+//        IVRModel ivrModel = IVRModel.builder().cidPhoneNumber("12").fsCallerId("aaa-bbb-ccc").icdCallerId("1234-2244").ivrStartTime(DateUtil.getLocalDateTime()).ivrEndTime(DateUtil.getLocalDateTime()).artificialType("1").ivrValidCallType("1").ivrCallEndNormalType("1").intent("#sjdf").zl(null).areaCode(null).orgCode(null).build();
+//
 //        IVRModel ivrModel2 = new IVRModel("13344563332", "anbc", "akc", DateUtil.getLocalDateTime(), DateUtil.getLocalDateTime(), "1", "1", "1", "a", "zl", "0401", "040100");
-        IVRModel ivrModel3
-                = new IVRModel("15567895678", "454666-2883d", "355-22883sh211", DateUtil.getLocalDateTime(),
-                "#tdyt#djkf3#sjsjf", "", "", "");
-        String s = JSON.toJSONString(ivrModel3);
-        System.out.println(s);
+//        IVRModel ivrModel3
+//                = new IVRModel("15567895678", "454666-2883d", "355-22883sh211", DateUtil.getLocalDateTime(),
+//                "#tdyt#djkf3#sjsjf", "", "", "");
+//        String s = JSON.toJSONString(ivrModel3);
+//        System.out.println(s);
 
     }
 

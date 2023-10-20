@@ -39,7 +39,7 @@ public enum EnumXCC implements CommonXCC {
     IVR_ARTIFICIAL_TRUE("sfzrg", "1"),
     /**
      * 报表
-     * 是否正常结束
+     * 通话是否正常结束
      * 0 否
      * 1 是
      */
@@ -59,7 +59,15 @@ public enum EnumXCC implements CommonXCC {
      * 意图为空时，全部设置为其他
      */
     IVR_INTENT_QT("QT", "QT"),
-
+    /**
+     * 转人工队列编码
+     * 0 投诉
+     * 1 非投诉
+     * 2 故障报修
+     */
+    IVR_TRANSFER_CODE_COMPLAINT("transferCode", "0"),
+    IVR_TRANSFER_CODE_NO_COMPLAINT("transferCode", "1"),
+    IVR_TRANSFER_CODE_REPAIR("transferCode", "2"),
 
     //
     ;
@@ -86,6 +94,11 @@ public enum EnumXCC implements CommonXCC {
     @Override
     public int keyParseIntValue() {
         return Integer.parseInt(this.property);
+    }
+
+    @Override
+    public int valueParseIntValue() {
+        return Integer.parseInt(this.value);
     }
 
 }

@@ -5,6 +5,7 @@ import com.alibaba.fastjson2.PropertyNamingStrategy;
 import com.alibaba.fastjson2.annotation.JSONType;
 //import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -125,6 +126,12 @@ public class ChrylConfigProperty {
     private String xttsS;
 
     public void setXttsS(String xttsS) {
+//        if (StringUtils.isBlank(xttsS)) {
+//            this.xttsS = "[s5]";
+//        }
+//        if (StringUtils.isBlank(xttsS)) {
+//            this.xttsS = xttsS;
+//        }
         this.xttsS = "[" + xttsS + "]";
     }
 

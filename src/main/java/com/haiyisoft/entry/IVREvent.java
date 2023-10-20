@@ -18,9 +18,9 @@ public class IVREvent extends IVRModel {
 
     //xcc caller id
     private String channelId;
-    //转人工次数 : 连续2次无法处理则转人工 ,默认值为1,transferTime >= 4时transferFlag=true,转人工
+    //转人工次数 : 连续2次无法处理则转人工 ,默认值为0, transferTime >= 3 时transferFlag = true, 转人工
     private Integer transferTime;
-    //是否转人工 : true 转人工 , time=4时赋值true
+    //是否转人工 : true 转人工 , time>=3 时赋值true
     private boolean transferFlag;
     //一通电话的json对话记录
     private JSONArray ngdNodeMetadataArray;
