@@ -52,6 +52,8 @@ public class DispatcherIVR {
 //            xccEvent = XCCHandler.bridgeExtension(nc, channelEvent, retValue);
             //转人工
             xccEvent = xccConnection.bridgeArtificial(nc, channelEvent, retValue, ngdEvent, callerIdNumber);
+            //设置转人工标志
+            ivrEvent.setTransferFlag(true);
         } else if (XCCConstants.JZLC.equals(retKey)) {//转精准IVR
             xccEvent = xccConnection.bridgeIVR(nc, channelEvent, retValue, ivrEvent, ngdEvent, callerIdNumber);
         } else if (XCCConstants.DXFS.equals(retKey)) {//短信发送
