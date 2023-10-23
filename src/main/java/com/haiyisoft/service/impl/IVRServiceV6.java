@@ -129,7 +129,7 @@ public class IVRServiceV6 implements IVRService {
             IVRHandler.afterHangup(ivrEvent, ngdEvent);
 
             //2023-09-22前生产环境,ngd可查看号码
-            NGDHandler.handler("用户已挂机,会话结束,后续对话记录无需关注,本次来电号码为: " + callerIdNumber + " ，所属地区后缀码为: " + phoneAdsCode, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
+//            NGDHandler.handler("用户已挂机,会话结束,后续对话记录无需关注,本次来电号码为: " + callerIdNumber + " ，所属地区后缀码为: " + phoneAdsCode, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
         }
     }
 
