@@ -8,6 +8,7 @@ import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
 import com.haiyisoft.handler.IVRHandler;
 import com.haiyisoft.handler.NGDHandler;
+import com.haiyisoft.handler.PMSHandler;
 import com.haiyisoft.handler.XCCHandler;
 import com.haiyisoft.model.NGDNodeMetaData;
 import com.haiyisoft.service.IVRService;
@@ -59,7 +60,8 @@ public class IVRServiceV6 implements IVRService {
                 xccConnection.answer(nc, channelEvent);
                 //
                 String retKey = XCCConstants.YYSR;
-                String retValue = XCCConstants.WELCOME_TEXT;
+//                String retValue = XCCConstants.WELCOME_TEXT;
+                String retValue = PMSHandler.welcomeText();
                 while (true) {
 
                     xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
@@ -127,7 +129,7 @@ public class IVRServiceV6 implements IVRService {
             IVRHandler.afterHangup(ivrEvent, ngdEvent);
 
             //2023-09-22前生产环境,ngd可查看号码
-            NGDHandler.handler("用户已挂机,会话结束,后续对话记录无需关注,本次来电号码为: " + callerIdNumber + " ，所属地区后缀码为: " + phoneAdsCode, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
+//            NGDHandler.handler("用户已挂机,会话结束,后续对话记录无需关注,本次来电号码为: " + callerIdNumber + " ，所属地区后缀码为: " + phoneAdsCode, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
         }
     }
 

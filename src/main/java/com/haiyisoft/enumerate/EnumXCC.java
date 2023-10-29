@@ -58,7 +58,7 @@ public enum EnumXCC implements CommonXCC {
      * 意图：其他
      * 意图为空时，全部设置为其他
      */
-    IVR_INTENT_QT("QT", "QT"),
+    IVR_INTENT_QT("QT", "#QT"),
     /**
      * 转人工队列编码
      * 0 投诉

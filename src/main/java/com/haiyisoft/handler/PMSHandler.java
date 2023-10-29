@@ -108,8 +108,11 @@ public class PMSHandler {
         JSONObject jsonObject = JSON.parseObject(postJson);
         JSONArray data = jsonObject.getJSONArray("data");
         JSONObject dataJSONObject = data.getJSONObject(0);
-//        String hsbh = dataJSONObject.getString("hsbh");
-        String hsnr = dataJSONObject.getString("hsnr");
+        String hsbh = dataJSONObject.getString("hsbh");
+        String hsnr = "";
+        if ("99".equals(hsbh)) {//欢迎语话术编号为99
+            hsnr = dataJSONObject.getString("hsnr");
+        }
         log.info("QUERY_BBHS__URL, welcomeText: {}", hsnr);
         return hsnr;
     }

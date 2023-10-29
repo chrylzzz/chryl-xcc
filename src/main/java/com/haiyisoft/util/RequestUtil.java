@@ -13,6 +13,7 @@ import io.nats.client.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.Future;
@@ -166,7 +167,8 @@ public class RequestUtil {
     public static XCCEvent natsRequestFutureByAnswer(Connection con, String service, String method, JSONObject params) {
         log.info("{} 执行开始", method);
         JSONObject jsonRpc = getJsonRpc(method, params);
-        byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
+//        byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = jsonRpc.toString().getBytes(Charset.forName("GBK"));
         log.info("{} 请求信息 service:[{}], Serializer json:{}", method, service, JSON.toJSONString(jsonRpc, JSONWriter.Feature.PrettyFormat));
         XCCEvent xccEvent;
         try {
@@ -203,18 +205,24 @@ public class RequestUtil {
     public static XCCEvent natsRequestFutureByDetectSpeech(Connection con, String service, String method, JSONObject params, long milliSeconds) {
         log.info("{} 执行开始", method);
         JSONObject jsonRpc = getJsonRpc(method, params);
-        byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
+//        byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = jsonRpc.toString().getBytes(Charset.forName("GBK"));
         log.info("{} 请求信息 service:[{}], Serializer json:{}", method, service, JSON.toJSONString(jsonRpc, JSONWriter.Feature.PrettyFormat));
         XCCEvent xccEvent;
         try {
             Future<Message> incoming = con.request(service, bytes);
-            Message msg;
-            if (DYNAMIC_SPEECH) {
-                msg = incoming.get(milliSeconds, TimeUnit.MILLISECONDS);
-            } else {
-                msg = incoming.get();
-            }
-//            Message msg = incoming.get();
+
+            /**
+             * 动态收集语音
+             */
+//            Message msg;
+//            if (DYNAMIC_SPEECH) {
+//                msg = incoming.get(milliSeconds, TimeUnit.MILLISECONDS);
+//            } else {
+//                msg = incoming.get();
+//            }
+
+            Message msg = incoming.get();
             String response = new String(msg.getData(), StandardCharsets.UTF_8);
             log.info("{} 返回信息:{}", method, response);
             JSONObject result = JSONObject.parseObject(response).getJSONObject("result");
@@ -273,7 +281,8 @@ public class RequestUtil {
     public static XCCEvent natsRequestFutureByReadDTMF(Connection con, String service, String method, JSONObject params, long milliSeconds) {
         log.info("{} 执行开始时间为", method);
         JSONObject jsonRpc = getJsonRpc(method, params);
-        byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
+//        byte[] bytes = jsonRpc.toString().getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = jsonRpc.toString().getBytes(Charset.forName("GBK"));
         log.info("{} 请求信息 service:[{}], Serializer json:{}", method, service, JSON.toJSONString(jsonRpc, JSONWriter.Feature.PrettyFormat));
         XCCEvent xccEvent;
         try {
