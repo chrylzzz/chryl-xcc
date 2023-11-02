@@ -61,6 +61,8 @@ public class IVRServiceV7 implements IVRService {
                 String retKey = XCCConstants.YYSR;
 //                String retValue = XCCConstants.WELCOME_TEXT;
                 String retValue = PMSHandler.welcomeText();
+                //欢迎语赋值
+                XCCConstants.WELCOME_TEXT = retValue;
                 while (true) {
 
                     xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
@@ -127,8 +129,6 @@ public class IVRServiceV7 implements IVRService {
             log.info("this call completed: {},{}", ivrEvent, ngdEvent);
             IVRHandler.afterHangup(ivrEvent, ngdEvent);
 
-            //2023-09-22前生产环境,ngd可查看号码
-//            NGDHandler.handler("用户已挂机,会话结束,后续对话记录无需关注,本次来电号码为: " + callerIdNumber + " ，所属地区后缀码为: " + phoneAdsCode, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
         }
     }
 

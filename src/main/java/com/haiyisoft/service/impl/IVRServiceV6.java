@@ -62,6 +62,8 @@ public class IVRServiceV6 implements IVRService {
                 String retKey = XCCConstants.YYSR;
 //                String retValue = XCCConstants.WELCOME_TEXT;
                 String retValue = PMSHandler.welcomeText();
+                //欢迎语赋值
+                XCCConstants.WELCOME_TEXT = retValue;
                 while (true) {
 
                     xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
