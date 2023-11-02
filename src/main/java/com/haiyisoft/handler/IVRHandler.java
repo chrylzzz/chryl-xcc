@@ -185,6 +185,22 @@ public class IVRHandler {
      * @param ngdEvent
      */
     public static void afterHangup(IVREvent ivrEvent, NGDEvent ngdEvent) {
+        //已转人工的不重复保存
+//        if (!ivrEvent.isTransferFlag()) {
+//            saveData(ivrEvent, ngdEvent);
+//        }
+
+        //后续发布要测试
+        saveData(ivrEvent, ngdEvent);
+    }
+
+    /**
+     * 保存数据
+     *
+     * @param ivrEvent
+     * @param ngdEvent
+     */
+    public static void saveData(IVREvent ivrEvent, NGDEvent ngdEvent) {
         //保存会话记录
         WebHookHandler.saveCDR(ivrEvent);
         //保存意图

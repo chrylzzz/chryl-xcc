@@ -287,7 +287,10 @@ public class XCCUtil {
      *
      * @param nc
      * @param channelEvent
-     * @param ttsContent
+     * @param ttsContent   播报内容
+     * @param dialStr      转接字符串
+     * @param sipHeader    消息头
+     * @param callNumber   转接号码
      * @return
      */
     public static XCCEvent bridge(Connection nc, ChannelEvent channelEvent, String ttsContent, String dialStr, String sipHeader, String callNumber) {
