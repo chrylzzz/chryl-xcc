@@ -20,15 +20,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
- * V6版本:
- * 基于V0,欢迎语在IVR，使用接口获取
+ * V7版本:
+ * 基于V6,转人工钱保存会话信息
  *
  * @author Chr.yl
  */
 @Slf4j
-@Primary
 @Component
-public class IVRServiceV6 implements IVRService {
+public class IVRServiceV7 implements IVRService {
     @Autowired
     private XCCConnection xccConnection;
     @Autowired
