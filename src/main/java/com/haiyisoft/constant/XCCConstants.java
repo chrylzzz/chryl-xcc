@@ -196,9 +196,9 @@ public class XCCConstants {
     //身份校验通过后赋值用户编号
     public static final String IVR_YHBH = "ivr_yhbh";
     //身份校验通过后赋值地区编码
-    public static final String IVR_DQBM = "ivr_dqbm";
+    public static final String IVR_AREA_CODE = "ivr_dqbm";
     //身份校验通过后赋值供电单位编码
-    public static final String IVR_GDDWBM = "ivr_gddwbm";
+    public static final String IVR_ORG_CODE = "ivr_gddwbm";
     //意图对象: #yt#yt#yt#
     public static final String IVR_YTDX = "ivr_ytdx";
     //满意度
@@ -281,7 +281,7 @@ public class XCCConstants {
     //4001--IVR
     public static final String HUAWEI_IVR_NUMBER = "4001";//此处需要95598开头的+加上地区后缀码,比如崇左的95598041400
     //南方电网 95598
-    public static final String CHINA_SOUTHERN_POWER_GRID = "95598";
+    public static final String CHINA_SOUTHERN_POWER_GRID_NUM = "95598";
     //4002--人工坐席
     public static final String HUAWEI_ARTIFICIAL_NUMBER = "4002";
     //sip header Separator

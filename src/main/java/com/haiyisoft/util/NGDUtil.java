@@ -8,7 +8,6 @@ import com.haiyisoft.boot.IVRInit;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.enumerate.EnumXCC;
-import com.haiyisoft.handler.NGDHandler;
 import com.haiyisoft.model.NGDNodeMetaData;
 import com.haiyisoft.model.NgdNodeDialog;
 import lombok.extern.slf4j.Slf4j;
@@ -420,6 +419,8 @@ public class NGDUtil {
         param.put("channel", XCCConstants.CHANNEL_IVR);//渠道标识
         context.put(XCCConstants.IVR_PHONE, phone);
         context.put(XCCConstants.IVR_PHONE_ADS_CODE, phoneAdsCode);//后缀码
+//        context.put(XCCConstants.IVR_AREA_CODE, StringUtils.isBlank(phoneAdsCode) ? "" : phoneAdsCode.replaceAll(XCCConstants.CHINA_SOUTHERN_POWER_GRID_NUM, ""));//后缀码
+        context.put(XCCConstants.IVR_AREA_CODE, phoneAdsCode.replaceAll(XCCConstants.CHINA_SOUTHERN_POWER_GRID_NUM, ""));//后缀码
         context.put(XCCConstants.IVR_ICD_CALLER_ID, icdCallerId);//icd
         context.put(XCCConstants.IVR_FS_CALLER_ID, sessionId);//fs caller id = xcc channel id = session id
         param.put("queryText", queryText);//客户问题
