@@ -182,7 +182,7 @@ public class XCCConstants {
     //指令集合数组
     public static final String[] RET_KEY_STR_ARRAY = {YYSR, AJSR, YWAJ, YYGB, RGYT, JZLC, DXFS};
     //过滤回复数组
-    public static final String[] REPLY_FILTER_ARRAY = {"image", "img", "url", "src"};
+    public static final String[] FAQ_REPLY_FILTER_ARRAY = {"image", "img", "url", "src", "<p>", "<br>"};
     //智能ivr渠道
     public static final String CHANNEL_IVR = "智能IVR";
     //智能IVR NGD 来电号码
@@ -252,6 +252,12 @@ public class XCCConstants {
     public static final String NGD_MISSING_MSG = "这个家伙很懒,没留下答案就跑了";
     //"source": "none"
     public static final String NGD_UNDERSTAND_MSG = "抱歉,我不太理解您的意思";
+    //接口调用超时（直接转人工）：系统查询超时，我给您转人工处理，请稍等。
+    public static final String NGD_TIMEOUT_MSG = "系统查询超时，我给您转人工处理，请稍等";
+    //NGD错误话术集合
+    public static final String[] SUGGEST_ANSWER_REPLY_FILTER_ARRAY = {"我不太理解您的意思", "没留下答案就跑了"};
+    //FAQ非法字符异常话术
+    public static final String NGD_FAQ_ERROR_MSG = "您的问题我正在学习";
 
     //WebHook 地址
     public static final String WEBHOOK_URL = "nats://hy:h8klu6bRwW@nats.xswitch.cn:4222";

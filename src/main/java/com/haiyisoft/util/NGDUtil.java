@@ -187,9 +187,14 @@ public class NGDUtil {
      * @return 处理后的内容
      */
     public static String replyFilter(String answer) {
-        if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.REPLY_FILTER_ARRAY)) {//过滤标识
+        //过滤FAQ非法字符
+        if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.FAQ_REPLY_FILTER_ARRAY)) {//过滤标识
             log.info("触发过滤回复");
-            return "您的问题我正在学习";
+            return XCCConstants.NGD_FAQ_ERROR_MSG;
+        }
+        //过滤NGD返回异常话术：如指令接口超时
+        if (StringUtils.containsAny(answer, XCCConstants.SUGGEST_ANSWER_REPLY_FILTER_ARRAY)) {
+            return XCCConstants.NGD_TIMEOUT_MSG;
         }
         return answer;
     }

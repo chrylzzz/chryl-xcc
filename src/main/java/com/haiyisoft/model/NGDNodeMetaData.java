@@ -41,13 +41,19 @@ public class NGDNodeMetaData {
     }
 
     public void setAnswer(String answer) {
-        //去除
-        if (answer.contains(XCCConstants.NGD_SEPARATOR)) {
-            this.answer = answer.split(XCCConstants.NGD_SEPARATOR)[1];
-        } else {
+        //去除#
+        if (answer.contains(XCCConstants.NGD_SEPARATOR)) {//有#
+            String[] split = answer.split(XCCConstants.NGD_SEPARATOR);
+            //AJSR#
+            if (split.length > 1) {//有#有内容
+                this.answer = answer.split(XCCConstants.NGD_SEPARATOR)[1];
+                return;
+            } else {//有#无内容
+                this.answer = answer;
+            }
+        } else {//无#
             this.answer = answer;
         }
     }
-
 
 }
