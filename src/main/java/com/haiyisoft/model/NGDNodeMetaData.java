@@ -47,7 +47,6 @@ public class NGDNodeMetaData {
             //AJSR#
             if (split.length > 1) {//有#有内容
                 this.answer = answer.split(XCCConstants.NGD_SEPARATOR)[1];
-                return;
             } else {//有#无内容
                 this.answer = answer;
             }

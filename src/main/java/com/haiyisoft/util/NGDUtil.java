@@ -194,7 +194,7 @@ public class NGDUtil {
         }
         //过滤NGD返回异常话术：如指令接口超时
         if (StringUtils.containsAny(answer, XCCConstants.SUGGEST_ANSWER_REPLY_FILTER_ARRAY)) {
-            return XCCConstants.NGD_TIMEOUT_MSG;
+            return XCCConstants.RGYT + XCCConstants.NGD_TIMEOUT_MSG;
         }
         return answer;
     }
