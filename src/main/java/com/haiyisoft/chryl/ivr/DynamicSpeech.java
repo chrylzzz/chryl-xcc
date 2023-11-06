@@ -17,20 +17,21 @@ public class DynamicSpeech {
 
     //是否开启多语音包规则
     private static boolean TTS_VOICE_RULE = IVRInit.CHRYL_CONFIG_PROPERTY.isTtsVoiceRule();
+    //预留 5s 空档
+    private static final long DEFAULT_TIME_FACTOR = 5000L;
 
     /**
      * 根据播报内容获取播报时间
-     * 播报时间=(播报时间+语音超时时间)
+     * 播报时间=(播报时间+语音超时时间) + 预留空档时间
      *
      * @param ttsContent 播报内容
      * @return 播报时间
      */
     public static long convertPlayContentToMilliSeconds(String ttsContent) {
         int length = ttsContent.length();
-//        long playContentMilliSeconds = ((length / 4) + 1) * 1000L;
-        long playContentMilliSeconds = ((length / 4) + 5) * 1000L;
+        long playContentMilliSeconds = ((length / 4) * 1000L) + DEFAULT_TIME_FACTOR;
         long sec = playContentMilliSeconds + IVRInit.CHRYL_CONFIG_PROPERTY.getSpeechNoInputTimeout();
-        log.info("本次语音收集等待时间: {} ms , 播报文本长度: {} , 播报话术所需时间: {} ms", sec, length, playContentMilliSeconds);
+        log.info("本次语音收集等待时间: {} ms , 播报文本长度: {} , 播报话术所需时间: {} ms , 预留时长 : {} ms", sec, length, playContentMilliSeconds, DEFAULT_TIME_FACTOR);
         return sec;
     }
 

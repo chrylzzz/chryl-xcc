@@ -194,7 +194,7 @@ public class NGDUtil {
         }
         //过滤NGD返回异常话术：如指令接口超时
         if (StringUtils.containsAny(answer, XCCConstants.SUGGEST_ANSWER_REPLY_FILTER_ARRAY)) {
-            return XCCConstants.RGYT + XCCConstants.NGD_TIMEOUT_MSG;
+            return XCCConstants.RGYT + XCCConstants.NGD_SEPARATOR + XCCConstants.NGD_TIMEOUT_MSG;
         }
         return answer;
     }
@@ -425,7 +425,7 @@ public class NGDUtil {
         context.put(XCCConstants.IVR_PHONE, phone);
         context.put(XCCConstants.IVR_PHONE_ADS_CODE, phoneAdsCode);//后缀码
 //        context.put(XCCConstants.IVR_AREA_CODE, StringUtils.isBlank(phoneAdsCode) ? "" : phoneAdsCode.replaceAll(XCCConstants.CHINA_SOUTHERN_POWER_GRID_NUM, ""));//后缀码
-        context.put(XCCConstants.IVR_AREA_CODE, phoneAdsCode.replaceAll(XCCConstants.CHINA_SOUTHERN_POWER_GRID_NUM, ""));//后缀码
+        context.put(XCCConstants.IVR_INCOMING_REGION_CODE, phoneAdsCode.replaceAll(XCCConstants.CHINA_SOUTHERN_POWER_GRID_NUM, ""));//后缀码
         context.put(XCCConstants.IVR_ICD_CALLER_ID, icdCallerId);//icd
         context.put(XCCConstants.IVR_FS_CALLER_ID, sessionId);//fs caller id = xcc channel id = session id
         param.put("queryText", queryText);//客户问题

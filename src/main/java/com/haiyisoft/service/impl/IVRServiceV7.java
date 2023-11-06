@@ -16,12 +16,11 @@ import com.haiyisoft.xcc.client.XCCConnection;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
  * V7版本:
- * 基于V6,转人工钱保存会话信息
+ * 基于V6,转人工前保存会话信息
  *
  * @author Chr.yl
  */
@@ -61,8 +60,7 @@ public class IVRServiceV7 implements IVRService {
                 String retKey = XCCConstants.YYSR;
 //                String retValue = XCCConstants.WELCOME_TEXT;
                 String retValue = PMSHandler.welcomeText();
-                //欢迎语赋值
-                XCCConstants.WELCOME_TEXT = retValue;
+
                 while (true) {
 
                     xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);

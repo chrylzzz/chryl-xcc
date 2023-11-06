@@ -187,7 +187,7 @@ public class XCCConstants {
     public static final String CHANNEL_IVR = "智能IVR";
     //智能IVR NGD 来电号码
     public static final String IVR_PHONE = "ivr_phone";
-    //智能IVR NGD 来电后缀码
+    //智能IVR NGD 来电后缀码:95598+040100
     public static final String IVR_PHONE_ADS_CODE = "ivr_phoneAdsCode";
     //智能IVR NGD 华为呼叫标识
     public static final String IVR_ICD_CALLER_ID = "ivr_icdCallerId";
@@ -196,7 +196,9 @@ public class XCCConstants {
     //身份校验通过后赋值用户编号
     public static final String IVR_YHBH = "ivr_yhbh";
     //身份校验通过后赋值地区编码
-    public static final String IVR_AREA_CODE = "ivr_dqbm";
+    public static final String IVR_DQBM = "ivr_dqbm";
+    //来电区域识别码:040100
+    public static final String IVR_INCOMING_REGION_CODE = "ivr_region_code";
     //身份校验通过后赋值供电单位编码
     public static final String IVR_ORG_CODE = "ivr_gddwbm";
     //意图对象: #yt#yt#yt#
@@ -239,9 +241,9 @@ public class XCCConstants {
     public static final String NGD_SECOND_UNDERSTAND_TEXT = "您的意思我没有明白，麻烦您简要描述。";
     //欢迎语
 //    public static final String WELCOME_TEXT = "感谢您的支持，您可简要说出查询诉求比如“查电费、查工单、办复电等”，如需返回主菜单请说“主菜单”。";
-    public static String WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";
-    //临时欢迎语
-    public static String TEMP_WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";
+    public static final String WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";
+    //默认欢迎语
+    public static String DEFAULT_WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";
     //转人工话术
     public static final String ARTIFICIAL_TEXT = "您的问题难倒我了，为了更好的服务，现在为您转接人工，请稍等";
     //XCC返回失败话术

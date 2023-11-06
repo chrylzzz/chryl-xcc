@@ -113,6 +113,10 @@ public class PMSHandler {
         if ("99".equals(hsbh)) {//欢迎语话术编号为99
             hsnr = dataJSONObject.getString("hsnr");
         }
+        //欢迎语赋值,若失败,赋值默认
+        if (StringUtils.isBlank(hsnr)) {
+            hsnr = XCCConstants.DEFAULT_WELCOME_TEXT;
+        }
         log.info("QUERY_BBHS__URL, welcomeText: {}", hsnr);
         return hsnr;
     }
