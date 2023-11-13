@@ -94,6 +94,8 @@ public class IVRServiceV7 implements IVRService {
                         //触发转人工规则
                         ivrEvent = IVRHandler.transferRule(ivrEvent, channelEvent, nc, ngdEvent, callerIdNumber);
                         if (ivrEvent.isTransferFlag()) {
+                            ivrEvent = IVRHandler.convertTransferNgdNodeMetadata(ivrEvent, ngdNodeMetaData);
+                            log.info("this call transferRule ,ivrEvent: {}", ivrEvent);
                             //转人工后挂机
                             break;
                         }

@@ -43,7 +43,7 @@ public class NGDUtil {
         String jsonStrResult = HttpClientUtil.doPostJsonForGxNgd(IVRInit.CHRYL_CONFIG_PROPERTY.getNgdCoreQueryUrl(), param.toJSONString());
         //res
         JSONObject parse = JSON.parseObject(jsonStrResult);
-        log.info("结束调用,百度知识库接口返回: {}", parse);
+//        log.info("结束调用,百度知识库接口返回: {}", parse);
         return parse;
     }
 
