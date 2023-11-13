@@ -60,7 +60,6 @@ public class IVRServiceV6 implements IVRService {
                 xccConnection.answer(nc, channelEvent);
                 //
                 String retKey = XCCConstants.YYSR;
-//                String retValue = XCCConstants.WELCOME_TEXT;
                 String retValue = PMSHandler.welcomeText();
 
                 while (true) {
