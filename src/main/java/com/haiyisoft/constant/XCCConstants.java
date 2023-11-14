@@ -239,8 +239,8 @@ public class XCCConstants {
     public static final String NGD_FIRST_UNDERSTAND_TEXT = "不好意思，我刚才没听清楚，麻烦您再说一遍。";
     //第二次错误
     public static final String NGD_SECOND_UNDERSTAND_TEXT = "您的意思我没有明白，麻烦您简要描述。";
-    //欢迎语
-//    public static final String WELCOME_TEXT = "感谢您的支持，您可简要说出查询诉求比如“查电费、查工单、办复电等”，如需返回主菜单请说“主菜单”。";
+    //临时欢迎语
+    public static String TEMP_WELCOME_TEXT = "感谢您的支持，您可简要说出查询诉求比如“查电费、查工单、办复电等”，如需返回主菜单请说“主菜单”。";
     public static final String WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";
     //默认欢迎语
     public static String DEFAULT_WELCOME_TEXT = "您可以说查电费、查停电或办复电等，我马上帮您查询和办理，如果您是反馈用电问题，可直接说转人工。";

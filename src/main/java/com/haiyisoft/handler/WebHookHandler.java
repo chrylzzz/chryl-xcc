@@ -135,10 +135,8 @@ public class WebHookHandler {
      */
     public static String convertCDRFromIVR(JSONArray metadataArray) {
         //欢迎语处理格式
-        String cdr = XCCConstants.B + DateUtil.getLocalDateTime() + XCCConstants.WELCOME_TEXT;
-//        for (Object o : metadataArray) {
-//
-//        }
+        String cdr = XCCConstants.B + DateUtil.getLocalDateTime() + XCCConstants.TEMP_WELCOME_TEXT;
+
         for (int i = 0; i < metadataArray.size(); i++) {
             JSONObject jsonObject = metadataArray.getJSONObject(i);
             String query = jsonObject.getString("query");
