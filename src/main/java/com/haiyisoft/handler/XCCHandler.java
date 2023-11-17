@@ -259,7 +259,7 @@ public class XCCHandler {
      * @param retValue
      * @return
      */
-    public static XCCEvent detectSpeechPlayTTSNoDTMF(Connection nc, ChannelEvent channelEvent, String retValue) {
+    public static XCCEvent detectSpeechPlayTTSNotDTMF(Connection nc, ChannelEvent channelEvent, String retValue) {
         return XCCUtil.detectSpeechPlayTTSNoDTMF(nc, channelEvent, retValue);
     }
 

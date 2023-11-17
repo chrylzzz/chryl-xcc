@@ -157,7 +157,7 @@ public class ChrylXCCConnection implements XCCConnection {
      * @return
      */
     @Override
-    public XCCEvent detectSpeechPlayTTSNoDTMF(Connection nc, ChannelEvent channelEvent, String ttsContent) {
+    public XCCEvent detectSpeechPlayTTSNotDTMF(Connection nc, ChannelEvent channelEvent, String ttsContent) {
         return XCCUtil.detectSpeechPlayBody(nc, channelEvent, ttsContent, XCCUtil.getSpeech());
     }
 

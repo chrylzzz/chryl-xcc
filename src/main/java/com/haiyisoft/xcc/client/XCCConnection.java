@@ -70,7 +70,7 @@ public interface XCCConnection {
      * @param channelEvent
      * @return
      */
-    XCCEvent detectSpeechPlayTTSNoDTMF(Connection nc, ChannelEvent channelEvent, String ttsContent);
+    XCCEvent detectSpeechPlayTTSNotDTMF(Connection nc, ChannelEvent channelEvent, String ttsContent);
 
     /**
      * 不可打断

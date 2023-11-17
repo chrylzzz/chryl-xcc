@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 /**
  * V6版本:
  * 基于V0,欢迎语在IVR，使用接口获取
+ * 挂机保存对话记录
  *
  * @author Chr.yl
  */
@@ -129,7 +130,7 @@ public class IVRServiceV6 implements IVRService {
             xccConnection.hangup(nc, channelEvent);
             log.info("hangup this call channelId: {} ,icdCallerId: {}", channelId, icdCallerId);
 
-            log.info("this call completed: {},{}", ivrEvent, ngdEvent);
+            log.info("this call completed: {} , {}", ivrEvent, ngdEvent);
             IVRHandler.afterHangup(ivrEvent, ngdEvent);
 
         }

@@ -37,7 +37,7 @@ public class IVRHandler {
     public static XCCEvent domain(Connection nc, ChannelEvent channelEvent, String retKey, String retValue, IVREvent ivrEvent, NGDEvent ngdEvent, String callerIdNumber) {
         XCCEvent xccEvent;
         if (XCCConstants.YYSR.equals(retKey)) {//播报收音
-            xccEvent = XCCHandler.detectSpeechPlayTTSNoDTMF(nc, channelEvent, retValue);
+            xccEvent = XCCHandler.detectSpeechPlayTTSNotDTMF(nc, channelEvent, retValue);
         } else if (XCCConstants.AJSR.equals(retKey)) {//收集按键，多位按键
             xccEvent = XCCHandler.playAndReadDTMF(nc, channelEvent, retValue, 18);
         } else if (XCCConstants.YWAJ.equals(retKey)) {//收集按键，一位按键
@@ -53,7 +53,7 @@ public class IVRHandler {
             xccEvent = XCCHandler.bridgeIVR(nc, channelEvent, retValue, ivrEvent, ngdEvent, callerIdNumber);
         } else if (XCCConstants.DXFS.equals(retKey)) {//短信发送
             WebHookHandler.sendMessage(ivrEvent, retValue);
-            xccEvent = XCCHandler.detectSpeechPlayTTSNoDTMF(nc, channelEvent, XCCConstants.FAQ_SEND_MESSAGE_TEXT);
+            xccEvent = XCCHandler.detectSpeechPlayTTSNotDTMF(nc, channelEvent, XCCConstants.FAQ_SEND_MESSAGE_TEXT);
         } else {
             log.error("严格根据配置的指令开发");
             xccEvent = new XCCEvent();
