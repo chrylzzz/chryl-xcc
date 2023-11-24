@@ -20,8 +20,8 @@ import javax.annotation.PostConstruct;
 @Component
 public class IdGenerator {
 
-    private static long workerId = 1;//机器id
-    private static long datacenterId = 1;//数据中心id
+    private static long workerId = 2;//机器id
+    private static long datacenterId = 2;//数据中心id
 
     private static Snowflake snowflake = IdUtil.createSnowflake(workerId, datacenterId);
 
@@ -96,6 +96,10 @@ public class IdGenerator {
      */
     public static synchronized long snowflakeId() {
         return snowflake.nextId();
+    }
+
+    public static synchronized String snowflakeIdStr() {
+        return snowflake.nextIdStr();
     }
 
     /**

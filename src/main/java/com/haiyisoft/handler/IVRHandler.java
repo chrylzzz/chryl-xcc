@@ -62,6 +62,7 @@ public class IVRHandler {
     }
 
     /**
+     * 转人工前不保存数据
      * 触发转人工规则,若使用bot配置管理控制,则不需要使用该方法
      * ngd: 机器回复一次+1,连续两次机器回复转人工
      * xcc: 未识别一次+1,连续两次未识别转人工
@@ -86,6 +87,35 @@ public class IVRHandler {
         return ivrEvent;
     }
 
+    /**
+     * 转人工前保存数据
+     * 触发转人工规则,若使用bot配置管理控制,则不需要使用该方法
+     * ngd: 机器回复一次+1,连续两次机器回复转人工
+     * xcc: 未识别一次+1,连续两次未识别转人工
+     */
+    public static IVREvent transferRule(IVREvent ivrEvent, ChannelEvent channelEvent, Connection nc, NGDEvent ngdEvent, String callerIdNumber, NGDNodeMetaData ngdNodeMetaData) {
+        boolean transferFlag = ivrEvent.isTransferFlag();
+        if (transferFlag) {//转人工
+            //保存通话数据
+            beforeTransferRule(ivrEvent, ngdEvent, ngdNodeMetaData);
+            XCCHandler.bridgeArtificial(nc, channelEvent, XCCConstants.ARTIFICIAL_TEXT, ngdEvent, callerIdNumber);
+        } else {
+            //累加次数
+            int transferTime = ivrEvent.getTransferTime();
+            int newTransferTime = transferTime + 1;
+            if (newTransferTime >= XCCConstants.TRANSFER_ARTIFICIAL_TIME) {
+                ivrEvent.setTransferFlag(true);
+                log.info("transferRule 次数 {} 已累加至 {} , 转人工 channelId : {}", XCCConstants.DEFAULT_TRANSFER_TIME, XCCConstants.TRANSFER_ARTIFICIAL_TIME, ivrEvent.getChannelId());
+                //保存通话数据
+                beforeTransferRule(ivrEvent, ngdEvent, ngdNodeMetaData);
+                XCCHandler.bridgeArtificial(nc, channelEvent, XCCConstants.ARTIFICIAL_TEXT, ngdEvent, callerIdNumber);
+            } else {
+                log.info("transferRule 已累加 channelId : {} , transferTime : {} ,newTransferTime : {}", ivrEvent.getChannelId(), transferTime, newTransferTime);
+                ivrEvent.setTransferTime(newTransferTime);
+            }
+        }
+        return ivrEvent;
+    }
 
     /**
      * 转人工规则清零
@@ -186,42 +216,91 @@ public class IVRHandler {
      * @param ngdEvent
      */
     public static void afterHangup(IVREvent ivrEvent, NGDEvent ngdEvent) {
-        //已转人工的不重复保存
-//        if (!ivrEvent.isTransferFlag()) {
-//            saveData(ivrEvent, ngdEvent);
-//        }
-
-        //后续发布要测试
-        saveData(ivrEvent, ngdEvent);
+        //保存通话数据
+        saveCallData(ivrEvent, ngdEvent);
+        //保存业务数据
+        saveBusinessData(ivrEvent);
     }
 
     /**
-     * 保存数据
+     * 挂机后执行:处理未转人工部分
+     * 保存未转人工数据
      *
      * @param ivrEvent
      * @param ngdEvent
      */
-    public static void saveData(IVREvent ivrEvent, NGDEvent ngdEvent) {
+    public static void afterHangupNotTransfer(IVREvent ivrEvent, NGDEvent ngdEvent) {
+        //保存通话数据,已转人工的不重复保存
+        if (!ivrEvent.isTransferFlag()) {
+            saveCallData(ivrEvent, ngdEvent);
+        }
+        //保存业务数据
+        saveBusinessData(ivrEvent);
+    }
+
+    /**
+     * 保存通话数据
+     *
+     * @param ivrEvent
+     * @param ngdEvent
+     */
+    public static void saveCallData(IVREvent ivrEvent, NGDEvent ngdEvent) {
         //保存会话记录
         WebHookHandler.saveCDR(ivrEvent);
         //保存意图
         PMSHandler.saveIntent(ivrEvent, ngdEvent);
-        //保存通话数据
-        PMSHandler.saveCallData(ivrEvent, ngdEvent);
+        //保存呼叫信息
+        PMSHandler.saveCallInfo(ivrEvent, ngdEvent);
         //保存满意度
         PMSHandler.saveRate(ivrEvent, ngdEvent);
     }
 
     /**
-     * 校验三次规则后转人工,应答话术处理
+     * 保存业务数据
+     *
+     * @param ivrEvent
+     */
+    public static void saveBusinessData(IVREvent ivrEvent) {
+        //保存挂机打点数据
+        WebHookHandler.ivrEndPoint(ivrEvent);
+    }
+
+    /**
+     * 校验三次规则后转人工,应答话术处理:保存会话记录到event
      *
      * @param ivrEvent
      * @param ngdNodeMetaData
      */
-    public static IVREvent convertTransferNgdNodeMetadata(IVREvent ivrEvent, NGDNodeMetaData ngdNodeMetaData) {
+    public static IVREvent convertTransferRuleNgdNodeMetadata(IVREvent ivrEvent, NGDNodeMetaData ngdNodeMetaData) {
         ivrEvent.getNgdNodeMetadataArray().remove(ngdNodeMetaData);
         ngdNodeMetaData.setAnswer(XCCConstants.ARTIFICIAL_TEXT);
         ivrEvent.getNgdNodeMetadataArray().add(ngdNodeMetaData);
         return ivrEvent;
     }
+
+    /**
+     * 转人工前执行
+     * 校验三次转人工
+     *
+     * @param ivrEvent
+     * @param ngdEvent
+     * @param ngdNodeMetaData
+     */
+    public static void beforeTransferRule(IVREvent ivrEvent, NGDEvent ngdEvent, NGDNodeMetaData ngdNodeMetaData) {
+        ivrEvent = convertTransferRuleNgdNodeMetadata(ivrEvent, ngdNodeMetaData);
+        saveCallData(ivrEvent, ngdEvent);
+    }
+
+    /**
+     * 转人工前执行
+     * 直接转人工
+     *
+     * @param ivrEvent
+     * @param ngdEvent
+     */
+    public static void beforeTransfer(IVREvent ivrEvent, NGDEvent ngdEvent) {
+        saveCallData(ivrEvent, ngdEvent);
+    }
+
+
 }

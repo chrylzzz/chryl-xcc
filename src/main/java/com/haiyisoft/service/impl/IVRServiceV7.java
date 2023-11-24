@@ -8,7 +8,6 @@ import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
 import com.haiyisoft.handler.IVRHandler;
 import com.haiyisoft.handler.NGDHandler;
-import com.haiyisoft.handler.PMSHandler;
 import com.haiyisoft.handler.XCCHandler;
 import com.haiyisoft.model.NGDNodeMetaData;
 import com.haiyisoft.service.IVRService;
@@ -84,6 +83,8 @@ public class IVRServiceV7 implements IVRService {
                         ivrEvent = IVRHandler.transferRule(ivrEvent, channelEvent, nc, ngdEvent, callerIdNumber);
                         if (ivrEvent.isTransferFlag()) {
                             log.info("this call transferRule ,ivrEvent: {}", ivrEvent);
+                            //保存触发规则转人工话术
+                            ivrEvent = IVRHandler.convertTransferRuleNgdNodeMetadata(ivrEvent, ngdNodeMetaData);
                             //转人工后挂机
                             break;
                         }

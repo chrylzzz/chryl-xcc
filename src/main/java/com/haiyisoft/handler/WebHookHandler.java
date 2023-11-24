@@ -9,6 +9,7 @@ import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.util.DateUtil;
 import com.haiyisoft.util.HttpClientUtil;
+import com.haiyisoft.util.IdGenerator;
 import com.haiyisoft.util.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -132,6 +133,9 @@ public class WebHookHandler {
     /**
      * 处理会话记录
      * 前导流程在fs
+     *
+     * @param metadataArray
+     * @return
      */
     public static String convertCDRFromIVR(JSONArray metadataArray) {
         //欢迎语处理格式
@@ -148,4 +152,35 @@ public class WebHookHandler {
         }
         return cdr;
     }
+
+    /**
+     * 本次通话结束打点
+     *
+     * @param ivrEvent
+     */
+    public static void ivrEndPoint(IVREvent ivrEvent) {
+        //通话开始时间
+        String startTime = ivrEvent.getStartTime();
+        //fs id
+        String channelId = ivrEvent.getChannelId();
+        //来电号码
+        String cidPhoneNumber = ivrEvent.getCidPhoneNumber();
+        //华为会话标识
+        String icdCallerId = ivrEvent.getIcdCallerId();
+        //号码归属地
+        String phoneAdsCode = ivrEvent.getPhoneAdsCode();
+
+        JSONObject context = new JSONObject();
+        context.put("ivr_node_start_time", startTime);
+        context.put("ivr_fs_caller_id", channelId);
+        context.put("ivr_icd_caller_id", icdCallerId);
+        context.put("ivr_phone", cidPhoneNumber);
+        context.put("ivr_phone_ads_code", phoneAdsCode);
+
+        JSONObject params = convertWebHookReqBody(XCCConstants.IVR_END_POINT, context);
+        log.info("IVR_END_POINT,WebHook接口入参:{}", JSON.toJSONString(params, JSONWriter.Feature.PrettyFormat));
+        String resData = HttpClientUtil.doPostJson(IVRInit.CHRYL_CONFIG_PROPERTY.getWebHookUrl(), params.toJSONString());
+        log.info("IVR_END_POINT,WebHook接口出参:{}", resData);
+    }
+
 }

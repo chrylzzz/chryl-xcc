@@ -113,7 +113,7 @@ public class IVRServiceV5 implements IVRService {
             //保存意图
             PMSHandler.saveIntent(ivrEvent, ngdEvent);
             //保存通话数据
-            PMSHandler.saveCallData(ivrEvent, ngdEvent);
+            PMSHandler.saveCallInfo(ivrEvent, ngdEvent);
             //挂断双方
             XCCHandler.hangup(nc, channelEvent);
             log.info("hangup this call channelId: {} ", channelId);

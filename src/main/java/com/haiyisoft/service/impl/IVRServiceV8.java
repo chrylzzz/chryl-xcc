@@ -1,5 +1,6 @@
 package com.haiyisoft.service.impl;
 
+import com.haiyisoft.xcc.client.XCCConnection;
 import com.haiyisoft.chryl.ivr.DispatcherIVR;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.ChannelEvent;
@@ -8,26 +9,23 @@ import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
 import com.haiyisoft.handler.IVRHandler;
 import com.haiyisoft.handler.NGDHandler;
-import com.haiyisoft.handler.PMSHandler;
 import com.haiyisoft.handler.XCCHandler;
 import com.haiyisoft.model.NGDNodeMetaData;
 import com.haiyisoft.service.IVRService;
-import com.haiyisoft.xcc.client.XCCConnection;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * V6版本:
- * 基于V0,欢迎语在IVR，使用接口获取
- * 挂机保存对话记录
+ * V8版本:
+ * 基于V7,转人工前保存会话信息
  *
  * @author Chr.yl
  */
 @Slf4j
 @Component
-public class IVRServiceV6 implements IVRService {
+public class IVRServiceV8 implements IVRService {
     @Autowired
     private XCCConnection xccConnection;
     @Autowired
@@ -59,8 +57,8 @@ public class IVRServiceV6 implements IVRService {
                 xccConnection.answer(nc, channelEvent);
                 //
                 String retKey = XCCConstants.YYSR;
-                String retValue = PMSHandler.welcomeText();
-                XCCConstants.TEMP_WELCOME_TEXT = retValue;
+                String retValue = XCCConstants.WELCOME_TEXT;
+//                String retValue = PMSHandler.welcomeText();
 
                 while (true) {
 
@@ -93,7 +91,7 @@ public class IVRServiceV6 implements IVRService {
                     } else {
                         log.info("机器回复");
                         //触发转人工规则
-                        ivrEvent = IVRHandler.transferRule(ivrEvent, channelEvent, nc, ngdEvent, callerIdNumber);
+                        ivrEvent = IVRHandler.transferRule(ivrEvent, channelEvent, nc, ngdEvent, callerIdNumber, ngdNodeMetaData);
                         if (ivrEvent.isTransferFlag()) {
                             log.info("this call transferRule ,ivrEvent: {}", ivrEvent);
                             //保存触发规则转人工话术
@@ -129,7 +127,7 @@ public class IVRServiceV6 implements IVRService {
             log.info("hangup this call channelId: {} ,icdCallerId: {}", channelId, icdCallerId);
 
             log.info("this call completed: {} , {}", ivrEvent, ngdEvent);
-            IVRHandler.afterHangup(ivrEvent, ngdEvent);
+            IVRHandler.afterHangupNotTransfer(ivrEvent, ngdEvent);
 
         }
     }

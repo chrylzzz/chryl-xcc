@@ -319,6 +319,8 @@ public class XCCConstants {
     public static final String SEND_MESSAGE = "sendMessage";
     //对话记录接口
     public static final String I_HJZX_BCDHNR = "I_HJZX_BCDHNR";
+    //挂机打点
+    public static final String IVR_END_POINT = "ivrEndPoint";
     /******************************************** WebHook相关 ********************************************/
     /******************************************** PMS相关 ********************************************/
     //保存来话意图信息

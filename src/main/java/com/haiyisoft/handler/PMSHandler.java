@@ -51,7 +51,7 @@ public class PMSHandler {
      * @param ivrEvent
      * @param ngdEvent
      */
-    public static void saveCallData(IVREvent ivrEvent, NGDEvent ngdEvent) {
+    public static void saveCallInfo(IVREvent ivrEvent, NGDEvent ngdEvent) {
         String phoneAdsCode = ivrEvent.getPhoneAdsCode();
         String ivrStartTime = ivrEvent.getIvrStartTime();
         String cidPhoneNumber = ivrEvent.getCidPhoneNumber();

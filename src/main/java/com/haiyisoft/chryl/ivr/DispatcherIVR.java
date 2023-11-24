@@ -5,6 +5,7 @@ import com.haiyisoft.entry.ChannelEvent;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.entry.XCCEvent;
+import com.haiyisoft.handler.IVRHandler;
 import com.haiyisoft.handler.WebHookHandler;
 import com.haiyisoft.xcc.client.XCCConnection;
 import io.nats.client.Connection;
@@ -50,6 +51,8 @@ public class DispatcherIVR {
         } else if (XCCConstants.RGYT.equals(retKey)) {//转人工
             //测试-分机
 //            xccEvent = XCCHandler.bridgeExtension(nc, channelEvent, retValue);
+            //保存通话数据
+            IVRHandler.beforeTransfer(ivrEvent, ngdEvent);
             //转人工
             xccEvent = xccConnection.bridgeArtificial(nc, channelEvent, retValue, ngdEvent, callerIdNumber);
             //设置转人工标志
