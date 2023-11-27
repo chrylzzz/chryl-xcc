@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 /**
  * V8版本:
  * 基于V7,转人工前保存会话信息
+ * 欢迎语在NGD
  *
  * @author Chr.yl
  */
@@ -56,21 +57,10 @@ public class IVRServiceV8 implements IVRService {
                 //开始接管,第一个指令必须是Accept或Answer
                 xccConnection.answer(nc, channelEvent);
                 //
-                String retKey = XCCConstants.YYSR;
-                String retValue = XCCConstants.WELCOME_TEXT;
-//                String retValue = PMSHandler.welcomeText();
+                String retKey = "";
+                String retValue = "";
 
                 while (true) {
-
-                    xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
-
-                    //处理是否已挂机
-                    boolean handleHangup = XCCHandler.handleSomeHangup(xccEvent, channelId, nc, channelEvent);
-                    if (handleHangup) {//挂机
-                        //先存的IVR对话日志,这里挂机不需要单独处理
-                        log.info("挂断部分");
-                        break;
-                    }
 
                     //xcc识别数据
                     String xccRecognitionResult = xccEvent.getXccRecognitionResult();
@@ -95,7 +85,7 @@ public class IVRServiceV8 implements IVRService {
                         if (ivrEvent.isTransferFlag()) {
                             log.info("this call transferRule ,ivrEvent: {}", ivrEvent);
                             //保存触发规则转人工话术
-                            ivrEvent = IVRHandler.convertTransferRuleNgdNodeMetadata(ivrEvent, ngdNodeMetaData);
+//                            ivrEvent = IVRHandler.convertTransferRuleNgdNodeMetadata(ivrEvent, ngdNodeMetaData);
                             //转人工后挂机
                             break;
                         }
@@ -104,8 +94,17 @@ public class IVRServiceV8 implements IVRService {
                     retKey = ngdEvent.getRetKey();
                     retValue = ngdEvent.getRetValue();
 
-                    log.info("revert ivrEvent data: {}", ivrEvent);
+                    xccEvent = dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
 
+                    //处理是否已挂机
+                    boolean handleHangup = XCCHandler.handleSomeHangup(xccEvent, channelId, nc, channelEvent);
+                    if (handleHangup) {//挂机
+                        //先存的IVR对话日志,这里挂机不需要单独处理
+                        log.info("挂断部分");
+                        break;
+                    }
+
+                    log.info("revert ivrEvent data: {}", ivrEvent);
                 }
 
             } else if (XCCConstants.CHANNEL_CALLING.equals(state)) {
