@@ -29,6 +29,7 @@ public class ChannelHandler {
         //req
         String sipReqHeaderU2U = channelEvent.getSipReqHeaderU2U();
 //        String transferCode = ngdEvent.getTransferCode();
+        //处理请求头,获得响应头
 
         String formatSipHeader = "";
         if (ngdEvent.isUserOk()) {
@@ -62,5 +63,11 @@ public class ChannelHandler {
         StringBuilder stringBuffer = new StringBuilder();
         String format = String.format(s, "5555555");
         System.out.println(format);
+        int i = s.lastIndexOf("|");
+        System.out.println(i);
+        String substring = s.substring(i);
+        System.out.println(substring);
+        String s1 = StringUtils.substringBeforeLast(s, "|");
+        System.out.println(s1);
     }
 }
