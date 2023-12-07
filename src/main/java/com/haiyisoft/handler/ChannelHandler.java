@@ -29,7 +29,8 @@ public class ChannelHandler {
         //req
         String sipReqHeaderU2U = channelEvent.getSipReqHeaderU2U();
 //        String transferCode = ngdEvent.getTransferCode();
-        //处理请求头,获得响应头
+        //处理请求头,获得响应头前缀
+        String resHeaderPrefix = StringUtils.substringBeforeLast(sipReqHeaderU2U, "|");
 
         String formatSipHeader = "";
         if (ngdEvent.isUserOk()) {
@@ -37,19 +38,19 @@ public class ChannelHandler {
             String uid = ngdEvent.getUid();
             if (StringUtils.isBlank(uid)) {
                 //不处理使用,只加 |
-                formatSipHeader = sipReqHeaderU2U + XCCConstants.SIP_HEADER_SEPARATOR;
+                formatSipHeader = resHeaderPrefix + XCCConstants.SIP_HEADER_SEPARATOR;
 //                formatSipHeader = sipReqHeaderU2U + XCCConstants.RES_SIP_NULL_UID_SUFFIX;
             } else {
                 //处理,替换用户编号
                 //当前使用1业务类型
                 //投诉	0 非投诉	1 故障报修	2
                 //res
-                String sipResHeaderU2U = sipReqHeaderU2U + XCCConstants.RES_SIP_SUFFIX;
+                String sipResHeaderU2U = resHeaderPrefix + XCCConstants.RES_SIP_SUFFIX;
                 formatSipHeader = String.format(sipResHeaderU2U, uid);
             }
         } else {
             //不处理使用,只加 |
-            formatSipHeader = sipReqHeaderU2U + XCCConstants.SIP_HEADER_SEPARATOR;
+            formatSipHeader = resHeaderPrefix + XCCConstants.SIP_HEADER_SEPARATOR;
 //            formatSipHeader = sipReqHeaderU2U + XCCConstants.RES_SIP_NULL_UID_SUFFIX;
         }
         log.info("转接 sip header : {}", formatSipHeader);
@@ -58,16 +59,20 @@ public class ChannelHandler {
 
 
     public static void main(String[] args) {
-//        String s = "callid | 来电手机号 | 来话手机所对应的后缀码 | %s | 转人工业务类型";
-        String s = "callid | 来电手机号 | 来话手机所对应的后缀码 | 100100001 | 转人工业务类型";
+//        String resStr = "callid | 来电手机号 | 来话手机所对应的后缀码 | %resStr | 转人工业务类型";
+        String resStr = "callid | 来电手机号 | 来话手机所对应的后缀码 | 100100001 | 转人工业务类型";
         StringBuilder stringBuffer = new StringBuilder();
-        String format = String.format(s, "5555555");
+        String format = String.format(resStr, "5555555");
         System.out.println(format);
-        int i = s.lastIndexOf("|");
+        int i = resStr.lastIndexOf("|");
         System.out.println(i);
-        String substring = s.substring(i);
+        String substring = resStr.substring(i);
         System.out.println(substring);
-        String s1 = StringUtils.substringBeforeLast(s, "|");
+        String s1 = StringUtils.substringBeforeLast(resStr, "|");
         System.out.println(s1);
+//        String[] splitU2U = resStr.split("\\|");
+//        System.out.println(splitU2U[5]);
+
+        String reqStr = "call_id | 来话手机号 | 来话手机号所属地后缀码 | 话务转接标识";
     }
 }

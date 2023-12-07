@@ -27,12 +27,13 @@ public class NGDHandler {
      * @param callNumber           来电号码
      * @param icdCallerId          华为cid
      * @param phoneAdsCode         来电后缀码
+     * @param icdTransferCode      话务转接方式
      * @param reqNgdEvent          上一环节的ngdEvent
      * @return
      */
-    public static NGDEvent handler(String xccRecognitionResult, String channelId, String callNumber, String icdCallerId, String phoneAdsCode, NGDEvent reqNgdEvent) {
+    public static NGDEvent handler(String xccRecognitionResult, String channelId, String callNumber, String icdCallerId, String phoneAdsCode, String icdTransferCode, NGDEvent reqNgdEvent) {
         //调用百度知识库
-        JSONObject result = NGDUtil.coreQueryJson(xccRecognitionResult, channelId, callNumber, icdCallerId, phoneAdsCode);
+        JSONObject result = NGDUtil.coreQueryJson(xccRecognitionResult, channelId, callNumber, icdCallerId, phoneAdsCode, icdTransferCode);
 
         int code;
         String msg;

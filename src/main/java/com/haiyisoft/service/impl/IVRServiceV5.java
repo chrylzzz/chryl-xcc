@@ -44,6 +44,8 @@ public class IVRServiceV5 implements IVRService {
             String callerIdNumber = ivrEvent.getCidPhoneNumber();
             //后缀码
             String phoneAdsCode = ivrEvent.getPhoneAdsCode();
+            //话务转接码
+            String icdTransferCode = ivrEvent.getIcdTransferCode();
             log.info(" start this call channelId: {} , state :{} , IVREvent: {}", channelId, state, ivrEvent);
 
             if (XCCConstants.CHANNEL_START.equals(state)) {
@@ -56,7 +58,7 @@ public class IVRServiceV5 implements IVRService {
                     String xccRecognitionResult = xccEvent.getXccRecognitionResult();
 
                     //获取指令和话术
-                    ngdEvent = NGDHandler.handler(xccRecognitionResult, channelId, callerIdNumber, icdCallerId, phoneAdsCode, ngdEvent);
+                    ngdEvent = NGDHandler.handler(xccRecognitionResult, channelId, callerIdNumber, icdCallerId, phoneAdsCode, icdTransferCode, ngdEvent);
 
                     //记录IVR日志
                     NGDNodeMetaData ngdNodeMetaData = ngdEvent.getNgdNodeMetaData();

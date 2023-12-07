@@ -193,6 +193,8 @@ public class XCCConstants {
     public static final String IVR_ICD_CALLER_ID = "ivr_icdCallerId";
     //智能IVR NGD 软交换呼叫标识
     public static final String IVR_FS_CALLER_ID = "ivr_fsCallerId";
+    //华为平台话务转接码0-4号键转接、1-直接转接
+    public static final String IVR_ICD_TRANSFER_CODE = "icd_transfer_code";
     //身份校验通过后赋值用户编号
     public static final String IVR_YHBH = "ivr_yhbh";
     //身份校验通过后赋值地区编码
