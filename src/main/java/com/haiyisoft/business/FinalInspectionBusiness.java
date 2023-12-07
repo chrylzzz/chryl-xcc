@@ -40,23 +40,23 @@ public class FinalInspectionBusiness {
                     String ivr_code = welMsgResMap.getOrDefault("ivr_code", "1");
                     if ("0".equals(ivr_code)) {
                         String ivr_hyy = welMsgResMap.getOrDefault("ivr_hyy", XCCConstants.WELCOME_TEXT);
-                        key = "YYSR";
+                        key = XCCConstants.YYSR;
                         val = ivr_hyy;
                     }
                 } else {//有呼损的直接转人工
-                    key = "RGYT";
-                    val = "正在为您转接人工,请稍后";
+                    key = XCCConstants.RGYT;
+                    val = "正在为您转接人工服务,请稍后";
                 }
 
             } else {//白名单外直接转按键服务
-                key = "JZLC";
+                key = XCCConstants.JZLC;
                 val = "正在为您转接按键服务,请稍后";
             }
-        } else {//不可接入直接转按键
+        } else {//不可接入,直接转按键
             //添加到陌生号码库
             PMSHandler.saveUnknowNumber(phone, hzm);
             //转按键
-            key = "JZLC";
+            key = XCCConstants.JZLC;
             val = "正在为您转接按键服务,请稍后";
         }
 
