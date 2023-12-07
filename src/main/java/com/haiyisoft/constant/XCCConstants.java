@@ -292,6 +292,8 @@ public class XCCConstants {
     public static final String IP_102 = "10.194.31.102:5060";
     //4001--IVR
     public static final String HUAWEI_IVR_NUMBER = "4001";//此处需要95598开头的+加上地区后缀码,比如崇左的95598041400
+    //测试号码
+    public static final String TEST_NUMBER = "5695259";
     //南方电网 95598
     public static final String CHINA_SOUTHERN_POWER_GRID_NUM = "95598";
     //4002--人工坐席

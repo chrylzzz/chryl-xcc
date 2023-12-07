@@ -13,6 +13,10 @@ import com.haiyisoft.util.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 营销系统业务处理
  * Created by Chr.yl on 2023/7/11.
@@ -124,4 +128,173 @@ public class PMSHandler {
         return hsnr;
     }
 
+
+    /******************************************** 终验接口需求 ********************************************/
+    /**
+     * 查询手机号码是否为白名单用户
+     *
+     * @param phone
+     * @return
+     */
+    public static Map<String, String> queryWhiteList(String phone) {
+        String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryBmd/QueryWhiteListForZnivr";
+
+        JSONObject param = new JSONObject();
+        param.put("LDHM", phone);
+        String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        JSONObject jsonObject = JSONObject.parseObject(postJson);
+        final String sfbmd = jsonObject.getString("SFBMD");
+        Map<String, String> context = new HashMap<>();
+        if ("该用户在白名单中".equals(sfbmd)) {//0在白名单 1不在白名单
+            context.put("ivr_white_status", "0");
+            context.put("ivr_msg", "该用户在白名单中");
+        } else {
+            context.put("ivr_white_status", "1");
+            context.put("ivr_msg", "该用户不在白名单中");
+        }
+        log.info("queryWhiteList: {}", context);
+        return context;
+    }
+
+    /**
+     * 根据手机号(用户类型)码查询欢迎语
+     *
+     * @param phone
+     * @return
+     */
+    public static Map<String, String> queryWelMsgByUserType(String phone) {
+        String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryDtcdbbxx/QueryUserTypeWelcomeMessageForZnivr";
+
+        JSONObject param = new JSONObject();
+        param.put("LDHM", phone);
+        String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        JSONObject jsonObject = JSONObject.parseObject(postJson);
+        final String hyy = jsonObject.getString("HYY");
+        Map<String, String> context = new HashMap<>();
+        if (StringUtils.isBlank(hyy)) {//1无欢迎语
+            context.put("ivr_code", "1");
+            context.put("ivr_msg", "未查询到欢迎语");
+        } else {//0有欢迎语
+            context.put("ivr_code", "0");
+            context.put("ivr_msg", "查询成功");
+            context.put("ivr_hyy", hyy);
+        }
+        log.info("queryWelMsgByUserType: {}", context);
+        return context;
+    }
+
+    /**
+     * 根据手机号码查询是否允许接入智能IVR
+     *
+     * @param phone
+     * @return
+     */
+    public static Map<String, String> queryGrayscale(String phone) {
+        String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryHdkz/QueryGrayscaleForZnivr";
+        JSONObject param = new JSONObject();
+        param.put("LDHM", phone);
+        String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        JSONObject jsonObject = JSONObject.parseObject(postJson);
+        JSONObject data = jsonObject.getJSONObject("data");
+        Map<String, String> context = new HashMap<>();
+        if (data != null) {//0在 1不在
+            final String sfjr = data.getString("SFJR");
+            if ("是".equals(sfjr)) {//允许接入
+                context.put("ivr_code", "0");
+                context.put("ivr_msg", "查询成功");
+                context.put("ivr_sfjr_code", "0");
+                context.put("ivr_sfjr_msg", sfjr);
+            } else {//不可接入
+                context.put("ivr_code", "1");
+                context.put("ivr_msg", "未查询到信息");
+                context.put("ivr_sfjr_code", "1");
+                context.put("ivr_sfjr_msg", sfjr);
+            }
+        } else {//未查询到信息
+            context.put("ivr_code", "1");
+            context.put("ivr_msg", "未查询到信息");
+            context.put("ivr_sfjr_code", "1");
+            context.put("ivr_sfjr_msg", "否");
+        }
+        log.info("queryGrayscale: {}", context);
+        return context;
+    }
+
+    /**
+     * 根据手机号码、后缀码新增陌生号码
+     *
+     * @param phone
+     * @param hzm
+     * @return
+     */
+    public static Map<String, String> saveUnknowNumber(String phone, String hzm) {
+        String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/saveMshm/UnkonwnNumberForZnivr";
+        JSONObject param = new JSONObject();
+        param.put("LDHM", phone);
+        param.put("HZM", hzm);
+        String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        JSONObject jsonObject = JSONObject.parseObject(postJson);
+        final String msg = jsonObject.getString("msg");
+        //{"LDHM":"18866660713","HZM":"95598040100","msg":"手机号已存在！！","code":"0"}
+        //{"LDHM":"18866660714","HZM":"95598040100","code":"1"}
+        Map<String, String> context = new HashMap<>();
+        if (StringUtils.isBlank(msg)) {
+            context.put("ivr_code", "0");
+            context.put("ivr_msg", "添加陌生号码成功");
+        } else {
+            context.put("ivr_code", "1");
+            context.put("ivr_msg", msg);
+        }
+        log.info("queryGrayscale: {}", context);
+        return context;
+    }
+
+    /**
+     * 根据手机号码、日期查询是否来电，来电意图
+     *
+     * @param phone
+     * @param rqxz  日期选择
+     * @return
+     */
+    public static Map<String, String> queryPhoneCalls(String phone, String rqxz) {
+        String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryCfldxx/QueryPhoneCallsForZnivr";
+        JSONObject param = new JSONObject();
+        param.put("LDHM", phone);
+        param.put("RQXZ", rqxz);
+        String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        JSONObject jsonObject = JSONObject.parseObject(postJson);
+        final String LDCS = jsonObject.getString("LDCS");//来电次数
+        final String SFLD = jsonObject.getString("SFLD");//是否来电
+        final String ytdx = jsonObject.getString("ytdx");//意图,#分割
+        Map<String, String> context = new HashMap<>();
+        context.put("ivr_ldcs", LDCS);
+        context.put("ivr_sfld", SFLD);//Y是,N否
+        context.put("ivr_ytdx", ytdx);
+        log.info("queryPhoneCalls: {}", context);
+        return context;
+    }
+
+    /**
+     * 呼损接口-查询当日是否有转人工需求
+     *
+     * @param phone
+     * @param rqxz
+     * @return
+     * @throws IOException
+     */
+    public static Map<String, String> queryCallLoss(String phone, String rqxz) {
+        String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryHsxx/QueryCallLossForZnivr";
+        com.alibaba.fastjson.JSONObject param = new com.alibaba.fastjson.JSONObject();
+        param.put("LDHM", phone);
+        param.put("RQXZ", rqxz);
+        String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(postJson);
+        final String SFHS = jsonObject.getString("SFHS");//是否呼损
+        Map<String, String> context = new HashMap<>();
+        context.put("ivr_sfhs", SFHS);//Y是,N否
+        log.info("queryCallLoss: {}", context);
+        return context;
+    }
+
+    /******************************************** 终验接口需求 ********************************************/
 }
