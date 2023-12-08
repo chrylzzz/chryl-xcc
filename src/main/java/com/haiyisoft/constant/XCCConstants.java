@@ -259,7 +259,7 @@ public class XCCConstants {
     //接口调用超时（直接转人工）：系统查询超时，我给您转人工处理，请稍等。
     public static final String NGD_TIMEOUT_MSG = "系统查询超时，我给您转人工处理，请稍等";
     //NGD错误话术集合
-    public static final String[] SUGGEST_ANSWER_REPLY_FILTER_ARRAY = {"我不太理解您的意思", "没留下答案就跑了"};
+    public static final String[] SUGGEST_ANSWER_REPLY_FILTER_ARRAY = {"我不太理解您的意思", "没留下答案就跑了", "暂时无法获取到返回结果"};
     //FAQ非法字符异常话术
     public static final String NGD_FAQ_ERROR_MSG = "您的问题我正在学习";
 
