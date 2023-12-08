@@ -189,7 +189,7 @@ public class IVRHandler {
             String icd_call_id = "";
             String cid_phone_number = "";
             String phone_code = "";
-            String icdTransferCode = "0";//0-4号键转接、1-直接转接
+            String icd_transfer_code = "0";//0-4号键转接、1-直接转接
             try {
                 //aaa|ccc|bbb
                 String[] splitU2U = u2U.split("\\|");
@@ -197,7 +197,7 @@ public class IVRHandler {
                     icd_call_id = splitU2U[0];
                     cid_phone_number = splitU2U[1];
                     phone_code = splitU2U[2];
-                    icdTransferCode = splitU2U[3];
+                    icd_transfer_code = splitU2U[3];
                 } else if (splitU2U.length >= 3) {
                     icd_call_id = splitU2U[0];
                     cid_phone_number = splitU2U[1];
@@ -210,7 +210,7 @@ public class IVRHandler {
             ivrEvent.setIcdCallerId(icd_call_id);
             ivrEvent.setCidPhoneNumber(cid_phone_number);
             ivrEvent.setPhoneAdsCode(phone_code);
-            ivrEvent.setIcdTransferCode(icdTransferCode);
+            ivrEvent.setIcdTransferCode(icd_transfer_code);
             log.info("convertIVREvent OK:{}", ivrEvent);
         }
         return ivrEvent;
