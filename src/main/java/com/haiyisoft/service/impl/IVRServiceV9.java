@@ -1,6 +1,5 @@
 package com.haiyisoft.service.impl;
 
-import com.haiyisoft.business.FinalInspectionBusiness;
 import com.haiyisoft.chryl.ivr.DispatcherIVR;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.ChannelEvent;
@@ -146,7 +145,7 @@ public class IVRServiceV9 implements IVRService {
 
             log.info("this call completed: {} , {}", ivrEvent, ngdEvent);
             IVRHandler.afterHangupNotTransfer(ivrEvent, ngdEvent);
-
+            IVRHandler.saveBusinessData(ivrEvent);
         }
     }
 

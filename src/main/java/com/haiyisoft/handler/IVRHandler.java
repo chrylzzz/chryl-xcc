@@ -241,8 +241,6 @@ public class IVRHandler {
         if (!ivrEvent.isTransferFlag()) {
             saveCallData(ivrEvent, ngdEvent);
         }
-        //保存业务数据
-        saveBusinessData(ivrEvent);
     }
 
     /**
@@ -269,7 +267,7 @@ public class IVRHandler {
      */
     public static void saveBusinessData(IVREvent ivrEvent) {
         //保存挂机打点数据
-//        WebHookHandler.ivrEndPoint(ivrEvent);
+        WebHookHandler.ivrEndPoint(ivrEvent);
     }
 
     /**
