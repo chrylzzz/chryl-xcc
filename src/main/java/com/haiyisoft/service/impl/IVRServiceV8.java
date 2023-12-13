@@ -15,6 +15,7 @@ import com.haiyisoft.service.IVRService;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
  * @author Chr.yl
  */
 @Slf4j
+@Primary
 @Component
 public class IVRServiceV8 implements IVRService {
     @Autowired

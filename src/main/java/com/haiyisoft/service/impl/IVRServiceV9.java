@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
  * @author Chr.yl
  */
 @Slf4j
-@Primary
+//@Primary
 @Component
 public class IVRServiceV9 implements IVRService {
     @Autowired
