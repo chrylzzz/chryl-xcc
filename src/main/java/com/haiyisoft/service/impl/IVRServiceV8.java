@@ -131,6 +131,7 @@ public class IVRServiceV8 implements IVRService {
 
             log.info("this call completed: {} , {}", ivrEvent, ngdEvent);
             IVRHandler.afterHangupNotTransfer(ivrEvent, ngdEvent);
+            IVRHandler.saveBusinessData(ivrEvent);
 
         }
     }
