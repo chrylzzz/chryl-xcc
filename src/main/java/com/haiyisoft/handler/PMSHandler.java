@@ -130,6 +130,12 @@ public class PMSHandler {
 
 
     /******************************************** 终验接口需求 ********************************************/
+
+    public static void main(String[] args) {
+        queryGrayscale(null);
+//        queryWhiteList(null);
+    }
+
     /**
      * 查询手机号码是否为白名单用户
      *
@@ -138,10 +144,12 @@ public class PMSHandler {
      */
     public static Map<String, String> queryWhiteList(String phone) {
         String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryBmd/QueryWhiteListForZnivr";
-
         JSONObject param = new JSONObject();
         param.put("LDHM", phone);
+        log.info("queryWhiteList 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        log.info("queryWhiteList 出参: {}", postJson);
+//        String postJson = "{\"LDHM\":\"19178273071\",\"SFBMD\":\"该用户不在白名单中\",\"resultCode\":\"1\"}";
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         final String sfbmd = jsonObject.getString("SFBMD");
         Map<String, String> context = new HashMap<>();
@@ -152,7 +160,7 @@ public class PMSHandler {
             context.put("ivr_white_status", "1");
             context.put("ivr_msg", "该用户不在白名单中");
         }
-        log.info("queryWhiteList: {}", context);
+        log.info("queryWhiteList return: {}", context);
         return context;
     }
 
@@ -167,7 +175,9 @@ public class PMSHandler {
 
         JSONObject param = new JSONObject();
         param.put("LDHM", phone);
+        log.info("queryWelMsgByUserType 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        log.info("queryWelMsgByUserType 出参: {}", postJson);
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         final String hyy = jsonObject.getString("HYY");
         Map<String, String> context = new HashMap<>();
@@ -179,7 +189,7 @@ public class PMSHandler {
             context.put("ivr_msg", "查询成功");
             context.put("ivr_hyy", hyy);
         }
-        log.info("queryWelMsgByUserType: {}", context);
+        log.info("queryWelMsgByUserType return: {}", context);
         return context;
     }
 
@@ -193,30 +203,42 @@ public class PMSHandler {
         String url = IVRInit.CHRYL_CONFIG_PROPERTY.getPmsUrl() + "/interface/queryHdkz/QueryGrayscaleForZnivr";
         JSONObject param = new JSONObject();
         param.put("LDHM", phone);
+        log.info("queryGrayscale 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        log.info("queryGrayscale 出参: {}", postJson);
+//        String postJson="{\"LDHM\":\"19178273071\",\"code\":\"1\"}";
+//        String postJson="{\"LDHM\":\"19178273071\",\"data\":[{\"DHHM\":\"19178273071\",\"YHLB\":\"曾有最终答复意见客户来电\",\"KSSJ\":null,\"JSSJ\":null,\"SFJR\":\"是\"}],\"code\":\"1\"}";
         JSONObject jsonObject = JSONObject.parseObject(postJson);
-        JSONObject data = jsonObject.getJSONObject("data");
         Map<String, String> context = new HashMap<>();
-        if (data != null) {//0在 1不在
-            final String sfjr = data.getString("SFJR");
-            if ("是".equals(sfjr)) {//允许接入
-                context.put("ivr_code", "0");
-                context.put("ivr_msg", "查询成功");
-                context.put("ivr_sfjr_code", "0");
-                context.put("ivr_sfjr_msg", sfjr);
-            } else {//不可接入
+        JSONArray dataArr = jsonObject.getJSONArray("data");
+        if (dataArr != null) {
+            JSONObject data = dataArr.getJSONObject(0);
+            if (data != null) {//0在 1不在
+                final String sfjr = data.getString("SFJR");
+                if ("是".equals(sfjr)) {//允许接入
+                    context.put("ivr_code", "0");
+                    context.put("ivr_msg", "查询成功,可接入");
+                    context.put("ivr_sfjr_code", "0");
+                    context.put("ivr_sfjr_msg", sfjr);
+                } else {//不可接入
+                    context.put("ivr_code", "1");
+                    context.put("ivr_msg", "未查询该用户信息");
+                    context.put("ivr_sfjr_code", "1");
+                    context.put("ivr_sfjr_msg", sfjr);
+                }
+            } else {//未查询到信息
                 context.put("ivr_code", "1");
-                context.put("ivr_msg", "未查询到信息");
+                context.put("ivr_msg", "该用户数据不存在");
                 context.put("ivr_sfjr_code", "1");
-                context.put("ivr_sfjr_msg", sfjr);
+                context.put("ivr_sfjr_msg", "否");
             }
         } else {//未查询到信息
             context.put("ivr_code", "1");
-            context.put("ivr_msg", "未查询到信息");
+            context.put("ivr_msg", "数据不存在");
             context.put("ivr_sfjr_code", "1");
             context.put("ivr_sfjr_msg", "否");
         }
-        log.info("queryGrayscale: {}", context);
+        log.info("queryGrayscale return: {}", context);
         return context;
     }
 
@@ -232,7 +254,9 @@ public class PMSHandler {
         JSONObject param = new JSONObject();
         param.put("LDHM", phone);
         param.put("HZM", hzm);
+        log.info("saveUnknowNumber 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        log.info("saveUnknowNumber 出参: {}", param);
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         final String msg = jsonObject.getString("msg");
         //{"LDHM":"18866660713","HZM":"95598040100","msg":"手机号已存在！！","code":"0"}
@@ -245,7 +269,7 @@ public class PMSHandler {
             context.put("ivr_code", "1");
             context.put("ivr_msg", msg);
         }
-        log.info("queryGrayscale: {}", context);
+        log.info("saveUnknowNumber return: {}", context);
         return context;
     }
 
@@ -261,7 +285,9 @@ public class PMSHandler {
         JSONObject param = new JSONObject();
         param.put("LDHM", phone);
         param.put("RQXZ", rqxz);
+        log.info("queryPhoneCalls 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        log.info("queryPhoneCalls 出参: {}", postJson);
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         final String LDCS = jsonObject.getString("LDCS");//来电次数
         final String SFLD = jsonObject.getString("SFLD");//是否来电
@@ -270,7 +296,7 @@ public class PMSHandler {
         context.put("ivr_ldcs", LDCS);
         context.put("ivr_sfld", SFLD);//Y是,N否
         context.put("ivr_ytdx", ytdx);
-        log.info("queryPhoneCalls: {}", context);
+        log.info("queryPhoneCalls return: {}", context);
         return context;
     }
 
@@ -287,12 +313,14 @@ public class PMSHandler {
         com.alibaba.fastjson.JSONObject param = new com.alibaba.fastjson.JSONObject();
         param.put("LDHM", phone);
         param.put("RQXZ", rqxz);
+        log.info("queryCallLoss 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
+        log.info("queryCallLoss 出参: {}", param);
         com.alibaba.fastjson.JSONObject jsonObject = com.alibaba.fastjson.JSONObject.parseObject(postJson);
         final String SFHS = jsonObject.getString("SFHS");//是否呼损
         Map<String, String> context = new HashMap<>();
         context.put("ivr_sfhs", SFHS);//Y是,N否
-        log.info("queryCallLoss: {}", context);
+        log.info("queryCallLoss return: {}", context);
         return context;
     }
 
