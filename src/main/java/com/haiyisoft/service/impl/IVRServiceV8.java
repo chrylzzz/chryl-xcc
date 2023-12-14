@@ -72,6 +72,10 @@ public class IVRServiceV8 implements IVRService {
                     String[] arr = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode);
                     retKey = arr[0];
                     retValue = arr[1];
+                    dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
+                    //挂断双方
+                    xccConnection.hangup(nc, channelEvent);
+                    return;
                 }
                 /**
                  * 终验需求 update by chryl on 2023-12-07
