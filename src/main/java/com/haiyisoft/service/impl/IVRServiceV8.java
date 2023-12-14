@@ -1,5 +1,6 @@
 package com.haiyisoft.service.impl;
 
+import com.haiyisoft.business.FinalInspectionBusiness;
 import com.haiyisoft.xcc.client.XCCConnection;
 import com.haiyisoft.chryl.ivr.DispatcherIVR;
 import com.haiyisoft.constant.XCCConstants;
@@ -63,6 +64,18 @@ public class IVRServiceV8 implements IVRService {
                 //
                 String retKey = "";
                 String retValue = "";
+
+                /**
+                 * 终验需求 update by chryl on 2023-12-07
+                 */
+                if (XCCConstants.TEST_NUMBER.equals(phoneAdsCode)) {
+                    String[] arr = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode);
+                    retKey = arr[0];
+                    retValue = arr[1];
+                }
+                /**
+                 * 终验需求 update by chryl on 2023-12-07
+                 */
 
                 while (true) {
 

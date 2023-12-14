@@ -64,12 +64,12 @@ public class WebHookHandler {
             /**
              * 前导流程在ngd
              */
-//            cdr = convertCDRFromNGD(metadataArray);
+            cdr = convertCDRFromNGD(metadataArray);
 
             /**
              * 前导流程在fs
              */
-            cdr = convertCDRFromIVR(metadataArray);
+//            cdr = convertCDRFromIVR(metadataArray);
         }
 
         //标准格式:[#B:2018-11-20 20:00:00欢迎致电95598.#H:2018-11-20 20:00:00你好我要查电费。#B:2018-11-20 20:00:00请A请按键输入您的用户编号。]
