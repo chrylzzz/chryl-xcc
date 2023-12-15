@@ -31,7 +31,7 @@ public class XCCUtil {
         params.put("ctrl_uuid", "chryl-ivvr");
         params.put("uuid", channelEvent.getUuid());
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByAnswer(nc, service, XCCConstants.GET_STATE, params);
+        return RequestUtil.natsRequestFutureByAnswer(nc, service, XCCConstants.XNODE_GET_STATE, params);
     }
 
     public void setVar(Connection nc, ChannelEvent channelEvent) {
@@ -43,7 +43,7 @@ public class XCCUtil {
         params.put("uuid", channelEvent.getUuid());
         params.put("data", data);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        RequestUtil.natsRequest(nc, service, XCCConstants.SET_VAR, params);
+        RequestUtil.natsRequest(nc, service, XCCConstants.XNODE_SET_VAR, params);
     }
 
 
@@ -54,7 +54,7 @@ public class XCCUtil {
         params.put("ctrl_uuid", "chryl-ivvr");
         params.put("uuid", channelEvent.getUuid());
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        RequestUtil.natsRequest(nc, service, XCCConstants.GET_STATE, params);
+        RequestUtil.natsRequest(nc, service, XCCConstants.XNODE_GET_STATE, params);
     }
 
 
@@ -66,7 +66,7 @@ public class XCCUtil {
         String channelUuid = channelEvent.getUuid();
         params.put("uuid", channelUuid);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        RequestUtil.natsRequest(nc, service, XCCConstants.ACCEPT, params);
+        RequestUtil.natsRequest(nc, service, XCCConstants.XNODE_ACCEPT, params);
     }
 
     /**
@@ -83,7 +83,7 @@ public class XCCUtil {
         String channelId = channelEvent.getUuid();
         params.put("uuid", channelId);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByAnswer(nc, service, XCCConstants.ANSWER, params);
+        return RequestUtil.natsRequestFutureByAnswer(nc, service, XCCConstants.XNODE_ANSWER, params);
     }
 
     /**
@@ -100,7 +100,7 @@ public class XCCUtil {
         //flag integer 值为: 0 挂断自己 , 1 挂断对方 , 2 挂断双方
         params.put("flag", 2);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        RequestUtil.natsRequestFutureByHangup(nc, service, XCCConstants.HANGUP, params);
+        RequestUtil.natsRequestFutureByHangup(nc, service, XCCConstants.XNODE_HANGUP, params);
     }
 
     /**
@@ -120,7 +120,7 @@ public class XCCUtil {
         JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByPlayTTS(nc, service, XCCConstants.PLAY, params);
+        return RequestUtil.natsRequestFutureByPlayTTS(nc, service, XCCConstants.XNODE_PLAY, params);
     }
 
     /**
@@ -139,7 +139,7 @@ public class XCCUtil {
         JSONObject media = getPlayMedia(XCCConstants.PLAY_FILE, file);
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        RequestUtil.natsRequest(nc, service, XCCConstants.PLAY, params);
+        RequestUtil.natsRequest(nc, service, XCCConstants.XNODE_PLAY, params);
     }
 
     /**
@@ -189,7 +189,7 @@ public class XCCUtil {
         JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, 0);
+        return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.XNODE_READ_DTMF, params, 0);
     }
 
     /**
@@ -210,7 +210,7 @@ public class XCCUtil {
         JSONObject media = getPlayMedia(XCCConstants.PLAY_TTS, ttsContent, channelEvent.getCidVoiceName());
         params.put("media", media);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.READ_DTMF, params, 0);
+        return RequestUtil.natsRequestFutureByReadDTMF(nc, service, XCCConstants.XNODE_READ_DTMF, params, 0);
     }
 
 
@@ -278,7 +278,7 @@ public class XCCUtil {
 
         JSONObject params = convertBridgeParams(channelEvent, "user/1001", "555555555555555", "13287983898");
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.BRIDGE, params, Duration.ofHours(1L));
+        return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.XNODE_BRIDGE, params, Duration.ofHours(1L));
     }
 
     /**
@@ -298,7 +298,7 @@ public class XCCUtil {
         playTTS(nc, channelEvent, ttsContent);
         JSONObject params = convertBridgeParams(channelEvent, dialStr, sipHeader, callNumber);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.BRIDGE, params, Duration.ofHours(1L));
+        return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.XNODE_BRIDGE, params, Duration.ofHours(1L));
     }
 
     /**
@@ -318,7 +318,7 @@ public class XCCUtil {
         playTTS(nc, channelEvent, ttsContent);
         JSONObject params = convertBridgeParams(channelEvent, dialStr);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.BRIDGE, params, Duration.ofHours(1L));
+        return RequestUtil.natsRequestFutureByBridge(nc, service, XCCConstants.XNODE_BRIDGE, params, Duration.ofHours(1L));
     }
 
     /**
@@ -368,7 +368,7 @@ public class XCCUtil {
         params.put("data", data);
 
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        RequestUtil.natsRequestFutureByLog(nc, service, XCCConstants.LOG, params);
+        RequestUtil.natsRequestFutureByLog(nc, service, XCCConstants.XNODE_LOG, params);
     }
 
     /********************************************xswitch相关********************************************/
@@ -544,7 +544,7 @@ public class XCCUtil {
 //        JSONObject speech = getSpeech();
         params.put("speech", speech);
         String service = IVRInit.CHRYL_CONFIG_PROPERTY.getXnodeSubjectPrefix() + channelEvent.getNodeUuid();
-        return RequestUtil.natsRequestFutureByDetectSpeech(nc, service, XCCConstants.DETECT_SPEECH, params, DynamicSpeech.convertPlayContentToMilliSeconds(ttsContent));
+        return RequestUtil.natsRequestFutureByDetectSpeech(nc, service, XCCConstants.XNODE_DETECT_SPEECH, params, DynamicSpeech.convertPlayContentToMilliSeconds(ttsContent));
     }
 
     /********************************************请求体***********************************************/

@@ -86,25 +86,25 @@ public class XCCConstants {
     //dtmf结束符
     public static final String DTMF_TERMINATORS = "#";
     //
-    public static final String ACCEPT = "Xnode.Accept";
+    public static final String XNODE_ACCEPT = "Xnode.Accept";
     //
-    public static final String SET_VAR = "Xnode.SetVar";
+    public static final String XNODE_SET_VAR = "Xnode.SetVar";
     //当前通道状态
-    public static final String GET_STATE = "Xnode.GetState";
+    public static final String XNODE_GET_STATE = "Xnode.GetState";
     //应答
-    public static final String ANSWER = "Xnode.Answer";
+    public static final String XNODE_ANSWER = "Xnode.Answer";
     //播报
-    public static final String PLAY = "Xnode.Play";
+    public static final String XNODE_PLAY = "Xnode.Play";
     //放音收音
-    public static final String DETECT_SPEECH = "Xnode.DetectSpeech";
+    public static final String XNODE_DETECT_SPEECH = "Xnode.DetectSpeech";
     //放音收号
-    public static final String READ_DTMF = "Xnode.ReadDTMF";
+    public static final String XNODE_READ_DTMF = "Xnode.ReadDTMF";
     //转接
-    public static final String BRIDGE = "Xnode.Bridge";
+    public static final String XNODE_BRIDGE = "Xnode.Bridge";
     //挂断
-    public static final String HANGUP = "Xnode.Hangup";
+    public static final String XNODE_HANGUP = "Xnode.Hangup";
     //日志打印
-    public static final String LOG = "XNode.Log";
+    public static final String XNODE_LOG = "XNode.Log";
 
     //flow_control：呼叫控制，跟程控交换机中的控制方式类似，略有不同。
     //NONE：无控制，任意方挂机不影响其它一方
@@ -163,7 +163,9 @@ public class XCCConstants {
     public static final String NGD_QUERY_URL = "https://api-ngd.baidu.com/api/v2/core/query";
     //百度NGD auth
     public static final String NGD_QUERY_AUTHORIZATION = "NGD 43b6f0be-4894-466f-a346-08046d935035";
-    //语音输入
+    //语音播报,不收集
+    public static final String PLAY = "PLAY";
+    //语音输入,可配置打断
     public static final String YYSR = "YYSR";
     //按键输入
     public static final String AJSR = "AJSR";
@@ -180,7 +182,7 @@ public class XCCConstants {
     //转分机
     public static final String FJYT = "FJYT";
     //指令集合数组
-    public static final String[] RET_KEY_STR_ARRAY = {YYSR, AJSR, YWAJ, YYGB, RGYT, JZLC, DXFS};
+    public static final String[] RET_KEY_STR_ARRAY = {YYSR, AJSR, YWAJ, YYGB, RGYT, JZLC, DXFS, PLAY};
     //过滤回复数组
     public static final String[] FAQ_REPLY_FILTER_ARRAY = {"image", "img", "url", "src", "<p>", "<br>"};
     //智能ivr渠道

@@ -42,7 +42,7 @@ public class IVRHandler {
             xccEvent = XCCHandler.playAndReadDTMF(nc, channelEvent, retValue, 18);
         } else if (XCCConstants.YWAJ.equals(retKey)) {//收集按键，一位按键
             xccEvent = XCCHandler.playAndReadDTMFChryl(nc, channelEvent, retValue, 1);
-        } else if (XCCConstants.YYGB.equals(retKey)) {//语音广播
+        } else if (XCCConstants.YYGB.equals(retKey)) {//语音广播，不可打断
             xccEvent = XCCHandler.detectSpeechPlayTTSNoDTMFNoBreak(nc, channelEvent, retValue);
         } else if (XCCConstants.RGYT.equals(retKey)) {//转人工
             //测试-分机
@@ -54,6 +54,8 @@ public class IVRHandler {
         } else if (XCCConstants.DXFS.equals(retKey)) {//短信发送
             WebHookHandler.sendMessage(ivrEvent, retValue);
             xccEvent = XCCHandler.detectSpeechPlayTTSNotDTMF(nc, channelEvent, XCCConstants.FAQ_SEND_MESSAGE_TEXT);
+        } else if (XCCConstants.PLAY.equals(retKey)) {//语音播报，不收集
+            xccEvent = XCCHandler.playTTS(nc, channelEvent, retValue);
         } else {
             log.error("严格根据配置的指令开发");
             xccEvent = new XCCEvent();

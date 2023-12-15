@@ -161,7 +161,7 @@ public class XCCHandler {
                 //"YYSR#检测到您没说话, 您请说"
             }
         } else if (XCCConstants.JSONRPC_NOTIFY == code) {//202, 没按键输入
-            if (XCCConstants.READ_DTMF.equals(method)) {
+            if (XCCConstants.XNODE_READ_DTMF.equals(method)) {
                 //没按键
                 //"YYSR#检测到您未输入, 请输入"
             }

@@ -110,10 +110,10 @@ public class IVRServiceV1 implements IVRService {
                                 //转人工后挂机
                                 break;
                             }
-                            if (XCCConstants.DETECT_SPEECH.equals(xccEvent.getXccMethod())) {
+                            if (XCCConstants.XNODE_DETECT_SPEECH.equals(xccEvent.getXccMethod())) {
                                 retKey = "YYSR";
                                 retValue = "已检测到您没说话, 您请说";
-                            } else if (XCCConstants.READ_DTMF.equals(xccEvent.getXccMethod())) {
+                            } else if (XCCConstants.XNODE_READ_DTMF.equals(xccEvent.getXccMethod())) {
                                 retKey = "AJSR";
                                 retValue = "已检测到您未输入, 请输入";
                             }

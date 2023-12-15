@@ -1,8 +1,16 @@
 package com.haiyisoft.business;
 
+import com.haiyisoft.chryl.ivr.DispatcherIVR;
 import com.haiyisoft.constant.XCCConstants;
+import com.haiyisoft.entry.ChannelEvent;
+import com.haiyisoft.entry.IVREvent;
+import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.handler.PMSHandler;
+import com.haiyisoft.xcc.client.XCCConnection;
+import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -11,7 +19,31 @@ import java.util.Map;
  * Created By Chryl on 2023-12-07.
  */
 @Slf4j
+@Component
 public class FinalInspectionBusiness {
+
+    @Autowired
+    private XCCConnection xccConnection;
+    @Autowired
+    private DispatcherIVR dispatcherIvr;
+
+    public boolean finalControl(Connection nc, ChannelEvent channelEvent, IVREvent ivrEvent, NGDEvent ngdEvent, String callerIdNumber, String phoneAdsCode) {
+        if (XCCConstants.TEST_NUMBER.equals(phoneAdsCode)) {
+            String[] arr = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode);
+            String retKey = arr[0];
+            String retValue = arr[1];
+            dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
+            if (XCCConstants.PLAY.equals(retKey)) {
+                //继续执行话务
+                return false;
+            } else {
+                //挂断双方
+                xccConnection.hangup(nc, channelEvent);
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 终验需求
@@ -32,21 +64,21 @@ public class FinalInspectionBusiness {
             String ivr_white_status = whiteResMap.getOrDefault("ivr_white_status", "1");
             if ("0".equals(ivr_white_status)) {//白订单中正常服务
                 /**查询呼损*/
-//                Map<String, String> callLossResMap = PMSHandler.queryCallLoss(phone, "1");
-//                String ivr_sfhs = callLossResMap.getOrDefault("ivr_sfhs", "N");
-//                if ("N".equals(ivr_sfhs)) {//无呼损的正常服务
-//                    /**动态菜单播报,根据用户类型查询欢迎语*/
-//                    Map<String, String> welMsgResMap = PMSHandler.queryWelMsgByUserType(phone);
-//                    String ivr_code = welMsgResMap.getOrDefault("ivr_code", "1");
-//                    if ("0".equals(ivr_code)) {
-//                        String ivr_hyy = welMsgResMap.getOrDefault("ivr_hyy", XCCConstants.WELCOME_TEXT);
-//                        key = XCCConstants.YYSR;
-//                        val = ivr_hyy;
-//                    }
-//                } else {//有呼损的直接转人工
-//                    key = XCCConstants.RGYT;
-//                    val = "正在为您转接人工服务,请稍后";
-//                }
+                Map<String, String> callLossResMap = PMSHandler.queryCallLoss(phone, "1");
+                String ivr_sfhs = callLossResMap.getOrDefault("ivr_sfhs", "N");
+                if ("N".equals(ivr_sfhs)) {//无呼损的正常服务
+                    /**动态菜单播报,根据用户类型查询欢迎语*/
+                    Map<String, String> welMsgResMap = PMSHandler.queryWelMsgByUserType(phone);
+                    String ivr_code = welMsgResMap.getOrDefault("ivr_code", "1");
+                    if ("0".equals(ivr_code)) {
+                        String ivr_hyy = welMsgResMap.getOrDefault("ivr_hyy", XCCConstants.WELCOME_TEXT);
+                        key = XCCConstants.PLAY;
+                        val = ivr_hyy;
+                    }
+                } else {//有呼损的直接转人工
+                    key = XCCConstants.RGYT;
+                    val = "正在为您转接人工服务,请稍后";
+                }
 
             } else {//白名单外直接转按键服务
                 key = XCCConstants.JZLC;
@@ -64,4 +96,5 @@ public class FinalInspectionBusiness {
         return arr;
 
     }
+
 }

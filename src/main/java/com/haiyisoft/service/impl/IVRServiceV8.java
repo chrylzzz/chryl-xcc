@@ -34,6 +34,8 @@ public class IVRServiceV8 implements IVRService {
     private XCCConnection xccConnection;
     @Autowired
     private DispatcherIVR dispatcherIvr;
+    @Autowired
+    private FinalInspectionBusiness finalInspectionBusiness;
 
     @Override
     public void handlerChannelEvent(Connection nc, ChannelEvent channelEvent) {
@@ -68,13 +70,22 @@ public class IVRServiceV8 implements IVRService {
                 /**
                  * 终验需求 update by chryl on 2023-12-07
                  */
-                if (XCCConstants.TEST_NUMBER.equals(phoneAdsCode)) {
-                    String[] arr = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode);
-                    retKey = arr[0];
-                    retValue = arr[1];
-                    dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
-                    //挂断双方
-                    xccConnection.hangup(nc, channelEvent);
+//                if (XCCConstants.TEST_NUMBER.equals(phoneAdsCode)) {
+//                    String[] arr = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode);
+//                    retKey = arr[0];
+//                    retValue = arr[1];
+//                    dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
+//                    if (XCCConstants.YYSR.equals(retKey)) {
+//                        //继续执行话务
+//
+//                    } else {
+//                        //挂断双方
+//                        xccConnection.hangup(nc, channelEvent);
+//                        return;
+//                    }
+//                }
+                boolean control = finalInspectionBusiness.finalControl(nc, channelEvent, ivrEvent, ngdEvent, callerIdNumber, phoneAdsCode);
+                if (control) {
                     return;
                 }
                 /**

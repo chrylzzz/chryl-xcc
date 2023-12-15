@@ -206,12 +206,14 @@ public class PMSHandler {
         log.info("queryGrayscale 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
         log.info("queryGrayscale 出参: {}", postJson);
+
 //        String postJson="{\"LDHM\":\"19178273071\",\"code\":\"1\"}";
+//        String postJson = "{\"LDHM\":\"19977188606\",\"data\":[],\"code\":\"1\"}";
 //        String postJson="{\"LDHM\":\"19178273071\",\"data\":[{\"DHHM\":\"19178273071\",\"YHLB\":\"曾有最终答复意见客户来电\",\"KSSJ\":null,\"JSSJ\":null,\"SFJR\":\"是\"}],\"code\":\"1\"}";
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         Map<String, String> context = new HashMap<>();
         JSONArray dataArr = jsonObject.getJSONArray("data");
-        if (dataArr != null) {
+        if (dataArr != null && dataArr.size() > 0) {
             JSONObject data = dataArr.getJSONObject(0);
             if (data != null) {//0在 1不在
                 final String sfjr = data.getString("SFJR");
