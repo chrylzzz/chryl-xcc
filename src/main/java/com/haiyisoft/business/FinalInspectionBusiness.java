@@ -34,9 +34,11 @@ public class FinalInspectionBusiness {
             String retValue = arr[1];
             dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
             if (XCCConstants.PLAY.equals(retKey)) {
+                log.info("FinalInspectionBusiness 继续执行话务");
                 //继续执行话务
                 return false;
             } else {
+                log.info("FinalInspectionBusiness 挂断双方");
                 //挂断双方
                 xccConnection.hangup(nc, channelEvent);
                 return true;
@@ -79,7 +81,6 @@ public class FinalInspectionBusiness {
                     key = XCCConstants.RGYT;
                     val = "正在为您转接人工服务,请稍后";
                 }
-
             } else {//白名单外直接转按键服务
                 key = XCCConstants.JZLC;
                 val = "正在为您转接按键服务,请稍后";
