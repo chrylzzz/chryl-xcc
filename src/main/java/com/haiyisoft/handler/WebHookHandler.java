@@ -9,7 +9,6 @@ import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.util.DateUtil;
 import com.haiyisoft.util.HttpClientUtil;
-import com.haiyisoft.util.IdGenerator;
 import com.haiyisoft.util.NumberUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,14 +52,6 @@ public class WebHookHandler {
         //营销接口会话记录入参
         String cdr = "";
         if (metadataArray != null && metadataArray.size() != 0) {
-//                metadataArray.forEach(metadata -> {
-//                    JSONObject jsonObject = (JSONObject) JSON.toJSON(metadata);
-//                    String query = jsonObject.getString("query");
-//                    String queryTime = jsonObject.getString("queryTime");
-//                    String answer = jsonObject.getString("answer");
-//                    String answerTime = jsonObject.getString("answerTime");
-//                    cdr = cdr + (XCCConstants.B + queryTime + query + XCCConstants.H + answerTime + answer);
-//                });
             /**
              * 前导流程在ngd
              */
