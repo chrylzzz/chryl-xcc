@@ -52,7 +52,7 @@ public class WebHookHandler {
         log.info("cdr array :{}", metadataArray);
         //营销接口会话记录入参
         String cdr = "";
-        if (metadataArray != null) {
+        if (metadataArray != null && metadataArray.size() != 0) {
 //                metadataArray.forEach(metadata -> {
 //                    JSONObject jsonObject = (JSONObject) JSON.toJSON(metadata);
 //                    String query = jsonObject.getString("query");

@@ -258,7 +258,7 @@ public class PMSHandler {
         param.put("HZM", hzm);
         log.info("saveUnknowNumber 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
-        log.info("saveUnknowNumber 出参: {}", param);
+        log.info("saveUnknowNumber 出参: {}", postJson);
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         final String msg = jsonObject.getString("msg");
         //{"LDHM":"18866660713","HZM":"95598040100","msg":"手机号已存在！！","code":"0"}
@@ -317,11 +317,11 @@ public class PMSHandler {
         param.put("RQXZ", rqxz);
         log.info("queryCallLoss 入参: {}", param);
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
-        log.info("queryCallLoss 出参: {}", param);
+        log.info("queryCallLoss 出参: {}", postJson);
         JSONObject jsonObject = JSONObject.parseObject(postJson);
-        final String SFHS = jsonObject.getString("SFHS");//是否呼损
+        final String sfhs = jsonObject.getString("sfhs");//是否呼损
         Map<String, String> context = new HashMap<>();
-        context.put("ivr_sfhs", SFHS);//Y是,N否
+        context.put("ivr_sfhs", sfhs);//Y是,N否
         log.info("queryCallLoss return: {}", context);
         return context;
     }
