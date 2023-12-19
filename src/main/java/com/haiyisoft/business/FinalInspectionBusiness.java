@@ -6,6 +6,7 @@ import com.haiyisoft.entry.ChannelEvent;
 import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.handler.PMSHandler;
+import com.haiyisoft.model.NGDNodeMetaData;
 import com.haiyisoft.xcc.client.XCCConnection;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +29,9 @@ public class FinalInspectionBusiness {
     @Autowired
     private DispatcherIVR dispatcherIvr;
 
-    public boolean finalControl(Connection nc, ChannelEvent channelEvent, IVREvent ivrEvent, NGDEvent ngdEvent, String callerIdNumber, String phoneAdsCode) {
+    public boolean finalControl(Connection nc, ChannelEvent channelEvent, IVREvent ivrEvent, String callerIdNumber, String phoneAdsCode) {
         if (XCCConstants.TEST_NUMBER.equals(phoneAdsCode)) {
-            ngdEvent = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode, ngdEvent);
+            NGDEvent ngdEvent = finalDomain(callerIdNumber, phoneAdsCode);
             String retKey = ngdEvent.getRetKey();
             String retValue = ngdEvent.getRetValue();
             //正常执行话务
@@ -61,7 +62,7 @@ public class FinalInspectionBusiness {
      * @param hzm   后缀码
      * @return
      */
-    public static NGDEvent finalDomain(String phone, String hzm, NGDEvent ngdEvent) {
+    public static NGDEvent finalDomain(String phone, String hzm) {
         String key = "";
         String val = "";
         /**查询灰度控制,是否可接入智能IVR*/
@@ -103,7 +104,12 @@ public class FinalInspectionBusiness {
             key = XCCConstants.JZLC;
             val = "正在为您转接按键服务,请稍后";
         }
-        ngdEvent.getNgdNodeMetaData().setAnswer(val);
+        //赋值话术
+        NGDNodeMetaData ngdNodeMetaData = new NGDNodeMetaData();
+        ngdNodeMetaData.setAnswer(val);
+
+        NGDEvent ngdEvent = new NGDEvent();
+        ngdEvent.setNgdNodeMetaData(ngdNodeMetaData);
         ngdEvent.setRetKey(key);
         ngdEvent.setRetValue(val);
         log.info("finalDomain ngdEvent: {}", ngdEvent);

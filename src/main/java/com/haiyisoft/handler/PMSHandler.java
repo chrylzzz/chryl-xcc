@@ -262,7 +262,6 @@ public class PMSHandler {
         JSONObject jsonObject = JSONObject.parseObject(postJson);
         final String msg = jsonObject.getString("msg");
         //{"LDHM":"18866660713","HZM":"95598040100","msg":"手机号已存在！！","code":"0"}
-        //{"LDHM":"18866660714","HZM":"95598040100","code":"1"}
         Map<String, String> context = new HashMap<>();
         if (StringUtils.isBlank(msg)) {
             context.put("ivr_code", "0");

@@ -1,7 +1,6 @@
 package com.haiyisoft.service.impl;
 
 import com.haiyisoft.business.FinalInspectionBusiness;
-import com.haiyisoft.xcc.client.XCCConnection;
 import com.haiyisoft.chryl.ivr.DispatcherIVR;
 import com.haiyisoft.constant.XCCConstants;
 import com.haiyisoft.entry.ChannelEvent;
@@ -13,6 +12,7 @@ import com.haiyisoft.handler.NGDHandler;
 import com.haiyisoft.handler.XCCHandler;
 import com.haiyisoft.model.NGDNodeMetaData;
 import com.haiyisoft.service.IVRService;
+import com.haiyisoft.xcc.client.XCCConnection;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,21 +70,7 @@ public class IVRServiceV8 implements IVRService {
                 /**
                  * 终验需求 update by chryl on 2023-12-07
                  */
-//                if (XCCConstants.TEST_NUMBER.equals(phoneAdsCode)) {
-//                    String[] arr = FinalInspectionBusiness.finalDomain(callerIdNumber, phoneAdsCode);
-//                    retKey = arr[0];
-//                    retValue = arr[1];
-//                    dispatcherIvr.doDispatch(nc, channelEvent, retKey, retValue, ivrEvent, ngdEvent, callerIdNumber);
-//                    if (XCCConstants.YYSR.equals(retKey)) {
-//                        //继续执行话务
-//
-//                    } else {
-//                        //挂断双方
-//                        xccConnection.hangup(nc, channelEvent);
-//                        return;
-//                    }
-//                }
-                boolean control = finalInspectionBusiness.finalControl(nc, channelEvent, ivrEvent, ngdEvent, callerIdNumber, phoneAdsCode);
+                boolean control = finalInspectionBusiness.finalControl(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode);
                 if (control) {
                     return;
                 }
