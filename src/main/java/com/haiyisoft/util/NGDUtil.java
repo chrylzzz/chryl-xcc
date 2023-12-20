@@ -319,7 +319,8 @@ public class NGDUtil {
                 retKey = XCCConstants.YYSR;
                 retValue = todoText;
             } else {//带#的话术
-                String[] split = todoText.split(XCCConstants.NGD_SEPARATOR);
+//                String[] split = todoText.split(XCCConstants.NGD_SEPARATOR);
+                String[] split = todoText.split(XCCConstants.NGD_SEPARATOR, 2);
                 retKey = split[0];//指令
                 if (StringUtils.containsAnyIgnoreCase(retKey, XCCConstants.RET_KEY_STR_ARRAY)) {//有指令
                     retValue = split[1];//内容
@@ -468,6 +469,14 @@ public class NGDUtil {
             ngdEvent.setUid("");
         }
         return ngdEvent;
+    }
+
+
+    public static void main(String[] args) {
+        String todoText = "YYSR#查询到您号码关联了地址为秀厢大道东段20#宝海公寓4#楼1单元4701房,的用电户，请问您是查询这一户吗？您可以说“是”或者“不是”,您请说";
+        NGDEvent ngdEvent = new NGDEvent();
+        ngdEvent.setAnswer(todoText);
+        System.out.println(convertText(ngdEvent));
     }
 
 }
