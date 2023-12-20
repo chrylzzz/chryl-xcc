@@ -79,8 +79,8 @@ public class FinalInspectionBusiness {
                 /**查询呼损*/
                 log.info("查询呼损");
                 Map<String, String> callLossResMap = PMSHandler.queryCallLoss(phone, "1");
-                String ivr_sfhs = callLossResMap.getOrDefault("ivr_sfhs", "N");
-                if ("N".equals(ivr_sfhs)) {//无呼损的正常服务
+                String ivr_sfhs = callLossResMap.getOrDefault("ivr_sfhs", "否");
+                if ("否".equals(ivr_sfhs)) {//无呼损的正常服务
                     /**动态菜单播报,根据用户类型查询欢迎语*/
                     log.info("动态菜单播报,根据用户类型查询欢迎语");
                     Map<String, String> welMsgResMap = PMSHandler.queryWelMsgByUserType(phone);
