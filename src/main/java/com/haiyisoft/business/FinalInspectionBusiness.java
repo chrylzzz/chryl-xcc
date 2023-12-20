@@ -7,6 +7,7 @@ import com.haiyisoft.entry.IVREvent;
 import com.haiyisoft.entry.NGDEvent;
 import com.haiyisoft.handler.PMSHandler;
 import com.haiyisoft.model.NGDNodeMetaData;
+import com.haiyisoft.util.DateUtil;
 import com.haiyisoft.xcc.client.XCCConnection;
 import io.nats.client.Connection;
 import lombok.extern.slf4j.Slf4j;
@@ -107,6 +108,7 @@ public class FinalInspectionBusiness {
         //赋值话术
         NGDNodeMetaData ngdNodeMetaData = new NGDNodeMetaData();
         ngdNodeMetaData.setAnswer(val);
+        ngdNodeMetaData.setAnswerTime(DateUtil.getLocalDateTime());
 
         NGDEvent ngdEvent = new NGDEvent();
         ngdEvent.setNgdNodeMetaData(ngdNodeMetaData);

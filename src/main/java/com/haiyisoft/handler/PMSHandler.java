@@ -318,7 +318,7 @@ public class PMSHandler {
         String postJson = HttpClientUtil.doPostJson(url, param.toJSONString());
         log.info("queryCallLoss 出参: {}", postJson);
         JSONObject jsonObject = JSONObject.parseObject(postJson);
-        final String sfhs = jsonObject.getString("sfhs");//是否呼损
+        String sfhs = jsonObject.getOrDefault("sfhs", "N").toString();//是否呼损
         Map<String, String> context = new HashMap<>();
         context.put("ivr_sfhs", sfhs);//Y是,N否
         log.info("queryCallLoss return: {}", context);

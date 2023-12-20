@@ -243,6 +243,8 @@ public class IVRHandler {
         if (!ivrEvent.isTransferFlag()) {
             saveCallData(ivrEvent, ngdEvent);
         }
+        //保存业务数据
+        saveBusinessData(ivrEvent);
     }
 
     /**

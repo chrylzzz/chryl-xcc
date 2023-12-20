@@ -122,6 +122,7 @@ public class IVRModel {
 
     public IVRModel() {
         this.ivrStartTime = DateUtil.getLocalDateTime();
+        this.startTime = this.ivrStartTime;
     }
 
     /**
