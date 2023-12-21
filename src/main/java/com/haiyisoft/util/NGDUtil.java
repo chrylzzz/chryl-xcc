@@ -13,6 +13,7 @@ import com.haiyisoft.model.NgdNodeDialog;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -323,7 +324,8 @@ public class NGDUtil {
                 String[] split = todoText.split(XCCConstants.NGD_SEPARATOR, 2);
                 retKey = split[0];//指令
                 if (StringUtils.containsAnyIgnoreCase(retKey, XCCConstants.RET_KEY_STR_ARRAY)) {//有指令
-                    retValue = split[1];//内容
+//                    retValue = split[1];//内容
+                    retValue = split[1].replaceAll(XCCConstants.NGD_SEPARATOR, "");
                 } else {//无指令
                     retKey = XCCConstants.YYSR;
                     retValue = XCCConstants.XCC_MISSING_ANSWER_TEXT;
@@ -477,6 +479,7 @@ public class NGDUtil {
         NGDEvent ngdEvent = new NGDEvent();
         ngdEvent.setAnswer(todoText);
         System.out.println(convertText(ngdEvent));
+
     }
 
 }
