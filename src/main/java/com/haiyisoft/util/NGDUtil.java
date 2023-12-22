@@ -13,7 +13,6 @@ import com.haiyisoft.model.NgdNodeDialog;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -189,16 +188,23 @@ public class NGDUtil {
      * @return 处理后的内容
      */
     public static String replyFilter(String answer) {
+        String replyFilter = "";
         //过滤FAQ非法字符
         if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.FAQ_REPLY_FILTER_ARRAY)) {//过滤标识
             log.info("触发过滤回复");
-            return XCCConstants.NGD_FAQ_ERROR_MSG;
+            replyFilter = XCCConstants.NGD_FAQ_ERROR_MSG;
         }
         //过滤NGD返回异常话术：如指令接口超时
         if (StringUtils.containsAny(answer, XCCConstants.SUGGEST_ANSWER_REPLY_FILTER_ARRAY)) {
-            return XCCConstants.RGYT + XCCConstants.NGD_SEPARATOR + XCCConstants.NGD_TIMEOUT_MSG;
+            replyFilter = XCCConstants.RGYT + XCCConstants.NGD_SEPARATOR + XCCConstants.NGD_TIMEOUT_MSG;
         }
-        return answer;
+
+        //过滤非正常业务数据
+        if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.RET_KEY_STR_ARRAY)) {//有指令
+            replyFilter = StringUtil.removeAnswerIllegalCharacter(answer);
+        }
+        log.info("replyFilter: {}", replyFilter);
+        return replyFilter;
     }
 
     /**
@@ -320,12 +326,10 @@ public class NGDUtil {
                 retKey = XCCConstants.YYSR;
                 retValue = todoText;
             } else {//带#的话术
-//                String[] split = todoText.split(XCCConstants.NGD_SEPARATOR);
-                String[] split = todoText.split(XCCConstants.NGD_SEPARATOR, 2);
+                String[] split = todoText.split(XCCConstants.NGD_SEPARATOR);
                 retKey = split[0];//指令
                 if (StringUtils.containsAnyIgnoreCase(retKey, XCCConstants.RET_KEY_STR_ARRAY)) {//有指令
-//                    retValue = split[1];//内容
-                    retValue = split[1].replaceAll(XCCConstants.NGD_SEPARATOR, "");
+                    retValue = split[1];//内容
                 } else {//无指令
                     retKey = XCCConstants.YYSR;
                     retValue = XCCConstants.XCC_MISSING_ANSWER_TEXT;
@@ -337,78 +341,6 @@ public class NGDUtil {
         ngdEvent.setRetValue(retValue);
         log.info("convertText retKey: {} , retValue: {}", retKey, retValue);
         return ngdEvent;
-    }
-
-    /**
-     * 测试ngd接口
-     *
-     * @param queryText
-     * @return
-     */
-    public static String testNGD(String queryText, String sessionId) {
-        /*
-        curl --location --request POST 'http://10.100.104.20:8304/api/v2/core/query' \
-        --header 'Authorization: NGD b99612ed-8935-4215-98e2-dd96f05244b3' \
-        --header 'Content-Type: application/json' \
-        --data-raw '{
-            "queryText": "查电费",
-            "context": {
-                "channel": "智能IVR"
-            }
-        }'
-
-        */
-//        String ch = "1";
-//        String params = "{\n" +
-//                "  \"sessionId\" : \"" + sessionId + "\",\n" +
-//                "  \"channel\" : \"" + channel + "\",\n" +
-//                "  \"queryText\" : \"" + queryText + "\",\n" +
-//                "  \"context\" : {\"channel\":\"" + ch + "\"},\n" +
-//                "  \"ext\" : {\"exact\":true}\n" +
-//                "}";
-
-        JSONObject param = new JSONObject();
-        JSONObject context = new JSONObject();
-        JSONObject ext = new JSONObject();
-        context.put("channel", XCCConstants.CHANNEL_IVR);
-        param.put("queryText", queryText);//客户问题
-        param.put("sessionId", sessionId);//会话id
-        ext.put("exact", "true");
-        param.put("ext", ext);//ext
-        param.put("context", context);//渠道标识，智能IVR为广西智能ivr标识
-        log.info("开始调用百度知识库接口");
-        return HttpClientUtil.doPostJsonForGxNgd(IVRInit.CHRYL_CONFIG_PROPERTY.getNgdCoreQueryUrl(), param.toJSONString());
-    }
-
-    /**
-     * 处理数字为中文汉字
-     *
-     * @param queryText
-     * @return
-     */
-    public static String convertNumber2Ch(String queryText) {
-        if ("0".equals(queryText)) {
-            queryText = "零";
-        } else if ("1".equals(queryText)) {
-            queryText = "一";
-        } else if ("2".equals(queryText)) {
-            queryText = "二";
-        } else if ("3".equals(queryText)) {
-            queryText = "三";
-        } else if ("4".equals(queryText)) {
-            queryText = "四";
-        } else if ("5".equals(queryText)) {
-            queryText = "五";
-        } else if ("6".equals(queryText)) {
-            queryText = "六";
-        } else if ("7".equals(queryText)) {
-            queryText = "七";
-        } else if ("8".equals(queryText)) {
-            queryText = "八";
-        } else if ("9".equals(queryText)) {
-            queryText = "九";
-        }
-        return queryText;
     }
 
     /**
@@ -471,15 +403,6 @@ public class NGDUtil {
             ngdEvent.setUid("");
         }
         return ngdEvent;
-    }
-
-
-    public static void main(String[] args) {
-        String todoText = "YYSR#查询到您号码关联了地址为秀厢大道东段20#宝海公寓4#楼1单元4701房,的用电户，请问您是查询这一户吗？您可以说“是”或者“不是”,您请说";
-        NGDEvent ngdEvent = new NGDEvent();
-        ngdEvent.setAnswer(todoText);
-        System.out.println(convertText(ngdEvent));
-
     }
 
 }
