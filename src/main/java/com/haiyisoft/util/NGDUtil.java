@@ -188,23 +188,23 @@ public class NGDUtil {
      * @return 处理后的内容
      */
     public static String replyFilter(String answer) {
-        String replyFilter = "";
         //过滤FAQ非法字符
         if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.FAQ_REPLY_FILTER_ARRAY)) {//过滤标识
             log.info("触发过滤回复");
-            replyFilter = XCCConstants.NGD_FAQ_ERROR_MSG;
+            return XCCConstants.NGD_FAQ_ERROR_MSG;
         }
         //过滤NGD返回异常话术：如指令接口超时
         if (StringUtils.containsAny(answer, XCCConstants.SUGGEST_ANSWER_REPLY_FILTER_ARRAY)) {
-            replyFilter = XCCConstants.RGYT + XCCConstants.NGD_SEPARATOR + XCCConstants.NGD_TIMEOUT_MSG;
+            log.info("触发超时回复");
+          return  XCCConstants.RGYT + XCCConstants.NGD_SEPARATOR + XCCConstants.NGD_TIMEOUT_MSG;
         }
 
         //过滤非正常业务数据
         if (StringUtils.containsAnyIgnoreCase(answer, XCCConstants.RET_KEY_STR_ARRAY)) {//有指令
-            replyFilter = StringUtil.removeAnswerIllegalCharacter(answer);
+            log.info("触发数据过滤");
+            return StringUtil.removeAnswerIllegalCharacter(answer);
         }
-        log.info("replyFilter: {}", replyFilter);
-        return replyFilter;
+        return answer;
     }
 
     /**

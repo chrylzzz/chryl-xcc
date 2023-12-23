@@ -56,4 +56,8 @@ public class StringUtil {
         return queryText;
     }
 
+    public static void main(String[] args) {
+        System.out.println(StringUtils.containsOnly("YYSR#我是师傅#按时打卡#阿萨德佛","#"));
+    }
+
 }
