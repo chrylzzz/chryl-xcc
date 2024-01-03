@@ -70,10 +70,10 @@ public class IVRServiceV8 implements IVRService {
                 /**
                  * 终验需求 update by chryl on 2023-12-07
                  */
-                boolean control = finalInspectionBusiness.finalControl(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode);
-                if (control) {
-                    return;
-                }
+//                boolean control = finalInspectionBusiness.finalControl(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode);
+//                if (control) {
+//                    return;
+//                }
                 /**
                  * 终验需求 update by chryl on 2023-12-07
                  */

@@ -69,7 +69,13 @@ public class PMSHandler {
         } else {
             artificialType = EnumXCC.IVR_ARTIFICIAL_FALSE.valueParseIntValue();
         }
-        ivrValidCallType = EnumXCC.IVR_VALID_CALL_TRUE.valueParseIntValue();
+
+        if (ivrEvent.getNgdNodeMetadataArray().size() > 1) {
+            ivrValidCallType = EnumXCC.IVR_VALID_CALL_TRUE.valueParseIntValue();
+        } else {
+            ivrValidCallType = EnumXCC.IVR_VALID_CALL_FALSE.valueParseIntValue();
+        }
+
         ivrCallEndNormalType = EnumXCC.IVR_FINISH_TRUE.valueParseIntValue();
         IVRModel ivrModel = new IVRModel(cidPhoneNumber, fsCallerId, icdCallerId, ivrStartTime, artificialType, ivrValidCallType, ivrCallEndNormalType, phoneAdsCode);
         String jsonParam = JSON.toJSONString(ivrModel);
