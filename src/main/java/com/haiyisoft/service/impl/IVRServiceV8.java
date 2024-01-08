@@ -1,5 +1,6 @@
 package com.haiyisoft.service.impl;
 
+import com.haiyisoft.business.ConcurrentASR;
 import com.haiyisoft.business.FinalInspectionBusiness;
 import com.haiyisoft.chryl.ivr.DispatcherIVR;
 import com.haiyisoft.constant.XCCConstants;
@@ -36,6 +37,8 @@ public class IVRServiceV8 implements IVRService {
     private DispatcherIVR dispatcherIvr;
     @Autowired
     private FinalInspectionBusiness finalInspectionBusiness;
+    @Autowired
+    private ConcurrentASR concurrentASR;
 
     @Override
     public void handlerChannelEvent(Connection nc, ChannelEvent channelEvent) {
@@ -76,6 +79,16 @@ public class IVRServiceV8 implements IVRService {
 //                }
                 /**
                  * 终验需求 update by chryl on 2023-12-07
+                 */
+                /**
+                 * ASR并发测试 update by chryl on 2024-01-08
+                 */
+                concurrentASR.concurrentASR(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode);
+                if (true) {
+                    return;
+                }
+                /**
+                 * ASR并发测试 update by chryl on 2024-01-08
                  */
 
                 while (true) {
