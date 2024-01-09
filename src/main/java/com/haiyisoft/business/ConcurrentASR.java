@@ -44,9 +44,6 @@ public class ConcurrentASR {
      */
     public void contextLoads(Connection nc, ChannelEvent channelEvent, IVREvent ivrEvent, String callerIdNumber, String phoneAdsCode) {
         for (int x = 0; x < USER_NUMS; x++) {
-//            Thread thread = new Thread((Runnable) new ASRRequest(
-//                    nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode
-//            ));
 
             FutureTask futureTask = new FutureTask(new ASRRequest(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode));
             Thread thread = new Thread(futureTask);
