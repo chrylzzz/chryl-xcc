@@ -83,10 +83,10 @@ public class IVRServiceV8 implements IVRService {
                 /**
                  * ASR并发测试 update by chryl on 2024-01-08
                  */
-                concurrentASR.concurrentASR(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode);
-                if (true) {
-                    return;
-                }
+//                concurrentASR.concurrentASR(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode);
+//                if (true) {
+//                    return;
+//                }
                 /**
                  * ASR并发测试 update by chryl on 2024-01-08
                  */

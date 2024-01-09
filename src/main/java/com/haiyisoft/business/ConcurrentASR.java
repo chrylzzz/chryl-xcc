@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.FutureTask;
 
 /**
  * Created by Chr.yl on 2024/1/8.
@@ -34,7 +35,8 @@ public class ConcurrentASR {
         xccConnection.hangup(nc, channelEvent);
     }
 
-    private static final int USER_NUMS = 200;
+    //模拟并发客户数
+    private static final int USER_NUMS = 260;
     private static CountDownLatch COUNTDOWNLATCH = new CountDownLatch(USER_NUMS);
 
     /**
@@ -42,9 +44,13 @@ public class ConcurrentASR {
      */
     public void contextLoads(Connection nc, ChannelEvent channelEvent, IVREvent ivrEvent, String callerIdNumber, String phoneAdsCode) {
         for (int x = 0; x < USER_NUMS; x++) {
-            Thread thread = new Thread((Runnable) new ASRRequest(
-                    nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode
-            ));
+//            Thread thread = new Thread((Runnable) new ASRRequest(
+//                    nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode
+//            ));
+
+            FutureTask futureTask = new FutureTask(new ASRRequest(nc, channelEvent, ivrEvent, callerIdNumber, phoneAdsCode));
+            Thread thread = new Thread(futureTask);
+
             log.info("ConcurrentASR contextLoads id: {}, name: {}", thread.getId(), thread.getName());
 
             thread.start();
@@ -78,6 +84,7 @@ public class ConcurrentASR {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            //调用ASR服务
             dispatcherIvr.doDispatch(this.nc, this.channelEvent, "YYSR", "现在开始测试ASR并发,您请说", this.ivrEvent, new NGDEvent(), this.callerIdNumber);
             return null;
         }
